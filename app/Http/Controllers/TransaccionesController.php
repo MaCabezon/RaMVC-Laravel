@@ -88,7 +88,7 @@ class TransaccionesController extends AppBaseController
                 $valores[$indice] = $valor;
             }*/
 
-            
+
 
             if ($valores['valido'] == true)
             {
@@ -100,37 +100,37 @@ class TransaccionesController extends AppBaseController
                 $transaccion->tipo=$valores['tipoRegistro'];
                 $transaccion->validado=$valores['validado'];
                 $transaccion->save();
-                
 
-                if($transaccion->tipo=="Alumno"){                    
+
+                if($transaccion->tipo=="Alumno"){
 
                     if($valores['esPar'] ==true){
 
                        // $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
-                        
 
-                         DB::update('update resumen_alumnos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date)', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
 
+                         DB::update('update resumen_alumnos set validado=:validado horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
+                         $horasAlumno = DB::select("SELECT SUM(horas) FROM resumen_alumnos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
                     }else{
 
-                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas) values (?, ?, ?, ?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1']);
-                        
-                        
+                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
+
+
                     }
 
                 }elseif($transaccion->tipo=="Profesor"){
 
-                    
+
 
                      if($valores['esPar'] ==true){
 
                         $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Profesor")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
-                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fecha=:fecha', ['idEvento'=>$transaccion->idEvento,'fecha'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
-
+                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fecha=:fecha and horas=-1', ['idEvento'=>$transaccion->idEvento,'fecha'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
+                        $horasTotales = DB::select("SELECT SUM(horas) FROM resumen_eventos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
 
                     }else{
 
@@ -138,8 +138,12 @@ class TransaccionesController extends AppBaseController
                     }
 
                 }
-                
-                $respon = array("valid" => true);        
+
+
+
+
+
+                $respon = array("valid" => true,"horasAlumno"=>$horasAlumno,"horasTotales"=>$horasTotales);
             }
 
             return $respon;
