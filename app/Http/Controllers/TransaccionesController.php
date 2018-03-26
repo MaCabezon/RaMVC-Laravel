@@ -79,16 +79,16 @@ class TransaccionesController extends AppBaseController
         $horasAlumno = "";
         $horasTotales = "";
         //Comprueba si la variable $datos contiene información, si el contenido es diferente de vacío entra al if.
-        if ($datos == "")
+        if ($datos != "")
         {
             //creacion de un nuevo array con las mismas "keys" del POST.
-            $valores = ["idPersona" => "abraham.fernandez", "idEvento" => "1","fecha"=>"2018-02-23 23:33:55","tipoRegistro"=>"Alumno","esPar"=>true ,"validado"=>"1","valido" => true];
+            $valores = ["idPersona" => "", "idEvento" => "","fecha"=>"","tipoRegistro"=>"","esPar"=>"" ,"validado"=>"","valido" =>""];
 
             //LLena cada clave del nuevo array con el valor del POST correspondiente.
-            /*foreach ($datos as $indice => $valor)
+            foreach ($datos as $indice => $valor)
             {
                 $valores[$indice] = $valor;
-            }*/
+            }
 
 
 
