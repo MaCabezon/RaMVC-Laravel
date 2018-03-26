@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Console;
+
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Mail\Reporte as ReporteEmail;
+
+class Kernel extends ConsoleKernel
+{
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        //
+    ];
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        // $schedule->command('inspire')
+        //          ->hourly();
+
+        $schedule->call(function () {
+
+          /*  Mail::to('lazaro.hernandez@uneatlantico.es')->send(new ReporteEmail);
+            Mail::to('juan.tortajada@uneatlantico.es')->send(new ReporteEmail);
+            Mail::to('sara.berbil@alumnos.uneatlantico.es')>send(new ReporteEmail);
+            Mail::to('loyda.alas@alumnos.uneatlantico.es')>send(new ReporteEmail);
+            Mail::to('larisa.hernandez@alumnos.uneatlantico.es')>send(new ReporteEmail);*/
+
+        })->daily();
+    }
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
+    }
+}

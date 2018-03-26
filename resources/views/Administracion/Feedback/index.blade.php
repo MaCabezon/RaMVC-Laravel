@@ -1,0 +1,3 @@
+<?php
+FeedbackController::Feedback();
+ ?>
