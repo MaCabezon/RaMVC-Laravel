@@ -76,6 +76,8 @@ class TransaccionesController extends AppBaseController
        //Decodifica el formato json del array y lo guarda en la variable $datos.
         $datos = json_decode(file_get_contents('php://input'), true);
         $respon = array("valid" => false,"horasAlumno"=>'',"horasTotales"=>'');
+        $horasAlumno = "";
+        $horasTotales = "";
         //Comprueba si la variable $datos contiene información, si el contenido es diferente de vacío entra al if.
         if ($datos == "")
         {
@@ -109,9 +111,7 @@ class TransaccionesController extends AppBaseController
                        // $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
-
-
-                         DB::update('update resumen_alumnos set validado=:validado horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
+                         DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
                          $horasAlumno = DB::select("SELECT SUM(horas) FROM resumen_alumnos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
                     }else{
 
