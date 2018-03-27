@@ -10,13 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Mail\Feedback as FeedbackEmail;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::group(['middleware' => 'auth'], function () {
-      
+
 
 Route::resource('eventos', 'EventosController');
 Route::resource('transacciones', 'TransaccionesController');
@@ -30,3 +31,7 @@ Route::resource('Administracion/Feedback', 'FeedbackController');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/registrar', 'TransaccionesController@registrarTransaccion');
+
+Route:get('/feedback',  function () {
+ Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
+ });
