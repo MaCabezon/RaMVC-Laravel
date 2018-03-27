@@ -83,6 +83,20 @@ class ResumenAlumnosController extends AppBaseController
 
         return view('resumen_alumnos.show')->with('resumenAlumnos', $resumenAlumnos);
     }
+     /**
+     * Display a listing of the ResumenAlumnos.
+     *
+     * @param Request $request
+     * @return Response
+     */
+
+    public function dashboard(Request $request)
+    {
+        $resumenDashboard= DB::select('select Alumno,sum(horas) from resumenalumnos group by Evento');
+
+        return view('dashboard.index')
+            ->with('datos', $resumenDashboard);
+    }
 
     /**
      * Show the form for editing the specified ResumenAlumnos.

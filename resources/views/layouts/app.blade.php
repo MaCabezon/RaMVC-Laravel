@@ -35,8 +35,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse col-lg-11" id="navdos" style="padding-left: 0px;margin-top: 20px;">
       <ul class="nav navbar-nav">
-       
-      
+
+
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
@@ -53,7 +53,10 @@
         </li>
         <li><a href="reporte">Generar reporte</a></li>
         @endauth
-
+        @guest
+          <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in
+          </a></li>
+          @else
          <li>
             <a  href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
              <span class="glyphicon glyphicon-log-out"></span> Log Out
@@ -62,6 +65,7 @@
                     @csrf
             </form>
              </li>
+             @endguest
      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
