@@ -41,7 +41,7 @@ class Reporte extends Mailable
                 $resumenes=ResumenAlumnos::all();
 
                 foreach ($resumenes as $resumen) {
-                    $row=[];                    
+                    $row=[];
                     $row[1]=$resumen->idAlumno;
                     $row[2]=$resumen->Materia;
                     $row[2]=$resumen->FechaEvento;
