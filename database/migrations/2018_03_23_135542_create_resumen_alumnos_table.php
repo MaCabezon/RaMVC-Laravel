@@ -19,7 +19,8 @@ class CreateResumenAlumnosTable extends Migration
             $table->integer('idEvento')->unsigned();
             $table->foreign('idEvento')->references('id')->on('eventos');
             $table->date('fechaEvento');
-            $table->decimal('horas');
+            $table->decimal('horas');            
+            $table->boolean('validado');
             $table->timestamps();
             $table->softDeletes();
         });

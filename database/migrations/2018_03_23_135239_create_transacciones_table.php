@@ -20,7 +20,7 @@ class CreateTransaccionesTable extends Migration
             $table->foreign('idEvento')->references('id')->on('eventos');
             $table->datetime('fechaEvento');
             $table->timestamp('fechaRegistro');
-            $table->enum('tipo',array('Alumno', 'Porfesor'));
+            $table->enum('tipo',array('Alumno', 'Porfesor'));         
             $table->boolean('validado');
             $table->timestamps();
             $table->softDeletes();
