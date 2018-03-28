@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use App\Models\Eventos;
+use DB;
 
 class EventosController extends AppBaseController
 {
@@ -30,8 +32,8 @@ class EventosController extends AppBaseController
     public function index(Request $request)
     {
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
-        $eventos = $this->eventosRepository->all();
-
+        $eventos = $this->eventosRepository->orderBy('nombre', 'ASC')->all();
+              
         return view('eventos.index')
             ->with('eventos', $eventos);
     }
@@ -152,4 +154,6 @@ class EventosController extends AppBaseController
 
         return redirect(route('eventos.index'));
     }
+
+      
 }

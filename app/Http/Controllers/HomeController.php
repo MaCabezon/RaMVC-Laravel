@@ -25,9 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-       /* $numeroAlumnos = Alumno::select(DB::raw("count(id) as total"))        
+       /* $alumnosActivosBecasI = DB::table('resumenalumnos')->select('Alumno', 'Estado')->where('estado', 'activado')->where('Evento','Becas I');      
             ->get()->toArray();
-        $numeroAlumnos= array_column($numeroAlumnos, 'total');*/
+        $alumnosActivosBecasI= array_column($numeroAlumnos, 'total');*/
         
        
        

@@ -17,7 +17,7 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class='buscar'>
         @foreach($resumenEventos as $resumenEventos)
             <tr>
                 <td>{!! $resumenEventos->idEvento !!}</td>

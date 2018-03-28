@@ -10,7 +10,7 @@
             <th colspan="3">Action</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class='buscar'>
     @foreach($transacciones as $transacciones)
         <tr>
             <td>{!! $transacciones->persona !!}</td>
