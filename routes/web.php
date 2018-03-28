@@ -25,13 +25,15 @@ Route::resource('resumenAlumnos', 'ResumenAlumnosController');
 Route::resource('resumenEventos', 'ResumenEventosController');
 //quedan por comprobar
 Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');;
-Route::resource('Administracion/Feedback', 'FeedbackController');
+
 });
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/registrar', 'TransaccionesController@registrarTransaccion');
-
-Route:get('/feedback',  function () {
- Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
+Route::get('/feedback',  function () {
+	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
+
+	
+Route::get('/import', 'ImportController@import');

@@ -19,7 +19,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class='buscar'>
                 @foreach($resumenAlumnos as $resumenAlumnos)
                     <tr>
                         <td>{!! $resumenAlumnos->idAlumno !!}</td>

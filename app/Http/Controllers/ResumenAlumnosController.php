@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResumenAlumnosController extends AppBaseController
 {

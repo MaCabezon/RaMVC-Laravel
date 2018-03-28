@@ -12,13 +12,13 @@
                 <th>Abreviatura</th>
             <th>Nombre</th>
             <th>Grupo</th>
-            <th>Nombreprofesor</th>
+            <th>Profesor</th>
                 <th colspan="3">Action
                     <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('eventos.create') !!}"></a>
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class='buscar'>
         @foreach($eventos as $eventos)
             <tr>
                 <td>{!! $eventos->abreviatura !!}</td>
@@ -41,3 +41,4 @@
            
 
      </div>
+
