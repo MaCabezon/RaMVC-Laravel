@@ -32,20 +32,23 @@ class Reporte extends Mailable
 
             $excel->sheet('Datos', function($sheet) {
 
-                //headers
+                 //headers
                 $sheet->mergeCells('A1:D1');
                 $sheet->row(1,['Informe de Asistencias']);
-                $sheet->row(2,['Alumno','Evento','Horas']);
+                $sheet->row(2,['Alumno','Evento','Fecha','Horas']);
 
                 //data
-                $resumenes=ResumenAlumnos::all();
+               $resumenes=DB::table('resumenalumnos')->select('Alumno', 'Evento','fechaEvento',DB::raw('SUM(Horas) as Horas'))
+                                                      ->where('Estado', 'desactivado')
+                                                      ->groupBy('Alumno')
+                                                      ->get();
 
                 foreach ($resumenes as $resumen) {
-                    $row=[];
-                    $row[1]=$resumen->idAlumno;
-                    $row[2]=$resumen->Materia;
-                    $row[2]=$resumen->FechaEvento;
-                    $row[2]=$resumen->Horas;
+                    $row=[];                    
+                    $row[1]=$resumen->Alumno;
+                    $row[2]=$resumen->Evento;
+                    $row[3]=$resumen->fechaEvento;
+                    $row[4]=$resumen->Horas;
 
                     $sheet->appendRow($row);
                 }
