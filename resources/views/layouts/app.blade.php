@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Asistencias Uneatlantico') }}</title>
 
     <!-- Styles -->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
@@ -100,7 +100,7 @@
             @yield('content')
         </main>
       </div>
-      
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

@@ -12,13 +12,13 @@
 
 <!-- Idevento Field -->
 <div class="form-group">
-    {!! Form::label('idEvento', 'Idevento:') !!}
+    {!! Form::label('idEvento', 'Id evento:') !!}
     <p>{!! $resumenAlumnos->idEvento !!}</p>
 </div>
 
 <!-- Fechaevento Field -->
 <div class="form-group">
-    {!! Form::label('fechaEvento', 'Fechaevento:') !!}
+    {!! Form::label('fechaEvento', 'Fecha evento:') !!}
     <p>{!! $resumenAlumnos->fechaEvento !!}</p>
 </div>
 
@@ -39,4 +39,3 @@
     {!! Form::label('updated_at', 'Updated At:') !!}
     <p>{!! $resumenAlumnos->updated_at !!}</p>
 </div>
-
