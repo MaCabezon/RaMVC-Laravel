@@ -2,7 +2,7 @@
          <h3>Listado de Eventos</h3>
          <hr/>
 </div>
-      
+
     <div class="container" >
         <div class="row"></div>
           <div>
@@ -13,7 +13,7 @@
             <th>Nombre</th>
             <th>Grupo</th>
             <th>Profesor</th>
-                <th colspan="3">Action
+                <th colspan="3">Acciones
                     <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('eventos.create') !!}"></a>
                 </th>
             </tr>
@@ -38,7 +38,6 @@
         @endforeach
         </tbody>
     </table>
-           
+
 
      </div>
-

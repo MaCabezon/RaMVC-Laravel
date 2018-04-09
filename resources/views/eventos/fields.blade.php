@@ -18,12 +18,13 @@
 
 <!-- Nombreprofesor Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nombreProfesor', 'Nombreprofesor:') !!}
+    {!! Form::label('nombreProfesor', 'Nombre profesor:') !!}
     {!! Form::text('nombreProfesor', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('eventos.index') !!}" class="btn btn-default">Cancel</a>
+    {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
+    <a href="{!! route('eventos.index') !!}" class="btn btn-default">Cancelar</a>
+    <a href="import" class="btn btn-default" style="background-color: #40C52D; border-color: #1E8110;">Importar CSV</a>
 </div>
