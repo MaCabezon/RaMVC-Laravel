@@ -61,7 +61,7 @@ class ResumenAlumnosController extends AppBaseController
 
         $resumenAlumnos = $this->resumenAlumnosRepository->create($input);
 
-        Flash::success('Resumen Alumnos saved successfully.');
+        Flash::success('Resumen Alumnos guardado exitosamente.');
 
         return redirect(route('resumenAlumnos.index'));
     }
@@ -78,7 +78,7 @@ class ResumenAlumnosController extends AppBaseController
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
 
         if (empty($resumenAlumnos)) {
-            Flash::error('Resumen Alumnos not found');
+            Flash::error('Resumen Alumnos no encontrado');
 
             return redirect(route('resumenAlumnos.index'));
         }
@@ -112,7 +112,7 @@ class ResumenAlumnosController extends AppBaseController
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
 
         if (empty($resumenAlumnos)) {
-            Flash::error('Resumen Alumnos not found');
+            Flash::error('Resumen Alumnos no encontrado');
 
             return redirect(route('resumenAlumnos.index'));
         }
@@ -133,14 +133,14 @@ class ResumenAlumnosController extends AppBaseController
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
 
         if (empty($resumenAlumnos)) {
-            Flash::error('Resumen Alumnos not found');
+            Flash::error('Resumen Alumnos no encontrado');
 
             return redirect(route('resumenAlumnos.index'));
         }
 
         $resumenAlumnos = $this->resumenAlumnosRepository->update($request->all(), $id);
 
-        Flash::success('Resumen Alumnos updated successfully.');
+        Flash::success('Resumen Alumnos actualizado exitosamente.');
 
         return redirect(route('resumenAlumnos.index'));
     }
