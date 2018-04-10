@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Asistencias Uneatlantico') }}</title>
 
     <!-- Styles -->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
@@ -21,7 +21,15 @@
       
       $(document).ready(function () {
 
+<<<<<<< HEAD
                       (function ($) {
+=======
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{{ asset('js//bootstrap.min.js') }}"></script>
+  <script>
+
+    $(document).ready(function () {
+>>>>>>> miguel
 
                           $('#filtrar').keyup(function () {
 
@@ -100,7 +108,7 @@
             @yield('content')
         </main>
       </div>
-      
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

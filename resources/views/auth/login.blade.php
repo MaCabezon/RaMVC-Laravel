@@ -28,7 +28,7 @@
                             <form role="form" action="{{ route('login') }}" method="POST">
                               @csrf
                                 <div class="form-group">
-                                    <label for="email"><span class="glyphicon glyphicon-user"></span> Username</label>
+                                    <label for="email"><span class="glyphicon glyphicon-user"></span> Email</label>
                                     <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" name="email" placeholder="Enter email">
 
                                     @if ($errors->has('email'))
