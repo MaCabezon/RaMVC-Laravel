@@ -32,24 +32,86 @@ class Reporte extends Mailable
 
             $excel->sheet('Datos', function($sheet) {
 
-                //headers
-                $sheet->mergeCells('A1:D1');
-                $sheet->row(1,['Informe de Asistencias']);
-                $sheet->row(2,['Alumno','Evento','Horas']);
+              //headers
+              $sheet->mergeCells('A1:D1');
+              $sheet->row(1,['Informe de Asistencias']);
+              $sheet->cells('A1', function ($cells) {
+                  $cells->setBackground('#1EAAFF');
+                  $cells->setAlignment('center');
+                  $cells->setFontSize(30);
+                  $cells->setBorder('thin','thin','thin','thin');
+              });
 
-                //data
-                $resumenes=DB::table('resumenalumnos')->select('Alumno', 'Estado', 'fechaEvento', DB::raw('SUM(Horas) as Horas'))->where('Estado','desactivaado')->groupBy('Alumno')->get();
+              $sheet->row(2,['Alumno','Evento','Horas','Objetivo Cumplido']);
+              $sheet->row(2, function ($cells) {
+                  $cells->setBackground('#55D6BF');
+                  $cells->setAlignment('center');
+                  $cells->setFontSize(12);
+                  $cells->setBorder('thin','thin','thin','thin');
+              });
 
-                foreach ($resumenes as $resumen) {
-                    $row=[];
-                    $row[1]=$resumen->idAlumno;
-                    $row[2]=$resumen->Materia;
-                    $row[2]=$resumen->FechaEvento;
-                    $row[2]=$resumen->Horas;
+              //data
+            $resumenes=DB::table('resumenalumnos')->select('Alumno', 'Evento',DB::raw('SUM(Horas) as Horas'))
+                                                  ->where('Estado', 'desactivado')
+                                                  ->groupBy('Alumno')
+                                                  ->get();
 
-                    $sheet->appendRow($row);
-                }
-                $sheet->setOrientation('landscape');
+            $rowNumber = 3; // Numero de columnas por el cual empieza
+              foreach ($resumenes as $resumen) {
+                  $row=[];
+                  $row[1]=$resumen->Alumno;
+                  $row[2]=$resumen->Evento;
+                  $row[3]=$resumen->Horas;
+
+                  // Calculamos el porcentaje de asistencia
+                  $porcentaje = ($row[3]*100)/20;
+                  $row[4] = $porcentaje."%";
+
+                  $sheet->appendRow($row);
+
+                  // Vemos si la fila es impar o par para cambiar el color de fondo y demás formatos
+                  if ($rowNumber%2!=0) {
+                    $sheet->row($rowNumber, function ($cells) {
+                      $cells->setBackground('#FFFFFF');
+                      $cells->setAlignment('center');
+                      $cells->setFontSize(12);
+                      $cells->setBorder('thin','thin','thin','thin');
+                    });
+                  } else {
+                    $sheet->row($rowNumber, function ($cells) {
+                      $cells->setBackground('#B1CAD9');
+                      $cells->setAlignment('center');
+                      $cells->setFontSize(12);
+                      $cells->setBorder('thin','thin','thin','thin');
+                    });
+                  }
+
+                  // Nombres alineados a la izquierda
+                  $sheet->cells("A".$rowNumber, function($cells) {
+                    $cells->setAlignment('left');
+                  });
+
+                  // Aplicamos color segun el porcentaje de asistencia
+                  if ($porcentaje>=90) {
+                    $sheet->cells("D".$rowNumber, function ($cells) {
+                      $cells->setBackground('#6CF159');
+                      $cells->setBorder('thin','thin','thin','thin');
+                    });
+                  } else if ($porcentaje>=60) {
+                    $sheet->cells("D".$rowNumber, function ($cells) {
+                      $cells->setBackground('#F8E64F');
+                      $cells->setBorder('thin','thin','thin','thin');
+                    });
+                  } else {
+                    $sheet->cells("D".$rowNumber, function ($cells) {
+                      $cells->setBackground('#F15959');
+                      $cells->setBorder('thin','thin','thin','thin');
+                    });
+                  }
+
+                  $rowNumber = $rowNumber + 1;
+              }
+              $sheet->setOrientation('landscape');
 
             });
 
