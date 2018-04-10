@@ -38,7 +38,7 @@ class Reporte extends Mailable
                 $sheet->row(2,['Alumno','Evento','Horas']);
 
                 //data
-                $resumenes=ResumenAlumnos::all();
+                $resumenes=DB::table('resumenalumnos')->select('Alumno', 'Estado', 'fechaEvento', DB::raw('SUM(Horas) as Horas'))->where('Estado','desactivaado')->groupBy('Alumno')->get();
 
                 foreach ($resumenes as $resumen) {
                     $row=[];

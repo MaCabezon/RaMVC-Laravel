@@ -11,6 +11,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 class ResumenAlumnosController extends AppBaseController
 {
@@ -156,38 +157,43 @@ class ResumenAlumnosController extends AppBaseController
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
 
         if (empty($resumenAlumnos)) {
-            Flash::error('Resumen Alumnos not found');
+            Flash::error('Resumen Alumnos no encontrado');
 
             return redirect(route('resumenAlumnos.index'));
         }
 
         $this->resumenAlumnosRepository->delete($id);
 
-        Flash::success('Resumen Alumnos deleted successfully.');
+        Flash::success('Resumen Alumnos borrado exitosamente.');
 
         return redirect(route('resumenAlumnos.index'));
     }
 
     public function excel (){
-        
+
         Excel::create('Reporte Alumnos', function($excel) {
 
             $excel->sheet('Datos', function($sheet) {
 
                 //headers
                 $sheet->mergeCells('A1:D1');
+                //$sheet->getStyle('A1')->getFill()->getStartColor()->setRGB('FF0000');
                 $sheet->row(1,['Informe de Asistencias']);
                 $sheet->row(2,['Alumno','Evento','Horas']);
 
                 //data
-                $resumenes=ResumenAlumnos::all();
+              $resumenes=DB::table('resumenalumnos')->select('Alumno', 'Evento','fechaEvento',DB::raw('SUM(Horas) as Horas'))
+                                                    ->where('Estado', 'desactivado')
+                                                    ->groupBy('Alumno')
+                                                    ->get();
+
 
                 foreach ($resumenes as $resumen) {
-                    $row=[];                    
-                    $row[1]=$resumen->idAlumno;
-                    $row[2]=$resumen->Materia;
-                    $row[2]=$resumen->FechaEvento;
-                    $row[2]=$resumen->Horas;
+                    $row=[];
+                    $row[1]=$resumen->Alumno;
+                    $row[2]=$resumen->Evento;
+                    $row[3]=$resumen->fechaEvento;
+                    $row[4]=$resumen->Horas;
 
                     $sheet->appendRow($row);
                 }
