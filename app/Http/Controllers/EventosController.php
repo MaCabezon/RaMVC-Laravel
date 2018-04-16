@@ -33,7 +33,7 @@ class EventosController extends AppBaseController
     {
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
         $eventos = $this->eventosRepository->orderBy('nombre', 'ASC')->all();
-              
+
         return view('eventos.index')
             ->with('eventos', $eventos);
     }
@@ -61,7 +61,7 @@ class EventosController extends AppBaseController
 
         $eventos = $this->eventosRepository->create($input);
 
-        Flash::success('Eventos saved successfully.');
+        Flash::success('Eventos guardado exitosamente.');
 
         return redirect(route('eventos.index'));
     }
@@ -78,7 +78,7 @@ class EventosController extends AppBaseController
         $eventos = $this->eventosRepository->findWithoutFail($id);
 
         if (empty($eventos)) {
-            Flash::error('Eventos not found');
+            Flash::error('Eventos no encotnrado');
 
             return redirect(route('eventos.index'));
         }
@@ -98,7 +98,7 @@ class EventosController extends AppBaseController
         $eventos = $this->eventosRepository->findWithoutFail($id);
 
         if (empty($eventos)) {
-            Flash::error('Eventos not found');
+            Flash::error('Eventos no encontrado');
 
             return redirect(route('eventos.index'));
         }
@@ -119,14 +119,14 @@ class EventosController extends AppBaseController
         $eventos = $this->eventosRepository->findWithoutFail($id);
 
         if (empty($eventos)) {
-            Flash::error('Eventos not found');
+            Flash::error('Eventos no encontrado');
 
             return redirect(route('eventos.index'));
         }
 
         $eventos = $this->eventosRepository->update($request->all(), $id);
 
-        Flash::success('Eventos updated successfully.');
+        Flash::success('Eventos actualizado exitosamente.');
 
         return redirect(route('eventos.index'));
     }
@@ -143,17 +143,17 @@ class EventosController extends AppBaseController
         $eventos = $this->eventosRepository->findWithoutFail($id);
 
         if (empty($eventos)) {
-            Flash::error('Eventos not found');
+            Flash::error('Eventos no encontrado');
 
             return redirect(route('eventos.index'));
         }
 
         $this->eventosRepository->delete($id);
 
-        Flash::success('Eventos deleted successfully.');
+        Flash::success('Eventos borrado exitosamente.');
 
         return redirect(route('eventos.index'));
     }
 
-      
+
 }
