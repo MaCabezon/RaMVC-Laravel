@@ -16,6 +16,10 @@
     <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src=" http://code.highcharts.com/modules/exporting.js"></script>
+   
+
+   
     <script src="{{ asset('js//bootstrap.min.js') }}"></script>
     <script>
       
