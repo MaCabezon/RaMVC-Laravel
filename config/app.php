@@ -171,7 +171,7 @@ return [
         \InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         //Backups
-        Spatie\Backup\BackupServiceProvider::class,
+        //Spatie\Backup\BackupServiceProvider::class,
 
 
     ],

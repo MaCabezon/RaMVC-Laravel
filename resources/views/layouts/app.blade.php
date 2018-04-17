@@ -22,10 +22,8 @@
    
     <script src="{{ asset('js//bootstrap.min.js') }}"></script>
     <script>
-      
-      $(document).ready(function () {
 
-                      (function ($) {
+      $(document).ready(function () {
 
                           $('#filtrar').keyup(function () {
 

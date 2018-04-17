@@ -99,7 +99,7 @@ class TransaccionesController extends AppBaseController
                 $transaccion->idPersona=$valores['idPersona'];
                 $transaccion->idEvento=$valores['idEvento'];
                 $transaccion->fechaEvento=$valores['fecha'];
-                $transaccion->tipo=$valores['tipoRegistro'];                
+                $transaccion->tipo=$valores['tipoRegistro'];
                 $transaccion->validado=$valores['validado'];
                 $transaccion->save();
 
@@ -146,8 +146,9 @@ class TransaccionesController extends AppBaseController
                 $respon = array("valid" => true,"horasAlumno"=>$horasAlumno,"horasTotales"=>$horasTotales);
             }
 
-            return $respon;
+
         }
+        return $respon;
     }
 
     /**
