@@ -2,12 +2,12 @@
     <thead>
         <tr>
             <th>Persona</th>
-        <th>Idevento</th>
-        <th>Fechaevento</th>
-        <th>Fecharegistro</th>
+        <th>Id evento</th>
+        <th>Fecha evento</th>
+        <th>Fecha registro</th>
         <th>Tipo</th>
         <th>Validado</th>
-            <th colspan="3">Action</th>
+            <th colspan="3">Acciones</th>
         </tr>
     </thead>
     <tbody class='buscar'>

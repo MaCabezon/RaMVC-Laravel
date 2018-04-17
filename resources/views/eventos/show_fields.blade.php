@@ -24,7 +24,7 @@
 
 <!-- Nombreprofesor Field -->
 <div class="form-group">
-    {!! Form::label('nombreProfesor', 'Nombreprofesor:') !!}
+    {!! Form::label('nombreProfesor', 'Nombre profesor:') !!}
     <p>{!! $eventos->nombreProfesor !!}</p>
 </div>
 
@@ -39,4 +39,3 @@
     {!! Form::label('updated_at', 'Updated At:') !!}
     <p>{!! $eventos->updated_at !!}</p>
 </div>
-

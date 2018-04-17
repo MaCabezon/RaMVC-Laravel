@@ -12,19 +12,19 @@
 
 <!-- Idevento Field -->
 <div class="form-group">
-    {!! Form::label('idEvento', 'Idevento:') !!}
+    {!! Form::label('idEvento', 'Id evento:') !!}
     <p>{!! $transacciones->idEvento !!}</p>
 </div>
 
 <!-- Fechaevento Field -->
 <div class="form-group">
-    {!! Form::label('fechaEvento', 'Fechaevento:') !!}
+    {!! Form::label('fechaEvento', 'Fecha evento:') !!}
     <p>{!! $transacciones->fechaEvento !!}</p>
 </div>
 
 <!-- Fecharegistro Field -->
 <div class="form-group">
-    {!! Form::label('fechaRegistro', 'Fecharegistro:') !!}
+    {!! Form::label('fechaRegistro', 'Fecha registro:') !!}
     <p>{!! $transacciones->fechaRegistro !!}</p>
 </div>
 
@@ -51,4 +51,3 @@
     {!! Form::label('updated_at', 'Updated At:') !!}
     <p>{!! $transacciones->updated_at !!}</p>
 </div>
-
