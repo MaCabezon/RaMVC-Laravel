@@ -13,30 +13,29 @@
     <!-- Styles -->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-   <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ asset('js//bootstrap.min.js') }}"></script>
+    <script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="{{ asset('js//bootstrap.min.js') }}"></script>
-  <script>
+      $(document).ready(function () {
 
-    $(document).ready(function () {
+                          $('#filtrar').keyup(function () {
 
-                    (function ($) {
+                              var rex = new RegExp($(this).val(), 'i');
+                              $('.buscar tr').hide();
+                              $('.buscar tr').filter(function () {
+                                  return rex.test($(this).text());
+                              }).show();
 
-                        $('#filtrar').keyup(function () {
+                          });
 
-                            var rex = new RegExp($(this).val(), 'i');
-                            $('.buscar tr').hide();
-                            $('.buscar tr').filter(function () {
-                                return rex.test($(this).text());
-                            }).show();
+                      }(jQuery));
 
-                        });
+                  });
+    </script>
 
-                    }(jQuery));
-
-                });
-  </script>
 </head>
 <body>
   <nav class="navbar navbar-default col-lg-12">
