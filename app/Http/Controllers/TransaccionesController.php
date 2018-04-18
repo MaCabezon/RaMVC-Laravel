@@ -71,24 +71,25 @@ class TransaccionesController extends AppBaseController
      * @param Request $request
      * @return Response
      */
-    public function registrarTransaccion()
+    public function registrarTransaccion(Request $resultado)
     {
        //Decodifica el formato json del array y lo guarda en la variable $datos.
         $datos = json_decode(file_get_contents('php://input'), true);
         $respon = array("valid" => false,"horasAlumno"=>'',"horasTotales"=>'');
         $horasAlumno = "";
         $horasTotales = "";
+
         //Comprueba si la variable $datos contiene información, si el contenido es diferente de vacío entra al if.
-        if ($datos != "")
+        if ($resultado != "")
         {
             //creacion de un nuevo array con las mismas "keys" del POST.
-            $valores = ["idPersona" => "", "idEvento" => "","fecha"=>"","tipoRegistro"=>"","esPar"=>"" ,"validado"=>"","valido" =>""];
+            $valores = ["idPersona" => $resultado['idPersona'], "idEvento" => $resultado['idEvento'],"fecha"=>$resultado['fecha'],"tipoRegistro"=>$resultado['tipoRegistro'],"esPar"=>$resultado['esPar'] ,"validado"=>$resultado['validado'],"valido" =>$resultado['valido']];
 
             //LLena cada clave del nuevo array con el valor del POST correspondiente.
-           foreach ($datos as $indice => $valor)
+          /* foreach ($datos as $indice => $valor)
             {
                 $valores[$indice] = $valor;
-            }
+            }*/
 
 
 
@@ -148,7 +149,7 @@ class TransaccionesController extends AppBaseController
 
 
         }
-        return $respon;
+        return json_encode($respon);
     }
 
     /**
