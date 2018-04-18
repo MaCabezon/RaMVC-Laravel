@@ -116,7 +116,7 @@ class TransaccionesController extends AppBaseController
                          $horasAlumno = DB::select("SELECT SUM(horas) FROM resumen_alumnos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
                     }else{
 
-                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?,?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
+                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
 
 
                     }
