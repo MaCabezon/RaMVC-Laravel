@@ -135,7 +135,7 @@ class TransaccionesController extends AppBaseController
 
                     }else{
 
-                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento) values (?, ?)', [ $transaccion->idEvento,$transaccion->fechaEvento]);
+                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento,horas) values (?, ?,?)', [ $transaccion->idEvento,$transaccion->fechaEvento,'-1']);
                     }
 
                 }
