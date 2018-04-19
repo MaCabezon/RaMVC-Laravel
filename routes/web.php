@@ -11,6 +11,7 @@
 |
 */
 use App\Mail\Feedback as FeedbackEmail;
+use App\Mail\Reporte as ReporteEmail;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,8 +33,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
 Route::post('/feedback',  function () {
+	
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
 	
 Route::get('/import', 'ImportController@import');
+

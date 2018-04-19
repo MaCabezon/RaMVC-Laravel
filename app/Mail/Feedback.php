@@ -26,7 +26,7 @@ class Feedback extends Mailable
      *
      * @return $this
      */
-    public function build(Request $resultado))
+    public function build(Request $resultado)
     {
 
       //Decodificamos el formato json del array y lo guardamos en la variable $datos
