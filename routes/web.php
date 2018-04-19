@@ -31,7 +31,7 @@ Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.ex
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
-Route::get('/feedback',  function () {
+Route::post('/feedback',  function () {
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
