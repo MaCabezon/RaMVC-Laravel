@@ -59,7 +59,7 @@ class ResumenEventosController extends AppBaseController
 
         $resumenEventos = $this->resumenEventosRepository->create($input);
 
-        Flash::success('Resumen Eventos saved successfully.');
+        Flash::success('Resumen Eventos guardado exitosamente.');
 
         return redirect(route('resumenEventos.index'));
     }
@@ -76,7 +76,7 @@ class ResumenEventosController extends AppBaseController
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
 
         if (empty($resumenEventos)) {
-            Flash::error('Resumen Eventos not found');
+            Flash::error('Resumen Eventos no encontrado');
 
             return redirect(route('resumenEventos.index'));
         }
@@ -96,7 +96,7 @@ class ResumenEventosController extends AppBaseController
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
 
         if (empty($resumenEventos)) {
-            Flash::error('Resumen Eventos not found');
+            Flash::error('Resumen Eventos no encontrado');
 
             return redirect(route('resumenEventos.index'));
         }
@@ -117,14 +117,14 @@ class ResumenEventosController extends AppBaseController
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
 
         if (empty($resumenEventos)) {
-            Flash::error('Resumen Eventos not found');
+            Flash::error('Resumen Eventos no encontrado');
 
             return redirect(route('resumenEventos.index'));
         }
 
         $resumenEventos = $this->resumenEventosRepository->update($request->all(), $id);
 
-        Flash::success('Resumen Eventos updated successfully.');
+        Flash::success('Resumen Eventos actualizado exitosamente.');
 
         return redirect(route('resumenEventos.index'));
     }
@@ -141,14 +141,14 @@ class ResumenEventosController extends AppBaseController
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
 
         if (empty($resumenEventos)) {
-            Flash::error('Resumen Eventos not found');
+            Flash::error('Resumen Eventos no encontrado');
 
             return redirect(route('resumenEventos.index'));
         }
 
         $this->resumenEventosRepository->delete($id);
 
-        Flash::success('Resumen Eventos deleted successfully.');
+        Flash::success('Resumen Eventos borrado exitosamente.');
 
         return redirect(route('resumenEventos.index'));
     }

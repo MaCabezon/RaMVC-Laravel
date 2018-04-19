@@ -25,11 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $alumnosActivosBecasI = DB::table('resumenalumnos')->where('Estado', 'desactivado')->where('Evento','Estrategias de Aprendizaje y Competencias en TIC')->count();
+        $alumnosActivosBecasI = DB::table('resumenalumnos')->select(DB::raw("count(Alumno) as total"))->where('Estado', 'desactivado')->where('Evento','Estrategias de Aprendizaje y Competencias en TIC')->get()->toArray();
             
         
-        $alumnosActivosBecasI=["total"=>$alumnosActivosBecasI];
-        
+        $alumnosActivosBecasI=array_column($alumnosActivosBecasI, 'total');       
        
        
               
@@ -37,3 +36,5 @@ class HomeController extends Controller
              ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
     }
 }
+
+
