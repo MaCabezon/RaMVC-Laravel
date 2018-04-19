@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 class Reporte extends Mailable
 {
@@ -51,10 +53,7 @@ class Reporte extends Mailable
               });
 
               //data
-            $resumenes=DB::table('resumenalumnos')->select('Alumno', 'Evento',DB::raw('SUM(Horas) as Horas'))
-                                                  ->where('Estado', 'desactivado')
-                                                  ->groupBy('Alumno')
-                                                  ->get();
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->get();
 
             $rowNumber = 3; // Numero de columnas por el cual empieza
               foreach ($resumenes as $resumen) {

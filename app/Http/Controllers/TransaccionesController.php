@@ -84,6 +84,7 @@ class TransaccionesController extends AppBaseController
         {
             //creacion de un nuevo array con las mismas "keys" del POST.
             $valores = ["idPersona" => $resultado['idPersona'], "idEvento" => $resultado['idEvento'],"fecha"=>$resultado['fecha'],"tipoRegistro"=>$resultado['tipoRegistro'],"esPar"=>$resultado['esPar'] ,"validado"=>$resultado['validado'],"valido" =>$resultado['valido']];
+           // $valores = ["idPersona" => "lazaro.hernandez", "idEvento" => "50","fecha"=>"2018-03-19 07:00:00","tipoRegistro"=>"Profesor","esPar"=>true ,"validado"=>"1","valido" =>true];
 
             //LLena cada clave del nuevo array con el valor del POST correspondiente.
           /* foreach ($datos as $indice => $valor)
@@ -101,7 +102,7 @@ class TransaccionesController extends AppBaseController
                 $transaccion->idEvento=$valores['idEvento'];
                 $transaccion->fechaEvento=$valores['fecha'];
                 $transaccion->tipo=$valores['tipoRegistro'];
-                $transaccion->validado=$valores['validado'];
+                $transaccion->validado=$valores['validado'];               
                 $transaccion->save();
 
 
@@ -129,13 +130,13 @@ class TransaccionesController extends AppBaseController
 
                         $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Profesor")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
-
-                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fecha=:fecha and horas=-1', ['idEvento'=>$transaccion->idEvento,'fecha'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
+                        return $transaccionImpar;
+                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
                         $horasTotales = DB::select("SELECT SUM(horas) FROM resumen_eventos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
 
                     }else{
 
-                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento,horas) values (?, ?,?)', [ $transaccion->idEvento,$transaccion->fechaEvento,'-1']);
+                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento,horas) values (?, ?, ?)', [ $transaccion->idEvento,$transaccion->fechaEvento,'-1']);
                     }
 
                 }
@@ -149,6 +150,7 @@ class TransaccionesController extends AppBaseController
 
 
         }
+         header('Content-Type: application/json');
         return json_encode($respon);
     }
 

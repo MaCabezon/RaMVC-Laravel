@@ -14,10 +14,9 @@ class CreateResumenAlumnosView extends Migration
     public function up()
     {
 
-         DB::statement( "CREATE VIEW  resumenalumnos as SELECT ra.idAlumno AS Alumno,ev.nombre AS Evento,ev.grupo	AS Grupo,    sum((case when (ra.horas = -(1.00))
-                  then 0 else ra.horas end))	AS Horas,if((ra.horas = -(1.00)), 'activado','desactivado')	AS Estado,ra.fechaEvento AS fechaEvento FROM resumen_alumnos AS ra
-              JOIN eventos AS ev ON ra.idEvento = ev.id WHERE ra.id IN ( SELECT max(r.id) from resumen_alumnos r )
-              GROUP BY ra.idAlumno,ra.idEvento,ra.fechaEvento");
+         DB::statement( "CREATE VIEW  resumenalumnos as SELECT ra.idAlumno AS Alumno,ev.nombre AS Evento,ev.grupo   AS Grupo,   if((ra.horas = -(1.00)), 'activado','desactivado')AS Estado,
+       ra.fechaEvento AS fechaEvento FROM resumen_alumnos AS ra JOIN eventos AS ev ON ra.idEvento = ev.id 
+       WHERE ra.id IN ( SELECT max(r.id) from resumen_alumnos r )GROUP BY ra.idAlumno,ra.idEvento,ra.fechaEvento");
 
     }
 
