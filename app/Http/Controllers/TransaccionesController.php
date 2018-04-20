@@ -83,8 +83,8 @@ class TransaccionesController extends AppBaseController
         if ($resultado != "")
         {
             //creacion de un nuevo array con las mismas "keys" del POST.
-           // $valores = ["idPersona" => $resultado['idPersona'], "idEvento" => $resultado['idEvento'],"fecha"=>$resultado['fecha'],"tipoRegistro"=>$resultado['tipoRegistro'],"esPar"=>$resultado['esPar'] ,"validado"=>$resultado['validado'],"valido" =>$resultado['valido']];
-            $valores = ["idPersona" => "lazaro.hernandez", "idEvento" => "1","fecha"=>"2018-03-19 10:00:00","tipoRegistro"=>"Profesor","esPar"=>true ,"validado"=>"1","valido" =>true];
+            $valores = ["idPersona" => $resultado['idPersona'], "idEvento" => $resultado['idEvento'],"fecha"=>$resultado['fecha'],"tipoRegistro"=>$resultado['tipoRegistro'],"esPar"=>$resultado['esPar'] ,"validado"=>$resultado['validado'],"valido" =>$resultado['valido']];
+           // $valores = ["idPersona" => "lazaro.hernandez", "idEvento" => "1","fecha"=>"2018-03-19 10:00:00","tipoRegistro"=>"Profesor","esPar"=>true ,"validado"=>"1","valido" =>true];
 
             //LLena cada clave del nuevo array con el valor del POST correspondiente.
           /* foreach ($datos as $indice => $valor)
