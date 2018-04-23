@@ -110,11 +110,12 @@ class TransaccionesController extends AppBaseController
 
                     if($valores['esPar'] ==true){
 
-                       // $transaccionImpar= new Transacciones();
+                        $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
                          DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
-                         $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
+                         $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         $horasTotales = DB::select("SELECT SUM(horas) as horas FROM resumen_eventos WHERE idEvento=:idEvento and horas>-1",['idEvento'=>$transaccion->idEvento]);
                     }else{
 
                         DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
@@ -132,7 +133,7 @@ class TransaccionesController extends AppBaseController
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Profesor")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
                         
                         DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
-                        $horasTotales = DB::select("SELECT SUM(horas) as horas FROM resumen_eventos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
+                        
 
                     }else{
 
