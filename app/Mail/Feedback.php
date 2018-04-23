@@ -6,7 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use DateTime;
+use Illuminate\Http\Request;
 class Feedback extends Mailable
 {
     use Queueable, SerializesModels;
@@ -63,6 +64,6 @@ class Feedback extends Mailable
       return $this->view('emails.feedback')
                   ->from('rap@uneatlantico.es','Soporte')
                   ->subject($asunto)
-                  ->with($msg);
+                  ->with('msg',$msg);
     }
 }
