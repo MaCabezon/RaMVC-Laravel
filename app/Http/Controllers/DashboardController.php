@@ -2,241 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTransaccionesRequest;
-use App\Http\Requests\UpdateTransaccionesRequest;
-use App\Repositories\TransaccionesRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Models\Dashboard;
 use Illuminate\Http\Request;
-use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
-use App\Models\Transacciones;
 use DB;
-class TransaccionesController extends AppBaseController
+
+class DashboardController extends Controller
 {
-    /** @var  TransaccionesRepository */
-    private $transaccionesRepository;
-
-    public function __construct(TransaccionesRepository $transaccionesRepo)
-    {
-        $this->transaccionesRepository = $transaccionesRepo;
-    }
-
     /**
-     * Display a listing of the Transacciones.
+     * Display a listing of the resource.
      *
-     * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $this->transaccionesRepository->pushCriteria(new RequestCriteria($request));
-        $transacciones = $this->transaccionesRepository->all();
-
-        return view('transacciones.index')
-            ->with('transacciones', $transacciones);
+        $vista = DB::select('select reporte.*, resumenalumnos.Estado from reporte inner join resumenalumnos on reporte.Alumno = resumenalumnos.Alumno and reporte.Evento = resumenalumnos.Evento and reporte.Grupo = resumenalumnos.Grupo and reporte.fechaEvento = resumenalumnos.fechaEvento order by Evento');
+        return view('dashboard.index')->with('vista',$vista);
     }
 
     /**
-     * Show the form for creating a new Transacciones.
+     * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('transacciones.create');
+        //
     }
 
     /**
-     * Store a newly created Transacciones in storage.
+     * Store a newly created resource in storage.
      *
-     * @param CreateTransaccionesRequest $request
-     *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(CreateTransaccionesRequest $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
-
-        $transacciones = $this->transaccionesRepository->create($input);
-
-        Flash::success('Transacciones saved successfully.');
-
-        return redirect(route('transacciones.index'));
+        //
     }
 
     /**
-     * Crear Transacciones a traves de los datos de apk.
+     * Display the specified resource.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \App\Dashboard  $dashboard
+     * @return \Illuminate\Http\Response
      */
-    public function registrarTransaccion()
+    public function show(Dashboard $dashboard)
     {
-       //Decodifica el formato json del array y lo guarda en la variable $datos.
-        $datos = json_decode(file_get_contents('php://input'), true);
-        $respon = array("valid" => false,"horasAlumno"=>'',"horasTotales"=>'');
-        $horasAlumno = "";
-        $horasTotales = "";
-        //Comprueba si la variable $datos contiene información, si el contenido es diferente de vacío entra al if.
-        if ($datos != "")
-        {
-            //creacion de un nuevo array con las mismas "keys" del POST.
-            $valores = ["idPersona" => "", "idEvento" => "","fecha"=>"","tipoRegistro"=>"","esPar"=>"" ,"validado"=>"","valido" =>""];
-
-            //LLena cada clave del nuevo array con el valor del POST correspondiente.
-           foreach ($datos as $indice => $valor)
-            {
-                $valores[$indice] = $valor;
-            }
-
-
-
-            if ($valores['valido'] == true)
-            {
-                //Creamos la transaccion y la insertamos
-                $transaccion= new Transacciones();
-                $transaccion->idPersona=$valores['idPersona'];
-                $transaccion->idEvento=$valores['idEvento'];
-                $transaccion->fechaEvento=$valores['fecha'];
-                $transaccion->tipo=$valores['tipoRegistro'];
-                $transaccion->validado=$valores['validado'];
-                $transaccion->save();
-
-
-                if($transaccion->tipo=="Alumno"){
-
-                    if($valores['esPar'] ==true){
-
-                       // $transaccionImpar= new Transacciones();
-                        $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
-
-                         DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
-                         $horasAlumno = DB::select("SELECT SUM(horas) FROM resumen_alumnos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
-                    }else{
-
-                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?,?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
-
-
-                    }
-
-                }elseif($transaccion->tipo=="Profesor"){
-
-
-
-                     if($valores['esPar'] ==true){
-
-                        $transaccionImpar= new Transacciones();
-                        $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Profesor")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
-
-                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fecha=:fecha and horas=-1', ['idEvento'=>$transaccion->idEvento,'fecha'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
-                        $horasTotales = DB::select("SELECT SUM(horas) FROM resumen_eventos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
-
-                    }else{
-
-                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento) values (?, ?)', [ $transaccion->idEvento,$transaccion->fechaEvento]);
-                    }
-
-                }
-
-
-
-
-
-                $respon = array("valid" => true,"horasAlumno"=>$horasAlumno,"horasTotales"=>$horasTotales);
-            }
-
-
-        }
-        return $respon;
+        //
     }
 
     /**
-     * Display the specified Transacciones.
+     * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     *
-     * @return Response
+     * @param  \App\Dashboard  $dashboard
+     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit(Dashboard $dashboard)
     {
-        $transacciones = $this->transaccionesRepository->findWithoutFail($id);
-
-        if (empty($transacciones)) {
-            Flash::error('Transacciones not found');
-
-            return redirect(route('transacciones.index'));
-        }
-
-        return view('transacciones.show')->with('transacciones', $transacciones);
+        //
     }
 
     /**
-     * Show the form for editing the specified Transacciones.
+     * Update the specified resource in storage.
      *
-     * @param  int $id
-     *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Dashboard  $dashboard
+     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function update(Request $request, Dashboard $dashboard)
     {
-        $transacciones = $this->transaccionesRepository->findWithoutFail($id);
-
-        if (empty($transacciones)) {
-            Flash::error('Transacciones not found');
-
-            return redirect(route('transacciones.index'));
-        }
-
-        return view('transacciones.edit')->with('transacciones', $transacciones);
+        //
     }
 
     /**
-     * Update the specified Transacciones in storage.
+     * Remove the specified resource from storage.
      *
-     * @param  int              $id
-     * @param UpdateTransaccionesRequest $request
-     *
-     * @return Response
+     * @param  \App\Dashboard  $dashboard
+     * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateTransaccionesRequest $request)
+    public function destroy(Dashboard $dashboard)
     {
-        $transacciones = $this->transaccionesRepository->findWithoutFail($id);
-
-        if (empty($transacciones)) {
-            Flash::error('Transacciones not found');
-
-            return redirect(route('transacciones.index'));
-        }
-
-        $transacciones = $this->transaccionesRepository->update($request->all(), $id);
-
-        Flash::success('Transacciones updated successfully.');
-
-        return redirect(route('transacciones.index'));
-    }
-
-    /**
-     * Remove the specified Transacciones from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $transacciones = $this->transaccionesRepository->findWithoutFail($id);
-
-        if (empty($transacciones)) {
-            Flash::error('Transacciones not found');
-
-            return redirect(route('transacciones.index'));
-        }
-
-        $this->transaccionesRepository->delete($id);
-
-        Flash::success('Transacciones deleted successfully.');
-
-        return redirect(route('transacciones.index'));
+        //
     }
 }
