@@ -15,12 +15,15 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src=" https://code.highcharts.com/modules/exporting.js"></script>
+    
+    
    
 
    
-    <script src="{{ asset('js//bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script>
 
      $(document).ready(function () {
@@ -60,15 +63,17 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse col-lg-11" id="navdos" style="padding-left: 0px;margin-top: 20px;">
       <ul class="nav navbar-nav">
-
+         @auth
+        <li cl
         <form class="navbar-form navbar-left">
           <div class="form-group">
             <input id="filtrar"  type="text" class="form-control" placeholder="Introduzca dato a buscar...">
           </div>
       </form>
+       @endauth
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
+        <li><a href="graficas"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
          @auth
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>

@@ -1,7 +1,3 @@
-@extends('layouts.app')
-@section('content')
-
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -10,7 +6,17 @@
 
 <script type="text/javascript">
 $(function() {
-  $('#container').highcharts( <?php echo json_encode($chartarray) ?>)
+
+     var data=  <?php echo json_encode($chartarray) ?>
+     
+    
+         $('#container').highcharts(data[0])
+         $('#container2').highcharts(data[1])    
+         $('#container3').highcharts(data[2])
+    
+    
+ 
+ 
 });
 </script>
 
@@ -18,7 +24,7 @@ $(function() {
     <div class="row">
         <div class="col-md-5 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Asistenica Global</div>
+                <div class="panel-heading">Asistenica por Clase</div>
                 <div class="panel-body">
                     <div id="container"></div>
                 </div>
@@ -28,11 +34,19 @@ $(function() {
             <div class="panel panel-default">
                 <div class="panel-heading">Asistenica Global</div>
                 <div class="panel-body">
-                    <div id="container"></div>
+                    <div id="container2"></div>
                 </div>
             </div>
         </div>
+        <div class="col-md-5 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Asistenica en Beca</div>
+                <div class="panel-body">
+                    <div id="container3"></div>
+                </div>
+            </div>
+        </div>
+        
+
     </div>
 </div>
-
-@endsection
