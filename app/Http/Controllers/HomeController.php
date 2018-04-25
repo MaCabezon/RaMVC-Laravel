@@ -25,14 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-       /* $alumnosActivosBecasI = DB::table('resumenalumnos')->select('Alumno', 'Estado')->where('estado', 'activado')->where('Evento','Becas I');      
-            ->get()->toArray();
-        $alumnosActivosBecasI= array_column($numeroAlumnos, 'total');*/
+        $alumnosActivosBecasI = DB::table('resumenalumnos')->select(DB::raw("count(Alumno) as total"))->where('Estado', 'desactivado')->where('Evento','Estrategias de Aprendizaje y Competencias en TIC')->get()->toArray();
+            
         
+        $alumnosActivosBecasI=array_column($alumnosActivosBecasI, 'total');       
        
        
               
-        return view('home');
-             //->with('numeroAlumnos',json_encode($numeroAlumnos,JSON_NUMERIC_CHECK));
+        return view('home')
+             ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
     }
 }
+
+

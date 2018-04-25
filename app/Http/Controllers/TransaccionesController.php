@@ -71,24 +71,26 @@ class TransaccionesController extends AppBaseController
      * @param Request $request
      * @return Response
      */
-    public function registrarTransaccion()
+    public function registrarTransaccion(Request $resultado)
     {
        //Decodifica el formato json del array y lo guarda en la variable $datos.
         $datos = json_decode(file_get_contents('php://input'), true);
         $respon = array("valid" => false,"horasAlumno"=>'',"horasTotales"=>'');
         $horasAlumno = "";
         $horasTotales = "";
+
         //Comprueba si la variable $datos contiene información, si el contenido es diferente de vacío entra al if.
-        if ($datos != "")
+        if ($resultado != "")
         {
             //creacion de un nuevo array con las mismas "keys" del POST.
-            $valores = ["idPersona" => "", "idEvento" => "","fecha"=>"","tipoRegistro"=>"","esPar"=>"" ,"validado"=>"","valido" =>""];
+            $valores = ["idPersona" => $resultado['idPersona'], "idEvento" => $resultado['idEvento'],"fecha"=>$resultado['fecha'],"tipoRegistro"=>$resultado['tipoRegistro'],"esPar"=>$resultado['esPar'] ,"validado"=>$resultado['validado'],"valido" =>$resultado['valido']];
+           // $valores = ["idPersona" => "lazaro.hernandez", "idEvento" => "1","fecha"=>"2018-03-19 10:00:00","tipoRegistro"=>"Profesor","esPar"=>true ,"validado"=>"1","valido" =>true];
 
             //LLena cada clave del nuevo array con el valor del POST correspondiente.
-           foreach ($datos as $indice => $valor)
+          /* foreach ($datos as $indice => $valor)
             {
                 $valores[$indice] = $valor;
-            }
+            }*/
 
 
 
@@ -100,7 +102,7 @@ class TransaccionesController extends AppBaseController
                 $transaccion->idEvento=$valores['idEvento'];
                 $transaccion->fechaEvento=$valores['fecha'];
                 $transaccion->tipo=$valores['tipoRegistro'];
-                $transaccion->validado=$valores['validado'];
+                $transaccion->validado=$valores['validado'];               
                 $transaccion->save();
 
 
@@ -108,14 +110,15 @@ class TransaccionesController extends AppBaseController
 
                     if($valores['esPar'] ==true){
 
-                       // $transaccionImpar= new Transacciones();
+                        $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
                          DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
-                         $horasAlumno = DB::select("SELECT SUM(horas) FROM resumen_alumnos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
+                         $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         $horasTotales = DB::select("SELECT SUM(horas) as horas FROM resumen_eventos WHERE idEvento=:idEvento and horas>-1",['idEvento'=>$transaccion->idEvento]);
                     }else{
 
-                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?,?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
+                        DB::insert('insert into resumen_alumnos (idAlumno, idEvento,fechaEvento,horas,validado) values (?, ?, ?, ?, ?)', [$transaccion->idPersona, $transaccion->idEvento,$transaccion->fechaEvento,'-1',$transaccion->validado]);
 
 
                     }
@@ -128,13 +131,13 @@ class TransaccionesController extends AppBaseController
 
                         $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Profesor")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
-
-                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fecha=:fecha and horas=-1', ['idEvento'=>$transaccion->idEvento,'fecha'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
-                        $horasTotales = DB::select("SELECT SUM(horas) FROM resumen_eventos WHERE idEvento=:idEvento",['idEvento'=>$transaccion->idEvento]);
+                        
+                        DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
+                        
 
                     }else{
 
-                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento) values (?, ?)', [ $transaccion->idEvento,$transaccion->fechaEvento]);
+                        DB::insert('insert into resumen_eventos (idEvento,fechaEvento,horas) values (?, ?, ?)', [ $transaccion->idEvento,$transaccion->fechaEvento,'-1']);
                     }
 
                 }
@@ -148,7 +151,8 @@ class TransaccionesController extends AppBaseController
 
 
         }
-        return $respon;
+         header('Content-Type: application/json');
+        return json_encode($respon);
     }
 
     /**

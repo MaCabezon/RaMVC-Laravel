@@ -6,7 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
+use DateTime;
+use Illuminate\Http\Request;
 class Feedback extends Mailable
 {
     use Queueable, SerializesModels;
@@ -26,22 +27,22 @@ class Feedback extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(Request $resultado)
     {
 
       //Decodificamos el formato json del array y lo guardamos en la variable $datos
-      $datos = json_decode(file_get_contents('php://input'),true);
+      //$datos = json_decode(file_get_contents('php://input'),true);
 
 
       //Comprobamos que $datos contiene información
-      if ($datos != "")
+      if ($resultado != "")
       {
-          $valores = ["feedback" => "", "valido" => "", "sender" => ""];
+          $valores = ["feedback" => $resultado['feedback'], "valido" => $resultado['valido'], "sender" => $resultado['sender']];
 
-          foreach ($datos as $key => $value)
+          /*foreach ($datos as $key => $value)
           {
             $valores[$key] = $value;
-          }
+          }*/
 
           if ($valores['valido'] == true)
           {
@@ -63,6 +64,6 @@ class Feedback extends Mailable
       return $this->view('emails.feedback')
                   ->from('rap@uneatlantico.es','Soporte')
                   ->subject($asunto)
-                  ->with($msg);
+                  ->with('msg',$msg);
     }
 }
