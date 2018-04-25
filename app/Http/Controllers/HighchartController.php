@@ -33,5 +33,6 @@ class HighchartController extends Controller
 	   
 	    return view('highchart')
 	            ->with('numeroAlumnos',json_encode($numeroAlumnos,JSON_NUMERIC_CHECK))
+	 }
 	            
 }

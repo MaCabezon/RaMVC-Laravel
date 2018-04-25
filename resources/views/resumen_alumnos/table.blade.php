@@ -2,24 +2,24 @@
          <h3>Resumen de Alumnos</h3>
          <hr/>
 </div>
-      
+
     <div class="container" >
         <div class="row"></div>
-          <div> 
+          <div>
             <table class="table table-responsive" id="resumenAlumnos-table">
                 <thead>
                     <tr>
                         <th>Persona</th>
-                        <th>Idevento</th>
-                        <th>Fechaevento</th>
+                        <th>Id evento</th>
+                        <th>Fecha evento</th>
                         <th>Horas</th>
-                        <th colspan="3">Action 
+                        <th colspan="3">Acciones
                             <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('resumenAlumnos.create') !!}"></a>
-        
+
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class='buscar'>
                 @foreach($resumenAlumnos as $resumenAlumnos)
                     <tr>
                         <td>{!! $resumenAlumnos->idAlumno !!}</td>
@@ -39,6 +39,6 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>        
+        </div>
 
      </div>

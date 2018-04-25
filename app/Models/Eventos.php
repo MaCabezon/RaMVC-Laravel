@@ -51,7 +51,7 @@ class Eventos extends Model
      */
     public static $rules = [
         'abreviatura' => 'required',
-        'nombre' => 'requried',
+        'nombre' => 'required',
         'grupo' => 'required',
         'nombreProfesor' => 'required'
     ];

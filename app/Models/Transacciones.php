@@ -32,7 +32,7 @@ class Transacciones extends Model
         'idEvento',
         'fechaEvento',
         'fechaRegistro',
-        'tipo',
+        'tipo',       
         'validado'
     ];
 
@@ -44,7 +44,7 @@ class Transacciones extends Model
     protected $casts = [
         'idPersona' => 'string',
         'idEvento' => 'integer',
-        'tipo' => 'string',
+        'tipo' => 'string',        
         'validado' => 'boolean'
     ];
 
@@ -58,7 +58,7 @@ class Transacciones extends Model
         'idEvento' => 'required',
         'fechaEvento' => 'required',
         'fechaRegistro' => 'required',
-        'tipo' => 'required',
+        'tipo' => 'required',            
         'validado' => 'required'
     ];
 

@@ -8,15 +8,40 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Asistencias Uneatlantico') }}</title>
 
     <!-- Styles -->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-   <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src=" https://code.highcharts.com/modules/exporting.js"></script>
+   
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="{{ asset('js//bootstrap.min.js') }}"></script>
+   
+    <script src="{{ asset('js//bootstrap.min.js') }}"></script>
+    <script>
+
+     $(document).ready(function () {
+
+                    (function ($) {
+
+                        $('#filtrar').keyup(function () {
+
+                            var rex = new RegExp($(this).val(), 'i');
+                            $('.buscar tr').hide();
+                            $('.buscar tr').filter(function () {
+                                return rex.test($(this).text());
+                            }).show();
+
+                        });
+
+                    }(jQuery));
+
+                });
+    </script>
+
 </head>
 <body>
   <nav class="navbar navbar-default col-lg-12">
@@ -29,14 +54,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-     <a id="logo" class="navbar-brand col-lg-1" href="" style="margin-bottom: 10px; margin-top: 10px;"></a>
+     <a id="logo" class="navbar-brand col-lg-1" href="home" style="margin-bottom: 10px; margin-top: 10px;"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse col-lg-11" id="navdos" style="padding-left: 0px;margin-top: 20px;">
       <ul class="nav navbar-nav">
 
-
+        <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input id="filtrar"  type="text" class="form-control" placeholder="Introduzca dato a buscar...">
+          </div>
+      </form>
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
@@ -75,6 +104,7 @@
             @yield('content')
         </main>
       </div>
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

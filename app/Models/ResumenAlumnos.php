@@ -28,7 +28,8 @@ class ResumenAlumnos extends Model
     public $fillable = [
         'idAlumno',
         'idEvento',
-        'fechaEvento',
+        'fechaEvento',        
+        'validado',
         'horas'
     ];
 
@@ -51,7 +52,8 @@ class ResumenAlumnos extends Model
     public static $rules = [
         'idAlumno' => 'required',
         'idEvento' => 'required',
-        'fechaEvento' => 'required',
+        'fechaEvento' => 'required',        
+        'validado'=> 'required',
         'horas' => 'required'
     ];
 

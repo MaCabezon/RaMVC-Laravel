@@ -2,7 +2,7 @@
          <h3>Listado de Eventos</h3>
          <hr/>
 </div>
-      
+
     <div class="container" >
         <div class="row"></div>
           <div>
@@ -12,13 +12,13 @@
                 <th>Abreviatura</th>
             <th>Nombre</th>
             <th>Grupo</th>
-            <th>Nombreprofesor</th>
-                <th colspan="3">Action
+            <th>Profesor</th>
+                <th colspan="3">Acciones
                     <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('eventos.create') !!}"></a>
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class='buscar'>
         @foreach($eventos as $eventos)
             <tr>
                 <td>{!! $eventos->abreviatura !!}</td>
@@ -38,6 +38,6 @@
         @endforeach
         </tbody>
     </table>
-           
+
 
      </div>
