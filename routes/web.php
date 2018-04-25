@@ -24,6 +24,7 @@ Route::resource('eventos', 'EventosController');
 Route::resource('transacciones', 'TransaccionesController');
 Route::resource('resumenAlumnos', 'ResumenAlumnosController');
 Route::resource('resumenEventos', 'ResumenEventosController');
+Route::resource('dashboard', 'DashboardController');
 //quedan por comprobar
 Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');;
 
@@ -37,6 +38,6 @@ Route::post('/feedback',  function () {
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
-	
-Route::get('/import', 'ImportController@import');
 
+Route::get('/import', 'ImportController@import');
+Route::get('/graficas', 'HighchartController@highchart');
