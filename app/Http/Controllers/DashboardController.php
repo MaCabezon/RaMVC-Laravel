@@ -15,7 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $vista = DB::select('select reporte.*, resumenalumnos.Estado from reporte inner join resumenalumnos on reporte.Alumno = resumenalumnos.Alumno and reporte.Evento = resumenalumnos.Evento and reporte.Grupo = resumenalumnos.Grupo and reporte.fechaEvento = resumenalumnos.fechaEvento order by Evento');
+        $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo AND reporte.fechaEvento = resumenalumnos.fechaEvento WHERE reporte.Evento = "Becas I" OR reporte.Evento = "Becas II" OR reporte.Evento = "Intervencion Agil I" OR reporte.Evento = "Intervencion Agil II" ORDER BY Evento');
         return view('dashboard.index')->with('vista',$vista);
     }
 
