@@ -39,4 +39,4 @@ Route::post('/feedback',  function () {
 
 	
 Route::get('/import', 'ImportController@import');
-
+Route::get('/graficas', 'HighchartController@highchart');
