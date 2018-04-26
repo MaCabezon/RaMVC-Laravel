@@ -60,11 +60,11 @@
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
                      <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}">
                        @if($vista[$key+$i]->Estado=='activado')
-                        <img src="../public/css/images/IconoV.png" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoV.png') }}" height="42" width="42"/>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
-                        <img src="../public/css/images/IconoR.png" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoR.png') }}" height="42" width="42"/>
                        @elseif($vista[$key+$i]->Estado=='pendiente')
-                        <img src="../public/css/images/IconoA.png" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoA.png') }}" height="42" width="42"/>
                        @endif
                         </br>
                        {!!$vista[$key+$i]->Alumno !!}
