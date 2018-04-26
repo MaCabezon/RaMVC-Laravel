@@ -15,7 +15,7 @@ class CreateResumenAlumnosView extends Migration
     {
 
          DB::statement( "CREATE VIEW  resumenalumnos as SELECT ra.idAlumno AS Alumno,ev.nombre AS Evento,ev.grupo   AS Grupo,   if((ra.horas = -(1.00)), 'activado','desactivado')AS Estado,
-       ra.fechaEvento AS fechaEvento FROM resumen_alumnos AS ra JOIN eventos AS ev ON ra.idEvento = ev.id 
+       ra.fechaEvento AS fechaEvento,ra.validado as Validado FROM resumen_alumnos AS ra JOIN eventos AS ev ON ra.idEvento = ev.id 
        WHERE ra.id IN ( SELECT max(r.id) from resumen_alumnos r  where r.idAlumno=ra.idAlumno)GROUP BY ra.idAlumno,ra.idEvento,ra.fechaEvento");
 
     }
