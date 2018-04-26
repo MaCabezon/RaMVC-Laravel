@@ -48,7 +48,7 @@
                          <th colspan="5" scope="col">{!! $vista[$key]->Evento !!}</th>
                        </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="buscar">
                 @php
                 $eventoAct = $vista[$key]->Evento
                 @endphp
