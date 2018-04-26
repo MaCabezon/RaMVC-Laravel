@@ -26,7 +26,7 @@ class HighchartController extends Controller
 	    array_push ($data, $chartActivoMateria, $chartActivoGeneral,$chartActivoBecarios);
 	    
 		
-	   
+	   //return $chartActivoMateria;
 	    return view ('highchart.index' )->withChartarray($data);
 	    								
 	 }
@@ -56,24 +56,58 @@ class HighchartController extends Controller
 		
 		$dataArray = [ ];
 		$estados = [ ];
+		
+		
+		
 
+		foreach ($datos as  $dat) {
 		
-		foreach ( $datos as $estado ){
-			array_push ( $estados, $estado->Estado );
-		}
-		
-		
-		foreach ( $datos as $det ){
-			if($det->Estado=='activado'){
-				array_push ( $activado, ( int ) $det->NumeroAlumnos );
+			
+			if($dat->Estado=='activado'){
+
+				if(isset($estados[count($estados)-1]) && $estados[count($estados)-1]=='activado'){
+					array_push ( $estados, 'desactivado' );
+					array_push ( $desactivado, 0 );
+					array_push ( $estados, 'activado' );
+					array_push ( $activado, ( int ) $dat->NumeroAlumnos );
+
+
+				}else{
+
+					array_push ($estados,$dat->Estado);
+					array_push ( $activado, ( int ) $dat->NumeroAlumnos );
+				}
+
+			}else if($dat->Estado=='desactivado'){
+
+				if(isset($estados[count($estados)-1]) && $estados[count($estados)-1]=='desactivado'){
+					array_push ( $estados, 'activado' );
+					array_push ( $activado, 0 );
+					array_push ( $estados, 'desactivado' );
+					array_push ( $desactivado, ( int ) $dat->NumeroAlumnos );
+
+
+				}else{
+					
+					array_push ($estados,$dat->Estado);
+					array_push ( $desactivado, ( int ) $dat->NumeroAlumnos );
+				}
 			}
 		}
+		
+		
+		/*foreach ( $datos as $det ){
+			if($det->Estado=='activado'){
 
-		foreach ( $datos as $det ){
-			if($det->Estado=='desactivado'){
+				array_push ( $activado, ( int ) $det->NumeroAlumnos );
+
+			} else if($det->Estado=='desactivado'){
+
 				array_push ( $desactivado, ( int ) $det->NumeroAlumnos );
 			}
-		}
+		}*/
+
+		
 		$nombreEvento="";			
 
 		if($token !=false){
