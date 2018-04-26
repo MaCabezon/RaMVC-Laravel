@@ -16,7 +16,7 @@ class CreateResumenAlumnosView extends Migration
 
          DB::statement( "CREATE VIEW  resumenalumnos as select ra.idAlumno AS Alumno,ev.nombre AS Evento,ev.grupo AS Grupo, 
 						 (CASE WHEN ra.horas = -1.00 && ra.validado = '0' THEN 'P.Activado'
-						 WHEN ra.horas > -1.00 && ra.validado = '0' THEN 'P.desactivado'
+						 WHEN ra.horas > -1.00 && ra.validado = '0' THEN 'P.Desactivado'
 						 WHEN ra.horas = -1.00 && ra.validado = '1' THEN 'activado' 
 						 WHEN ra.horas > -1.00 && ra.validado = '1' THEN 'desactivado' END) AS Estado, 
 						 ra.fechaEvento AS fechaEvento,ra.validado AS Validado 
