@@ -19,7 +19,6 @@
         <?php $table=0; ?>
 
         @for ($key = 0; $key < count($vista); $key++)
-
             @if($vista[$key]->Evento!=$eventoAct)
             @if($flagTable)
                     </tbody>
@@ -69,7 +68,12 @@
                         </br>
                        {!!$vista[$key+$i]->Alumno !!}
                      </br>
+
+                     @if ($vista[$key+$i]->Horas)
                      {!!$vista[$key+$i]->Horas !!}
+                     @else
+                     {!!SIN HORAS!!}
+                     @endif
                       </br>
 
                     </td>
