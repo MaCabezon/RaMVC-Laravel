@@ -48,7 +48,7 @@
                          <th colspan="5" scope="col">{!! $vista[$key]->Evento !!}</th>
                        </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="buscar">
                 @php
                 $eventoAct = $vista[$key]->Evento
                 @endphp
@@ -58,20 +58,21 @@
 
                      @for($i=0; $i < 5; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
-                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}">
+                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}" style="float: left;">
                        @if($vista[$key+$i]->Estado=='activado')
-                        <img src="../public/css/images/IconoV.png" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoV.png') }}" height="42" width="42"/>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
-                        <img src="../public/css/images/IconoR.png" height="42" width="42"/>
-                       @elseif($vista[$key+$i]->Estado=='pendiente')
-                        <img src="../public/css/images/IconoA.png" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoR.png') }}" height="42" width="42"/>
+                       @elseif (substr( $vista[$key+$i]->Estado, 0, 1 ) === "P")
+                        <img src="{{ asset('css/images/IconoA.png') }}" height="42" width="42"/>
                        @endif
-                        </br>
+                       <div style="float: right;">
                        {!!$vista[$key+$i]->Alumno !!}
-                     </br>
-                     {!!$vista[$key+$i]->Horas !!}
-                      </br>
-
+                       </br>
+                       {!!$vista[$key+$i]->Horas !!}
+                       </div>
+                        </br>
+                        {!!$vista[$key+$i]->Estado !!}
                     </td>
 
                     @else
