@@ -63,15 +63,13 @@
                         <img src="{{ asset('css/images/IconoV.png') }}" height="42" width="42"/>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
                         <img src="{{ asset('css/images/IconoR.png') }}" height="42" width="42"/>
-                       @elseif($vista[$key+$i]->Estado=='pendiente')
+                       @elseif(strpos($vista[$key+$i]->Estado, 'pendiente'))
                         <img src="{{ asset('css/images/IconoA.png') }}" height="42" width="42"/>
                        @endif
-                        </br>
                        {!!$vista[$key+$i]->Alumno !!}
-                     </br>
-                     {!!$vista[$key+$i]->Horas !!}
-                      </br>
-
+                       {!!$vista[$key+$i]->Horas !!}
+                        </br>
+                        {!!$vista[$key+$i]->Estado !!}
                     </td>
 
                     @else
