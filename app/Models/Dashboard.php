@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string Estado
  * @property date fechaEvento
  */
-class Eventos extends Model
+class Dashboard extends Model
 {
     use SoftDeletes;
 
