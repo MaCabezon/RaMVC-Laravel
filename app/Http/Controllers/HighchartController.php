@@ -14,8 +14,8 @@ class HighchartController extends Controller
 
 	    $chartActivoGeneral = DB::select("SELECT count(Alumno) as NumeroAlumnos,Estado FROM resumenalumnos where fechaEvento=curdate() GROUP by Estado");
 
-	    $chartActivoBecarios = DB::select("SELECT count(ra.Alumno) as NumeroAlumnos,ra.Evento,ra.Estado FROm resumenalumnos ra where ra.Evento='Becas I' or ra.Evento='Becas II' 
-	    	or ra.Evento='Intervencion Agil I' or ra.Evento='Intervencion Agil II' GROUP BY ra.Evento");
+	    $chartActivoBecarios = DB::select("SELECT count(ra.Alumno) as NumeroAlumnos,ra.Evento,ra.Estado FROm resumenalumnos ra where ra.fechaEvento=curdate() and(ra.Evento='Becas I' or ra.Evento='Becas II' 
+	    	or ra.Evento='Intervencion Agil I' or ra.Evento='Intervencion Agil II') GROUP BY ra.Evento,ra.Estado");
 
 
 		$data=[];
@@ -87,14 +87,18 @@ class HighchartController extends Controller
 			}
 		}
 		
-		if(isset($activado)){
-			array_push ( $dataArray,$desactivado);
-
-		}else if(isset($desactivado)){
-			array_push ( $dataArray, $activado);
-
-		}else{
+		
+		if(!empty($activado) && !empty($desactivado)){
 			array_push ( $dataArray, $activado, $desactivado);
+			
+
+		}else if(!empty($desactivado)){
+			array_push ( $dataArray, $desactivado);
+			
+		}else if(!empty($activado)){
+			array_push ( $dataArray, $activado);
+			
+			
 		}
 		
 		
