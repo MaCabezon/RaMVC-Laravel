@@ -24,10 +24,12 @@
     {!! Form::label('horas', 'Horas:') !!}
     {!! Form::number('horas', null, ['class' => 'form-control']) !!}
 </div>
-<div class="form-group col-sm-6">
+<!-- Horas Field -->
+<div class="form-group col-sm-12" >
     {!! Form::label('validado', 'Validado:') !!}
     {!! Form::number('validado', null, ['class' => 'form-control']) !!}
 </div>
+
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12" id="resumen_evento_botones">
