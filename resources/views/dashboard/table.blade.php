@@ -58,16 +58,19 @@
 
                      @for($i=0; $i < 5; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
-                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}">
+                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}" style="float: left;">
                        @if($vista[$key+$i]->Estado=='activado')
                         <img src="{{ asset('css/images/IconoV.png') }}" height="42" width="42"/>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
                         <img src="{{ asset('css/images/IconoR.png') }}" height="42" width="42"/>
-                       @elseif(strpos($vista[$key+$i]->Estado, 'pendiente'))
+                       @elseif (substr( $vista[$key+$i]->Estado, 0, 1 ) === "P")
                         <img src="{{ asset('css/images/IconoA.png') }}" height="42" width="42"/>
                        @endif
+                       <div style="float: right;">
                        {!!$vista[$key+$i]->Alumno !!}
+                       </br>
                        {!!$vista[$key+$i]->Horas !!}
+                       </div>
                         </br>
                         {!!$vista[$key+$i]->Estado !!}
                     </td>
