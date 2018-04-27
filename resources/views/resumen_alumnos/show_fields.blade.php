@@ -1,38 +1,40 @@
 <div id="eventos">
-<div class="col-sm-5" id="contenedor_show">
+<div class="col-sm-4" id="contenedor_show">
     <h1 id="titulos">Resumen Alumnos</h1>
-    <!-- Id Field -->
-    <div class="form-group col-sm-12" id="evento_uno">
-        {!! Form::label('id', 'Id:') !!}
-        <p>{!! $resumenAlumnos->id !!}</p>
-    </div>
+    
 
     <!-- Persona Field -->
-    <div class="form-group col-sm-12" id="evento_dos">
+    <div class="form-group col-sm-6" >
         {!! Form::label('persona', 'Persona:') !!}
-        <p>{!! $resumenAlumnos->persona !!}</p>
+        <p>{!! $resumenAlumnos->idAlumno !!}</p>
     </div>
 
     <!-- Idevento Field -->
-    <div class="form-group col-sm-12" id="evento_tres">
-        {!! Form::label('idEvento', 'Id evento:') !!}
-        <p>{!! $resumenAlumnos->idEvento !!}</p>
+    <div class="form-group col-sm-6" >
+        {!! Form::label('nombre', 'Nombre Evento:') !!}
+        <p>{!! $resumenAlumnos->nombre !!}</p>
     </div>
 
     <!-- Fechaevento Field -->
-    <div class="form-group col-sm-6" id="evento_cuatro">
+    <div class="form-group col-sm-6" >
         {!! Form::label('fechaEvento', 'Fecha evento:') !!}
         <p>{!! $resumenAlumnos->fechaEvento !!}</p>
     </div>
 
     <!-- Horas Field -->
-    <div class="form-group col-sm-6" id="evento_cinco">
+    <div class="form-group col-sm-6" >
         {!! Form::label('horas', 'Horas:') !!}
         <p>{!! $resumenAlumnos->horas !!}</p>
     </div>
+    <!-- Validado Field -->
+    <div class="form-group col-sm-6" >
+        {!! Form::label('validado', 'Validado:') !!}
+        <p>{!! $resumenAlumnos->validado !!}</p>
+    </div>
+    
 
     <!-- Created At Field -->
-    <div class="form-group col-sm-6" id="evento_seis">
+    <div class="form-group col-sm-6" id="evento_siete">
         {!! Form::label('created_at', 'Created At:') !!}
         <p>{!! $resumenAlumnos->created_at !!}</p>
     </div>

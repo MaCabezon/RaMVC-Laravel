@@ -4,8 +4,8 @@
 
 <!-- Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{!! $resumenEventos->id !!}</p>
+    {!! Form::label('nombre', 'Nombre:') !!}
+    <p>{!! $resumenEventos->nombre !!}</p>
 </div>
 
 <!-- Idevento Field -->

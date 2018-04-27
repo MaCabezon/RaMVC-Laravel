@@ -9,7 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
+use Response,DB;
+
 
 class ResumenEventosController extends AppBaseController
 {
@@ -29,8 +30,9 @@ class ResumenEventosController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->resumenEventosRepository->pushCriteria(new RequestCriteria($request));
-        $resumenEventos = $this->resumenEventosRepository->all();
+        // $this->resumenEventosRepository->pushCriteria(new RequestCriteria($request));
+        //$resumenEventos = $this->resumenEventosRepository->all();
+        $resumenEventos=DB::table('resumeneventos')->get();
 
         return view('resumen_eventos.index')
             ->with('resumenEventos', $resumenEventos);
@@ -73,7 +75,8 @@ class ResumenEventosController extends AppBaseController
      */
     public function show($id)
     {
-        $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
+        //$resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
+        $resumenEventos=DB::table('resumeneventos')->find($id);
 
         if (empty($resumenEventos)) {
             Flash::error('Resumen Eventos no encontrado');
