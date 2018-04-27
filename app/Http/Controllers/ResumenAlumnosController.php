@@ -31,8 +31,9 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->resumenAlumnosRepository->pushCriteria(new RequestCriteria($request));
-        $resumenAlumnos = $this->resumenAlumnosRepository->all();
+        //$this->resumenAlumnosRepository->pushCriteria(new RequestCriteria($request));
+        //$resumenAlumnos = $this->resumenAlumnosRepository->all();
+         $resumenAlumnos=DB::table('resumenalum')->get();
 
         return view('resumen_alumnos.index')
             ->with('resumenAlumnos', $resumenAlumnos);
@@ -75,7 +76,8 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function show($id)
     {
-        $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
+        //$resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
+        $resumenAlumnos=DB::table('resumenalum')->find($id);
 
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
