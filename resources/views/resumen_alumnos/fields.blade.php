@@ -16,7 +16,7 @@
 <!-- Fechaevento Field -->
 <div class="form-group col-sm-12" id="evento_tres">
     {!! Form::label('fechaEvento', 'Fecha evento:') !!}
-    {!! Form::date('fechaEvento', null, ['class' => 'form-control']) !!}
+    {!! Form::input('datetime', 'fechaEvento', null, ['class' => 'form-control','step'=>'1']) !!}
 </div>
 
 <!-- Horas Field -->

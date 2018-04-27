@@ -9,7 +9,7 @@
     <table class="table table-responsive" id="resumenEventos-table">
         <thead>
             <tr>
-                <th>Id evento</th>
+                <th>Evento</th>
                 <th>Fecha evento</th>
                 <th>Horas</th>
                 <th colspan="3">Acciones
@@ -20,7 +20,7 @@
         <tbody class='buscar'>
         @foreach($resumenEventos as $resumenEventos)
             <tr>
-                <td>{!! $resumenEventos->idEvento !!}</td>
+                <td>{!! $resumenEventos->nombre !!}</td>
                 <td>{!! $resumenEventos->fechaEvento !!}</td>
                 <td>{!! $resumenEventos->horas !!}</td>
                 <td>
