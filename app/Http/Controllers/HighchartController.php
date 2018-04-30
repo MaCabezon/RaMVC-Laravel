@@ -17,7 +17,7 @@ class HighchartController extends Controller
 	    $chartActivoBecarios = DB::select("SELECT count(ra.Alumno) as NumeroAlumnos,ra.Evento,ra.Estado FROm resumenalumnos ra where ra.fechaEvento=curdate() and(ra.Evento='Becas I' or ra.Evento='Becas II' 
 	    	or ra.Evento='Intervencion Agil I' or ra.Evento='Intervencion Agil II') GROUP BY ra.Evento,ra.Estado");
 
-
+		
 		$data=[];
 		$chartActivoMateria=HighchartController::crearhighchart($chartActivoMateria,true,"Numero de personas actuales en Clase");
 		$chartActivoGeneral=HighchartController::crearhighchart($chartActivoGeneral,false,"Numero de personas actuales en la Universidad");
