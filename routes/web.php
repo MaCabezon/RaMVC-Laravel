@@ -33,7 +33,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
 Route::post('/feedback',  function () {
-	
+
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
@@ -41,3 +41,4 @@ Route::post('/feedback',  function () {
 
 Route::get('/graficas', 'HighchartController@highchart');
 Route::resource('dashboard', 'DashboardController');
+Route::resource('dashboardTv', 'DashboardTvController');
