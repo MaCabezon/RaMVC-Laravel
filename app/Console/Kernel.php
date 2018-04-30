@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Mail\Reporte as ReporteEmail;
+use Mail;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,7 +30,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function () {
-           
+
             Mail::to('lazaro.hernandez@uneatlantico.es')->send(new ReporteEmail);
             Mail::to('juan.tortajada@uneatlantico.es')->send(new ReporteEmail);
             Mail::to('sara.berbil@alumnos.uneatlantico.es')->send(new ReporteEmail);
