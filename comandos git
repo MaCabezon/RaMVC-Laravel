@@ -34,3 +34,7 @@ git push -u origin --tags
 Fallo "Unable to access 'https......'"
 
 git config --global http.sslVerify false
+
+
+Command mysql remote
+mysql -h 172.22.1.8 -u usuario -p
