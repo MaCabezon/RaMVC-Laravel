@@ -10,7 +10,7 @@
         <thead>
             <tr>
             <th>Persona</th>
-            <th>Id Evento</th>
+            <th>Evento</th>
             <th>Fecha</th>
             <th>Tipo</th>
             <th>Validado</th>
@@ -23,7 +23,7 @@
         @foreach($transacciones as $transacciones)
             <tr>
                 <td>{!! $transacciones->idPersona !!}</td>
-                <td>{!! $transacciones->idEvento !!}</td>
+                <td>{!! $transacciones->nombre !!}</td>
                 <td>{!! $transacciones->fechaEvento !!}</td>
                 <td>{!! $transacciones->tipo !!}</td>
                 <td>{!! $transacciones->validado !!}</td>
