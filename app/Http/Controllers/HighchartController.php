@@ -10,11 +10,11 @@ class HighchartController extends Controller
 
 	public function highchart()
 	{
-	    $chartActivoMateria = DB::select("SELECT count(Alumno) as NumeroAlumnos,Evento,Estado FROM resumenalumnos where fechaEvento=curdate() GROUP by Evento,Estado");
+	    $chartActivoMateria = DB::select("SELECT count(Alumno) as NumeroAlumnos,Evento,Estado FROM resumenalumnos where fechaEvento=curdate() and (Estado<>'P.Activado' or Estado<>'P.Desactivado') GROUP by Evento,Estado");
 
-	    $chartActivoGeneral = DB::select("SELECT count(Alumno) as NumeroAlumnos,Estado FROM resumenalumnos where fechaEvento=curdate() GROUP by Estado");
+	    $chartActivoGeneral = DB::select("SELECT count(Alumno) as NumeroAlumnos,Estado FROM resumenalumnos where fechaEvento=curdate() and (Estado<>'P.Activado' or Estado<>'P.Desactivado') GROUP by Estado");
 
-	    $chartActivoBecarios = DB::select("SELECT count(ra.Alumno) as NumeroAlumnos,ra.Evento,ra.Estado FROm resumenalumnos ra where ra.fechaEvento=curdate() and(ra.Evento='Becas I' or ra.Evento='Becas II' 
+	    $chartActivoBecarios = DB::select("SELECT count(ra.Alumno) as NumeroAlumnos,ra.Evento,ra.Estado FROm resumenalumnos ra where ra.fechaEvento=curdate() and (Estado<>'P.Activado' or Estado<>'P.Desactivado') and(ra.Evento='Becas I' or ra.Evento='Becas II' 
 	    	or ra.Evento='Intervencion Agil I' or ra.Evento='Intervencion Agil II') GROUP BY ra.Evento,ra.Estado");
 
 		
