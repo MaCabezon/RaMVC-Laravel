@@ -3,8 +3,8 @@
          <hr/>
 </div>
 
-    <div class="container" >
-        <div class="row">
+   <!-- <div class="container" >-->
+        <!--<div class="row">-->
 
         <!-- Variable que guarda el evento -->
         @php
@@ -19,6 +19,7 @@
         <?php $table=0; ?>
 
         @for ($key = 0; $key < count($vista); $key++)
+
             @if($vista[$key]->Evento!=$eventoAct)
             @if($flagTable)
                     </tbody>
@@ -36,18 +37,18 @@
 
             <?php $table++; ?>
             @if($table%2!=0)
-              <div class="row" style="width: 100%; float:left;">
+              <div  class="col-lg-12" id="contenedor_materia" >
             @endif
 
             <!-- Si falla poner a 45% -->
-              <table class="table" style="width: 50%; float: left;">
+              <table class="col-lg-6 offset-lg-2" id="tabla_asistencia" >
 
                   <thead class="thead-dark">
                       <tr>
                          <th colspan="5" scope="col">{!! $vista[$key]->Evento !!}</th>
                        </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="buscar">
                 @php
                 $eventoAct = $vista[$key]->Evento
                 @endphp
@@ -57,25 +58,21 @@
 
                      @for($i=0; $i < 5; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
-                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}">
+                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}" style="float: left; border:inset 0pt;">
                        @if($vista[$key+$i]->Estado=='activado')
-                        <img src="{{ asset('css/images/IconoV.png') }}" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoV.png') }}" height="30px" width="30px"/>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
-                        <img src="{{ asset('css/images/IconoR.png') }}" height="42" width="42"/>
-                       @elseif($vista[$key+$i]->Estado=='pendiente')
-                        <img src="{{ asset('css/images/IconoA.png') }}" height="42" width="42"/>
+                        <img src="{{ asset('css/images/IconoR.png') }}" height="30px" width="30px"/>
+                       @elseif (substr( $vista[$key+$i]->Estado, 0, 1 ) === "P")
+                        <img src="{{ asset('css/images/IconoA.png') }}" height="30px" width="30px"/>
                        @endif
-                        </br>
+                       <div style="float: right;">
                        {!!$vista[$key+$i]->Alumno !!}
-                     </br>
-
-                     @if ($vista[$key+$i]->Horas)
-                     {!!$vista[$key+$i]->Horas !!}
-                     @else
-                     {!!SIN HORAS!!}
-                     @endif
-                      </br>
-
+                       </br>
+                       {!!$vista[$key+$i]->Horas !!}
+                       </div>
+                        </br>
+                        {!!$vista[$key+$i]->Estado !!}
                     </td>
 
                     @else
@@ -92,6 +89,6 @@
 
 
 </table>
-</div>
+<!--</div>-->
 
-     </div>
+    <!-- </div>-->
