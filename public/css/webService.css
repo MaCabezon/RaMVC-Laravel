@@ -234,5 +234,28 @@ width: 100% !important;
 padding-left: 80% !important;
 padding-right: 0% !important;
 padding-bottom: 5% !important;
+}
+
+
+/*Dashboard*/
+
+#contenedor_dashboard{
+padding-right: 1% !important;
+padding-left: 1% !important;
+}
+
+#contenedor_materia{
+	font-size: 90%;
+	
+	
+	padding-right: 5% !important; 
+}
+
+#tabla_asistencia{
 
 }
+
+#nombre{
+	padding-left: 6% !important;
+}
+
