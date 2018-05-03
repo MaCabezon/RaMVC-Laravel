@@ -37,14 +37,14 @@
               <div  class="col-lg-12" id="contenedor_materia">
             @endif
 
-              <table class="col-lg-4" id="tabla_asistencia" style="border:inset 0pt; float: left;">
+              <table class="col-lg-2" id="tabla_asistencia" style="border:inset 0pt; float: left; background-color: #0087FF !important">
 
                   <thead class="thead-dark">
                       <tr>
                          <th colspan="6" scope="col" style="border:inset 0pt;">{!! $vista[$key]->Evento !!}</th>
                        </tr>
                   </thead>
-                  <tbody class="buscar">
+                  <tbody class="buscar" style="background-color: #0087FF !important;">
                 @php
                 $eventoAct = $vista[$key]->Evento
                 @endphp
@@ -54,7 +54,7 @@
                      <!--Color azul == #0087FF -->
                      @for($i=0; $i < 6; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
-                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}"  style="border:inset 0pt; background-color: #0087FF !important;">
+                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}" style="border:inset 0pt;">
                        @if($vista[$key+$i]->Estado=='activado')
                         <div class="verde col-lg-2"></div>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
