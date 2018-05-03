@@ -52,7 +52,7 @@
 
                    <tr>
 
-                     @for($i=0; $i < 5; $i++)
+                     @for($i=0; $i < 4; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
                      <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}" style="float: left; border:inset 0pt;">
                        @if($vista[$key+$i]->Estado=='activado')

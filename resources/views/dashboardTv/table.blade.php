@@ -34,14 +34,14 @@
 
             <?php $table++; ?>
             @if($table%2==0)
-              <div  class="col-lg-12" id="contenedor_materia" >
+              <div  class="col-lg-12 offset-lg-2" id="contenedor_materia" >
             @endif
 
-              <table class="col-lg-2.5 offset-lg-2" id="tabla_asistencia" >
+              <table class="col-lg-2.5 offset-lg-2" id="tabla_asistencia" style="border:inset 0pt;">
 
                   <thead class="thead-dark">
                       <tr>
-                         <th colspan="6" scope="col">{!! $vista[$key]->Evento !!}</th>
+                         <th colspan="6" scope="col" style="border:inset 0pt;">{!! $vista[$key]->Evento !!}</th>
                        </tr>
                   </thead>
                   <tbody class="buscar">
@@ -50,11 +50,11 @@
                 @endphp
               @endif
 
-                   <tr>
-
+                   <tr class="thead-dark">
+                     <!--Color azul == #F5F8FA -->
                      @for($i=0; $i < 6; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
-                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}"  style="float: left; border:inset 0pt;">
+                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}"  style="border:inset 0pt; background-color: #F5F8FA !important;">
                        @if($vista[$key+$i]->Estado=='activado')
                         <div class="verde col-lg-2"></div>
                        @elseif($vista[$key+$i]->Estado=='desactivado')
