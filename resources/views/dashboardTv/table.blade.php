@@ -33,11 +33,11 @@
             @endphp
 
             <?php $table++; ?>
-            @if($table%2==0)
-              <div  class="col-lg-12 offset-lg-2" id="contenedor_materia" >
+            @if($table==6)
+              <div  class="col-lg-12" id="contenedor_materia">
             @endif
 
-              <table class="col-lg-2.5 offset-lg-2" id="tabla_asistencia" style="border:inset 0pt;">
+              <table class="col-lg-4" id="tabla_asistencia" style="border:inset 0pt; float: left;">
 
                   <thead class="thead-dark">
                       <tr>
@@ -50,11 +50,11 @@
                 @endphp
               @endif
 
-                   <tr class="thead-dark">
-                     <!--Color azul == #F5F8FA -->
+                   <tr>
+                     <!--Color azul == #0087FF -->
                      @for($i=0; $i < 6; $i++)
                       @if(isset($vista[$key+$i]) && $vista[$key+$i]->Evento==$eventoAct)
-                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}"  style="border:inset 0pt; background-color: #F5F8FA !important;">
+                     <td id="{{$vista[$key+$i]->Alumno}}{{$vista[$key+$i]->Evento}}"  style="border:inset 0pt; background-color: #0087FF !important;">
                        @if($vista[$key+$i]->Estado=='activado')
                         <div class="verde col-lg-2"></div>
                        @elseif($vista[$key+$i]->Estado=='desactivado')

@@ -30,12 +30,22 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function () {
+
             Mail::to('lazaro.hernandez@uneatlantico.es')->send(new ReporteEmail);
+            //Mail::to('abraham.fernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('juan.tortajada@uneatlantico.es')->send(new ReporteEmail);
             Mail::to('sara.berbil@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('loyda.alas@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('larisa.hernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
-        })->daily();
+
+        })->everyMinute()
+        ->before(function()
+        {
+        	echo "Ya enviare los correos...";
+        })
+        ->after(function(){
+        	echo "He terminado de enviar las tareas";
+        });
     }
 
     /**
