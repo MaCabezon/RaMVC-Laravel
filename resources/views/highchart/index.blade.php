@@ -24,7 +24,7 @@ $(function() {
     <div class="row">
         <div class="col-md-5 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Asistenica por Clase</div>
+                <div class="panel-heading">Asistencia por Clase</div>
                 <div class="panel-body">
                     <div id="container"></div>
                 </div>
@@ -32,7 +32,7 @@ $(function() {
         </div>
         <div class="col-md-5 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Asistenica Global</div>
+                <div class="panel-heading">Asistencia Global</div>
                 <div class="panel-body">
                     <div id="container2"></div>
                 </div>
@@ -40,7 +40,7 @@ $(function() {
         </div>
         <div class="col-md-5 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Asistenica en Beca</div>
+                <div class="panel-heading">Asistencia en Beca</div>
                 <div class="panel-body">
                     <div id="container3"></div>
                 </div>

@@ -74,6 +74,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="graficas"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
+        <li><a href="dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
          @auth
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
@@ -81,6 +82,7 @@
             <li><a href="eventos">Eventos</a></li>
             <li><a href="resumenAlumnos">Resumen Alumnos</a></li>
             <li><a href="resumenEventos">Resumen Eventos</a></li>
+            <li><a href="transacciones">Transacciones</a></li>
             <!--<li role="separator" class="divider"></li>
             <li><a href="Administracion/Registros">Registros</a></li>-->
           </ul>

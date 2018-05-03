@@ -24,6 +24,7 @@ Route::resource('eventos', 'EventosController');
 Route::resource('transacciones', 'TransaccionesController');
 Route::resource('resumenAlumnos', 'ResumenAlumnosController');
 Route::resource('resumenEventos', 'ResumenEventosController');
+<<<<<<< HEAD
 Route::resource('dashboard', 'DashboardController');
 Route::resource('dashboardTv', 'DashboardTvController');
 //quedan por comprobar
@@ -38,6 +39,11 @@ Route::resource('dashboardSumalla', 'DashboardMartiController');
 
 
 
+=======
+Route::get('/import', 'ImportController@import');
+//quedan por comprobar
+Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+>>>>>>> ac1e5755652aa1d38638165cc047e460b016b8fa
 });
 
 Auth::routes();
@@ -49,5 +55,6 @@ Route::post('/feedback',  function () {
  });
 
 
-Route::get('/import', 'ImportController@import');
+
 Route::get('/graficas', 'HighchartController@highchart');
+Route::resource('dashboard', 'DashboardController');
