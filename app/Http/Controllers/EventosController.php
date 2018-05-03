@@ -32,7 +32,7 @@ class EventosController extends AppBaseController
     public function index(Request $request)
     {
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
-        $eventos = $this->eventosRepository->orderBy('nombre', 'ASC')->all();
+        $eventos = $this->eventosRepository->where()->orderBy('nombre', 'ASC')->all();
 
         return view('eventos.index')
             ->with('eventos', $eventos);

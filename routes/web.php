@@ -20,20 +20,34 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
 
 
-Route::resource('eventos', 'EventosController');
-Route::resource('transacciones', 'TransaccionesController');
-Route::resource('resumenAlumnos', 'ResumenAlumnosController');
-Route::resource('resumenEventos', 'ResumenEventosController');
-Route::get('/import', 'ImportController@import');
-//quedan por comprobar
-Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+  Route::resource('eventos', 'EventosController');
+  Route::resource('transacciones', 'TransaccionesController');
+  Route::resource('resumenAlumnos', 'ResumenAlumnosController');
+  Route::resource('resumenEventos', 'ResumenEventosController');
+  Route::resource('dashboard', 'DashboardController');
+  Route::resource('dashboardTv', 'DashboardTvController');
+  //quedan por comprobar
+  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+
+
+  //Rutas para Maria Carla Marti (PRUEBAS)
+  Route::resource('dashboardMarti', 'DashboardMartiController');
+
+
+  //Rutas para Sandra Sumalla (PRUEBAS)
+  Route::resource('dashboardSumalla', 'DashboardMartiController');
+
+
+  Route::get('/import', 'ImportController@import');
+
+
 });
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
 Route::post('/feedback',  function () {
-	
+
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
