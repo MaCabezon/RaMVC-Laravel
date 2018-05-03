@@ -10,7 +10,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('dashboard.table')
+                    @include('dashboardTv.table')
             </div>
         </div>
         <div class="text-center">

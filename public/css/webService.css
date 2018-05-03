@@ -18,7 +18,7 @@
 	color: #fefdfd;
 }
 
-#logo{		
+#logo{
 	background-image: url(images/logo3.gif);
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -110,7 +110,7 @@ table,th,td {
 }
 
 .encabezado .tabletitles{
-	text-align: center; 
+	text-align: center;
 
 }
 
@@ -131,7 +131,7 @@ table,th,td {
 	.offset-9{margin-left:75%;}
 	.offset-10{margin-left:83.33%;}
 	.offset-11{margin-left:91.66%;}
-}	 
+}
 
 
 /*Eventos*/
@@ -246,9 +246,9 @@ padding-left: 1% !important;
 
 #contenedor_materia{
 	font-size: 90%;
-	
-	
-	padding-right: 5% !important; 
+
+
+	padding-right: 5% !important;
 }
 
 #tabla_asistencia{
@@ -259,3 +259,26 @@ padding-left: 1% !important;
 	padding-left: 6% !important;
 }
 
+.verde{
+	background-image: url(images/IconoV.png);
+	background-size: contain;
+	background-position: center;
+	height: 30px;
+	width: 30px;
+}
+
+.rojo{
+	background-image: url(images/IconoR.png);
+	background-size: contain;
+	background-position: center;
+	height: 30px;
+	width: 30px;
+}
+
+.amarillo{
+	background-image: url(images/IconoA.png);
+	background-size: contain;
+	background-position: center;
+	height: 30px;
+	width: 30px;
+}

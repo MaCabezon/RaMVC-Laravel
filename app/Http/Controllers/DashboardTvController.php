@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dashboard;
+use App\Models\DashboardTv;
 use Illuminate\Http\Request;
 use DB;
 
-class DashboardController extends Controller
+class DashboardTvController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //$selSql = 'SELECT resumenalumnos.*, resumen_alumnos.horas FROM resumenalumnos INNER JOIN resumen_alumnos ON resumen_alumnos.idAlumno = resumenalumnos.Alumno AND resumen_alumnos.idEvento = resumenalumnos.Evento AND resumen_alumnos.fechaEvento = resumenalumnos.fechaEvento WHERE resumenalumnos.Evento LIKE "Becas%" OR resumenalumnos.Evento LIKE "Intervencion Agil%" ORDER BY Evento';
-        $selSql = 'SELECT *, (SELECT horas FROM reporte WHERE reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento) as Horas FROM resumenalumnos WHERE resumenalumnos.Evento LIKE 'Becas%' OR resumenalumnos.Evento LIKE 'Intervencion%' ORDER BY Evento';
-        $vista = DB::select($selSql);
+        $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reporte.Evento LIKE "Becas%" OR reporte.Evento LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
         return view('dashboardTv.index')->with('vista',$vista);
     }
 
