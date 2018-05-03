@@ -22,7 +22,7 @@
 <!-- Horas Field -->
 <div class="form-group col-sm-12" id="evento_cuatro">
     {!! Form::label('horas', 'Horas:') !!}
-    {!! Form::number('horas', null, ['class' => 'form-control']) !!}
+    {!! Form::number('horas', null, ['class' => 'form-control','step'=>'.01']) !!}
 </div>
 <!-- Horas Field -->
 <div class="form-group col-sm-12" >
