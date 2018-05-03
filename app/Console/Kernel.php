@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Mail\Reporte as ReporteEmail;
+use Mail;
 
 class Kernel extends ConsoleKernel
 {

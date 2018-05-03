@@ -156,15 +156,16 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function destroy($id)
     {
-        $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
-
+        //$resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
+        $resumenAlumnos=DB::table('resumen_alumnos')->find($id);
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
 
             return redirect(route('resumenAlumnos.index'));
         }
 
-        $this->resumenAlumnosRepository->delete($id);
+        //$this->resumenAlumnosRepository->delete($id);
+        DB::table('resumen_alumnos')->delete($id);
 
         Flash::success('Resumen Alumnos borrado exitosamente.');
 

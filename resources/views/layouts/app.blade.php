@@ -82,6 +82,7 @@
             <li><a href="eventos">Eventos</a></li>
             <li><a href="resumenAlumnos">Resumen Alumnos</a></li>
             <li><a href="resumenEventos">Resumen Eventos</a></li>
+            <li><a href="transacciones">Transacciones</a></li>
             <!--<li role="separator" class="divider"></li>
             <li><a href="Administracion/Registros">Registros</a></li>-->
           </ul>
