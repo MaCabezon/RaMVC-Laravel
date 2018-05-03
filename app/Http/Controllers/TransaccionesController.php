@@ -30,8 +30,9 @@ class TransaccionesController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->transaccionesRepository->pushCriteria(new RequestCriteria($request));
-        $transacciones = $this->transaccionesRepository->all();
+       // $this->transaccionesRepository->pushCriteria(new RequestCriteria($request));
+        //$transacciones = $this->transaccionesRepository->all();
+        $transacciones=DB::table('transaccionesView')->get();
 
         return view('transacciones.index')
             ->with('transacciones', $transacciones);
@@ -221,7 +222,8 @@ class TransaccionesController extends AppBaseController
      */
     public function destroy($id)
     {
-        $transacciones = $this->transaccionesRepository->findWithoutFail($id);
+        //$transacciones = $this->transaccionesRepository->findWithoutFail($id);
+        $transacciones=DB::table('transacciones')->find($id);
 
         if (empty($transacciones)) {
             Flash::error('Transacciones not found');
@@ -229,7 +231,8 @@ class TransaccionesController extends AppBaseController
             return redirect(route('transacciones.index'));
         }
 
-        $this->transaccionesRepository->delete($id);
+        //$this->transaccionesRepository->delete($id);
+        DB::table('transacciones')->delete($id);
 
         Flash::success('Transacciones deleted successfully.');
 
