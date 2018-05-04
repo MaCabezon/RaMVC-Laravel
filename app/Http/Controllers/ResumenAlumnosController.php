@@ -29,11 +29,15 @@ class ResumenAlumnosController extends AppBaseController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request, $idPersona)
+    public function index(Request $request)
     {
-        //$this->resumenAlumnosRepository->pushCriteria(new RequestCriteria($request));
-        //$resumenAlumnos = $this->resumenAlumnosRepository->all();
-         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',$idPersona)->get();
+      if (\Auth::user()->type == 'admin') {
+        $resumenAlumnos=DB::table('resumenalum')->get();
+      } else if (\Auth::user()->type == 'member') {
+        $resumenAlumnos=DB::table('resumenalum')->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->get();
+      } else if (\Auth::user()->type == 'user') {
+        $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',\Auth::user()->name)->get();
+      }
 
         return view('resumen_alumnos.index')
             ->with('resumenAlumnos', $resumenAlumnos);

@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Database\Seeder;
 use App\User;
+
 class UserTableSeeder extends Seeder
 {
 
@@ -8,9 +9,10 @@ class UserTableSeeder extends Seeder
 	{
 	    DB::table('users')->delete();
 	    User::create(array(
-	        'name'     => 'Administrador',	        
+	        'name'     => 'lazaro.hernandez',
 	        'email'    => 'rap@uneatlantico.es',
 	        'password' => Hash::make('admin'),
+					'type'     => 'admin',
 	    ));
 	}
 	//composer dump-autoload
