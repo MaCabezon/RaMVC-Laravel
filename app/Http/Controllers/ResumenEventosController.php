@@ -28,11 +28,11 @@ class ResumenEventosController extends AppBaseController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $idPersona)
     {
         // $this->resumenEventosRepository->pushCriteria(new RequestCriteria($request));
         //$resumenEventos = $this->resumenEventosRepository->all();
-        $resumenEventos=DB::table('resumeneventos')->get();
+        $resumenEventos=DB::table('resumeneventos')->where('nombreProfesor',$idPersona)->get();
 
         return view('resumen_eventos.index')
             ->with('resumenEventos', $resumenEventos);

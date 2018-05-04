@@ -29,11 +29,11 @@ class ResumenAlumnosController extends AppBaseController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $idPersona)
     {
         //$this->resumenAlumnosRepository->pushCriteria(new RequestCriteria($request));
         //$resumenAlumnos = $this->resumenAlumnosRepository->all();
-         $resumenAlumnos=DB::table('resumenalum')->get();
+         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',$idPersona)->get();
 
         return view('resumen_alumnos.index')
             ->with('resumenAlumnos', $resumenAlumnos);

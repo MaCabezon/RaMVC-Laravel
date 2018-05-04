@@ -30,18 +30,50 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
 
 
-  //Rutas para Maria Carla Marti (PRUEBAS)
-  Route::resource('dashboardMarti', 'DashboardMartiController');
-
-
-  //Rutas para Sandra Sumalla (PRUEBAS)
-  Route::resource('dashboardSumalla', 'DashboardMartiController');
-
-
-  Route::get('/import', 'ImportController@import');
 
 
 });
+
+// Grupo de administradores
+Route::group(['middleware' => 'admin'], function () {
+  Route::resource('eventos', 'EventosController',['parameters' => [
+      'admin' => Auth::user()->email
+    ]]);
+  Route::resource('transacciones', 'TransaccionesController',['parameters' => [
+      'admin' => Auth::user()->email
+    ]]);
+  Route::resource('resumenAlumnos', 'ResumenAlumnosController',['parameters' => [
+      'admin' => Auth::user()->email
+    ]]);
+  Route::resource('resumenEventos', 'ResumenEventosController',['parameters' => [
+      'admin' => Auth::user()->email
+    ]]);
+  Route::resource('dashboard', 'DashboardController',['parameters' => [
+      'admin' => Auth::user()->email
+    ]]);
+
+
+  Route::resource('dashboardTv', 'DashboardTvController');
+  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+  Route::get('/import', 'ImportController@import');
+});
+
+// Grupo gestores
+Route::group(['middleware' => 'member'], function () {
+  Route::resource('dashboardTv', 'DashboardTvController');
+  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+});
+
+// Grupo de usuario
+Route::group(['middleware' => 'user'], function () {
+  Route::resource('resumenAlumnos', 'ResumenAlumnosController',['parameters' => [
+      'user' => Auth::user()->email
+    ]]);
+
+
+  Route::resource('dashboardTv', 'DashboardTvController');
+});
+
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
