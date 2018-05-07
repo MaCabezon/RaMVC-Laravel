@@ -61,8 +61,9 @@ if (isset($_POST['login']))
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                  <!--          <p>Not a member? <a href="#">Sign Up</a></p>
-                            <p>Forgot <a href="#">Password?</a></p>-->
+                            <a class="btn btn-block btn-social btn-google" href="{{ route('redirectSocialLite', ['provider' => 'google']) }}">
+                                <i class="btn btn-lg waves-effect waves-light btn-block googles"></i> Iniciar sesión con correo Google
+                            </a>
                         </div>
                     </div>
 

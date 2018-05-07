@@ -46,11 +46,10 @@
                                           </span>
                                       @endif
                                 </div>
-                                <!--            <div class="checkbox">
-                                              <label><input type="checkbox" value="" checked>Remember me</label>
-                                            </div>-->
                                 <button type="submit" class="btn btn-success btn-block" name="login"><span class="glyphicon glyphicon-off"></span>Login</button>
-
+                                <a class="btn btn-block btn-social btn-google" href="{{ route('redirectSocialLite', ['provider' => 'google']) }}">
+                                    <i class="btn btn-lg waves-effect waves-light btn-block googles"></i> Iniciar sesión con correo Google
+                                </a>
                             </form>
                         </div>
 
