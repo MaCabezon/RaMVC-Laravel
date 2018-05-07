@@ -34,6 +34,7 @@ class HomeController extends Controller
               
         return view('home')
              ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
+
     }
 }
 
