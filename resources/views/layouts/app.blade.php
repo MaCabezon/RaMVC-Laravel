@@ -93,7 +93,7 @@
         @guest
           <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in
           </a></li>
-          @else
+        @endguest
          <li>
            <p>Bienvenido,
 
@@ -110,7 +110,7 @@
                     @csrf
             </form>
              </li>
-             @endguest
+      @endauth
      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
