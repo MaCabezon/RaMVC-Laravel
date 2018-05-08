@@ -4,7 +4,7 @@ use App\Entities\BaseEntity;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
-class SocialEntity{
+class SocialEntity extends Model{
 
     protected $table = 'social_logins';
 
@@ -13,4 +13,3 @@ class SocialEntity{
         return $this->belongsTo(User::class);
     }
 }
- ?>

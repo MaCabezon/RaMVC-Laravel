@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src=" https://code.highcharts.com/modules/exporting.js"></script>
-    
-    
-   
 
-   
+
+
+
+
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script>
 
@@ -58,13 +58,14 @@
         <span class="icon-bar"></span>
       </button>
      <a id="logo" class="navbar-brand col-lg-1" href="home" style="margin-bottom: 10px; margin-top: 10px;"></a>
+
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse col-lg-11" id="navdos" style="padding-left: 0px;margin-top: 20px;">
       <ul class="nav navbar-nav">
          @auth
-        <li cl
+
         <form class="navbar-form navbar-left">
           <div class="form-group">
             <input id="filtrar"  type="text" class="form-control" placeholder="Introduzca dato a buscar...">
@@ -94,6 +95,14 @@
           </a></li>
           @else
          <li>
+           <p>Bienvenido,
+
+             @if (stristr($user->email, 'uneatlantico') === TRUE)
+                {!! stristr($user->email, '@', true) !!}
+             @elseif (stristr($user->email, 'alumnos') === TRUE && (stristr($user->email, 'sara.berbil') === TRUE || stristr($user->email, 'abraham.fernandez') === TRUE))
+                {!! stristr($user->email, '@', true) !!}
+            @endif
+           </p>
             <a  href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
              <span class="glyphicon glyphicon-log-out"></span> Log Out
            </a>

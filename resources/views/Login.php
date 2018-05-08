@@ -52,19 +52,16 @@ if (isset($_POST['login']))
                                     <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
                                     <input type="password" class="form-control" id="psw" name="password" placeholder="Enter password">
                                 </div>
-                                <!--            <div class="checkbox">
-                                              <label><input type="checkbox" value="" checked>Remember me</label>
-                                            </div>-->
                                 <button type="submit" class="btn btn-success btn-block" name="login"><span class="glyphicon glyphicon-off"></span> Login</button>
-
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                            <a class="btn btn-block btn-social btn-google" href="{{ route('redirectSocialLite', ['provider' => 'google']) }}">
-                                <i class="btn btn-lg waves-effect waves-light btn-block googles"></i> Iniciar sesión con correo Google
-                            </a>
-                        </div>
+                            <div class="row">
+                              <div class="col-md-6 col-sm-6 col-xs-6">
+                                  <a href="{{ route('handleSocialLite', ['provider' => 'google']) }}" class="btn btn-lg waves-effect waves-light btn-block google">Google+</a>
+                              </div>
+                            </div>
                     </div>
 
                 </div>
@@ -73,9 +70,7 @@ if (isset($_POST['login']))
 
         <script>
             $(document).ready(function () {
-
                 $("#myModal").modal();
-
             });
         </script>
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 
 use App\User;
+use DB;
 
 
 class SocialController extends Controller
@@ -22,9 +23,10 @@ class SocialController extends Controller
                 ->with('error','No such provider');
         }
         return Socialite::driver( $provider )->redirect();
-
     }
-//Recibe el login exitoso del proveedor, crea el usuario si no existe y si existe actualiza valores, también guarda el id de usuario del proveedor.
+
+//Recibe el login exitoso del proveedor, crea el usuario si no existe y si existe actualiza valores,
+//también guarda el id de usuario del proveedor.
     public function getSocialHandle($provider)
     {
         if (Input::get('denied') != '')
@@ -44,8 +46,8 @@ class SocialController extends Controller
 
         $userInDB->save();
         //Guarda el id oauth del proveedor de Oauth
-        $sameSocialId = SocialEntity::
-            where('social_id', '=', $socialUser->id)
+        //$sameSocialId = new SocialEntity;
+        DB::table('social_logins')->where('social_id', '=', $socialUser->id)
             ->where('provider', '=', $provider )
             ->get()
             ->first();
@@ -55,9 +57,11 @@ class SocialController extends Controller
             $socialData->social_id = $socialUser->id;
             $socialData->provider= $provider;
             $userInDB->social()->save($socialData);
+        } else {
+          $userInDB = null;
         }
         auth()->login($userInDB, true);//Autentica al usuario
-        return redirect('/');//Redirecciona al home
+        return view('home')->with('user', $userInDB);//Redirecciona al home
     }
 }
 ?>

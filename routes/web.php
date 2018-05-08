@@ -32,9 +32,6 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   //quedan por comprobar
   Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel'); // RESTRINGIR A MEMBER Y ADMIN
 
-
-
-
 });
 
 
@@ -54,3 +51,4 @@ Route::resource('dashboardTv', 'DashboardTvController');
 //Login Google
 Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedirect')->name('redirectSocialLite');
 Route::get('/social/handle/{provider}', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
+Route::get('/login/{provider}/callback', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
