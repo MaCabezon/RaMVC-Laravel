@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Alumno;
-use DB;
+use DB, Session;
 
 class HomeController extends Controller
 {
@@ -25,15 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $alumnosActivosBecasI = DB::table('resumenalumnos')->select(DB::raw("count(Alumno) as total"))->where('Estado', 'desactivado')->where('Evento','Estrategias de Aprendizaje y Competencias en TIC')->get()->toArray();
-            
+        $message=DB::table('resumen_alumnos')->where('validado', '0')->first();
         
-        $alumnosActivosBecasI=array_column($alumnosActivosBecasI, 'total');       
+        if ($message!="") {
+            Session::flash('message', 'Hay alumnos pendientes.'); 
+        }
+              
        
        
               
-        return view('home')
-             ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
+        return view('home');
+            // ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
 
     }
 }
