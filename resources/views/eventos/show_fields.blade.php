@@ -2,43 +2,43 @@
     <div class="col-sm-5" id="contenedor_show">
      <h1 id="titulos">Eventos</h1>
      <!-- Id Field -->
-     <div class="form-group col-sm-6" id="evento_uno">
+     <div class="eventoVistas form-group col-sm-6">
         {!! Form::label('id', 'Id:') !!}
         <p>{!! $eventos->id !!}</p>
     </div>
 
     <!-- Abreviatura Field -->
-    <div class="form-group col-sm-6" >
+    <div class="eventoVistas form-group col-sm-6" >
         {!! Form::label('abreviatura', 'Abreviatura:') !!}
         <p>{!! $eventos->abreviatura !!}</p>
     </div>
 
     <!-- Nombre Field -->
-    <div class="form-group col-sm-12" id="evento_tres">
+    <div class="eventoVistas form-group col-sm-12" >
         {!! Form::label('nombre', 'Nombre:') !!}
         <p>{!! $eventos->nombre !!}</p>
     </div>
 
     <!-- Grupo Field -->
-    <div class="form-group col-sm-6" id="evento_cuatro">
+    <div class="eventoVistas form-group col-sm-6">
         {!! Form::label('grupo', 'Grupo:') !!}
         <p>{!! $eventos->grupo !!}</p>
     </div>
 
     <!-- Nombreprofesor Field -->
-    <div class="form-group col-sm-6" >
+    <div class="eventoVistas form-group col-sm-6" >
         {!! Form::label('nombreProfesor', 'Nombre profesor:') !!}
         <p>{!! $eventos->nombreProfesor !!}</p>
     </div>
 
     <!-- Created At Field -->
-    <div class="form-group col-sm-6" id="evento_seis">
+    <div class="eventoVistas form-group col-sm-6">
         {!! Form::label('created_at', 'Created At:') !!}
         <p>{!! $eventos->created_at !!}</p>
     </div>
 
     <!-- Updated At Field -->
-    <div class="form-group col-sm-6" >
+    <div class="eventoVistas form-group col-sm-6" >
         {!! Form::label('updated_at', 'Updated At:') !!}
         <p>{!! $eventos->updated_at !!}</p>
     </div>

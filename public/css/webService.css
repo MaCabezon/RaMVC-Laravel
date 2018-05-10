@@ -182,36 +182,8 @@ margin: 0% !important;
 margin-bottom: 2% !important;
 }
 
-#evento_uno{
+.eventoVistas{
 float:left !important;
-}
-
-#evento_dos{
-clear: left !important;
-}
-
-#evento_tres{
-clear:left !important;
-}
-
-#evento_cuatro{
-clear:left !important;
-}
-
-#evento_cinco{
-clear:left !important;
-}
-
-#evento_seis{
-clear:left !important;
-}
-
-#evento_siete{
-clear:left !important;
-}
-
-#evento_ocho{
-clear:left !important;
 }
 
 #evento_botones{
@@ -240,48 +212,131 @@ padding-bottom: 5% !important;
 /*Dashboard*/
 
 #contenedor_dashboard{
-padding-right: 1% !important;
-padding-left: 1% !important;
+padding-right: 0% !important;
+padding-left: 4% !important;
 }
 
 #contenedor_materia{
-	font-size: 90%;
-
-
+	font-size: 120%;
 	padding-right: 5% !important;
+	padding-left: 10% !important;
 }
+
 
 #tabla_asistencia{
+	width: 15%;
+    margin:0.7%;
+    border: 0px !important;
+    padding-right: 0% !important;
+    padding-left: 0% !important;
+    padding-bottom: 0.3% !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.24) !important;
+    overflow: hidden;
+    background-color: #FAFAFA !important;
+    text-align: left !important;
+   	font-weight: 700;
+   	font-size: 75%;
+   	font-style: initial;
+   	color: black !important;
+   	margin-top: 1% !important;
+}	
 
+#cabecera_dashboard{
+text-align:center !important;
 }
 
+
+
 #nombre{
-	padding-left: 6% !important;
+	text-align: left !important;
+}
+
+#alumno_{
+padding-left: 0.2% !important;
+padding-right: 0.2% !important;
 }
 
 .verde{
 	background-image: url(images/IconoV.png);
-	background-color: #0087FF !important;
 	background-size: contain;
 	background-position: center;
-	height: 30px;
-	width: 30px;
+	height: 35px;
+	width: 35px;
+	float: left;
 }
 
 .rojo{
 	background-image: url(images/IconoR.png);
-	background-color: #0087FF !important;
 	background-size: contain;
 	background-position: center;
-	height: 30px;
-	width: 30px;
+	height: 35px;
+	width: 35px;
+	float: left;
 }
 
 .amarillo{
 	background-image: url(images/IconoA.png);
-	background-color: #0087FF !important;
 	background-size: contain;
 	background-position: center;
-	height: 30px;
-	width: 30px;
+	height: 35px;
+	width: 35px;
+	float: left;
+}
+
+
+/*DasboardTV*/
+
+
+.verde_tv{
+	background-image: url(images/IconoV.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 25px !important;
+	margin-top: 1% !important;
+	
+}
+
+.rojo_tv{
+	background-image: url(images/IconoR.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 25px;
+	width: 25px;
+	margin-top: 1% !important;
+	
+
+}
+
+.amarillo_tv{
+	background-image: url(images/IconoA.png);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 25px;
+	width:  25px;
+	margin-top: 1% !important;
+	
+}
+
+
+
+#tabla_asistenciaTv{
+	width: 15%;
+    margin:0.7%;
+    padding-right: 0% !important;
+    padding-left: 0% !important;
+    border: 0px !important;
+    padding-bottom: 0.3% !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.24) !important;
+    overflow: hidden;
+    background-color: #FAFAFA !important;
+    font-size: 75% !important;
+}	
+
+#cabecera_dashboardTv{
+text-align:center !important;
+font-size: 80% !important;
 }
