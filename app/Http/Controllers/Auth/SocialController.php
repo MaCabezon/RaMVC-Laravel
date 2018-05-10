@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Entities\SocialLite\SocialEntity;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 
 use App\User;
-use DB;
+use DB, Session;
 
 
 class SocialController extends Controller
@@ -61,7 +62,14 @@ class SocialController extends Controller
           $userInDB = null;
         }
         auth()->login($userInDB, true);//Autentica al usuario
-        return view('home')->with('user', $userInDB);//Redirecciona al home
+
+        if ($userInDB!=null) {
+          Session::flash('user',$userInDB);
+        }
+
+        return redirect('/');
+        //return redirect()->to('/')->with('user',$userInDB);
+        //return view('home')->with('user', stristr($userInDB->email, '@', true));//Redirecciona al home
     }
 }
 ?>

@@ -76,7 +76,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="graficas"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
         <li><a href="dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-         @auth
+        @auth
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
           <ul class="dropdown-menu" >
@@ -84,8 +84,6 @@
             <li><a href="resumenAlumnos">Resumen Alumnos</a></li>
             <li><a href="resumenEventos">Resumen Eventos</a></li>
             <li><a href="transacciones">Transacciones</a></li>
-            <!--<li role="separator" class="divider"></li>
-            <li><a href="Administracion/Registros">Registros</a></li>-->
           </ul>
         </li>
         <li><a href="reporte">Generar reporte</a></li>
@@ -94,22 +92,24 @@
           <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in
           </a></li>
         @endguest
-         <li>
-           <p>Bienvenido,
+        @auth
+        <li class="nav-item dropdown">
+          <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+          @if($user = Session::get('user'))
+                  {{ stristr($user->email, '@', true)  }} <span class="caret"></span>
+          @endif
+          </a>
 
-             @if (stristr($user->email, 'uneatlantico') === TRUE)
-                {!! stristr($user->email, '@', true) !!}
-             @elseif (stristr($user->email, 'alumnos') === TRUE && (stristr($user->email, 'sara.berbil') === TRUE || stristr($user->email, 'abraham.fernandez') === TRUE))
-                {!! stristr($user->email, '@', true) !!}
-            @endif
-           </p>
-            <a  href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-             <span class="glyphicon glyphicon-log-out"></span> Log Out
-           </a>
-           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-            </form>
-             </li>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  {{ __('Logout') }}
+              </a>
+
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          </div>
+        </li>
       @endauth
      </ul>
     </div><!-- /.navbar-collapse -->
