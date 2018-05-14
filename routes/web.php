@@ -52,6 +52,6 @@ Route::post('/feedback',  function () {
 Route::get('/graficas', 'HighchartController@highchart');
 Route::resource('/dashboard', 'DashboardController');
 Route::get('/datosBecarios','ResumenALumnosController@obtenerDatosBecarios');
-Route::get('/reproteTable','ResumenALumnosController@reporteTable');
+Route::get('/reporteTable','ResumenALumnosController@reporteTable');
 
 

@@ -13,6 +13,7 @@ use Response;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
+
 class ResumenAlumnosController extends AppBaseController
 {
     /** @var  ResumenAlumnosRepository */
@@ -296,9 +297,11 @@ class ResumenAlumnosController extends AppBaseController
      * @return Response
      */
     public function reporteTable(){
+        
+         
 
           //data
-          $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',\Auth::user())->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+          $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
 
           $data=[];
             foreach ($resumenes as $resumen) {
