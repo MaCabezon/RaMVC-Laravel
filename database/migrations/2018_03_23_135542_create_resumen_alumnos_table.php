@@ -21,6 +21,8 @@ class CreateResumenAlumnosTable extends Migration
             $table->date('fechaEvento');
             $table->decimal('horas');            
             $table->boolean('validado');
+            $table->boolean('justificado');
+            $table->string('justificante');
             $table->timestamps();
             $table->softDeletes();
         });
