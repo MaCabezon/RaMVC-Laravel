@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Alumno;
-use DB;
+use DB, Session;
 
 class HomeController extends Controller
 {
@@ -25,6 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-      return view('home');
+        $message=DB::table('resumen_alumnos')->where('validado', '0')->first();
+        
+        if ($message!="") {
+            Session::flash('message', 'Hay alumnos pendientes.'); 
+        }
+              
+       
+       
+              
+        return view('home');
+            // ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
+
     }
 }

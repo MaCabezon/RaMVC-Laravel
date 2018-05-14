@@ -30,7 +30,9 @@ class ResumenAlumnos extends Model
         'idEvento',
         'fechaEvento',        
         'validado',
-        'horas'
+        'horas',
+        'justificado',
+        'justificante'
     ];
 
     /**
@@ -41,7 +43,8 @@ class ResumenAlumnos extends Model
     protected $casts = [
         'idAlumno' => 'string',
         'idEvento' => 'integer',
-        'fechaEvento' => 'date'
+        'fechaEvento' => 'date',
+        'justificante'=>'string'
     ];
 
     /**
