@@ -30,6 +30,7 @@ class TransaccionesController extends AppBaseController
      */
     public function index(Request $request)
     {
+    
         if (\Auth::user()->type == 'admin') {
           $transacciones=DB::table('transaccionesView')->get();
         }
