@@ -24,10 +24,12 @@
     {!! Form::label('horas', 'Horas:') !!}
     {!! Form::number('horas', null, ['class' => 'form-control','step'=>'.01']) !!}
 </div>
-<!-- Horas Field -->
+
 <div class="eventoVistas form-group col-sm-12">
-    {!! Form::label('validado', 'Validado:') !!}
-    {!! Form::number('validado', null, ['class' => 'form-control']) !!}
+    {!! Form::label('validado', 'Validado:') !!}    
+    {!! Form::hidden('validado','validado', false) !!}
+    {!! Form::checkbox('validado', '1', null) !!} 
+    
 </div>
 
 <!-- Submit Field -->

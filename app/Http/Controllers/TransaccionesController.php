@@ -107,7 +107,15 @@ class TransaccionesController extends AppBaseController
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
                          DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
-                         $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         if ($transaccion->idEvento==207 || $transaccion->idEvento==208 || $transaccion->idEvento==220 ||$transaccion->idEvento==221) {
+                            
+                            $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno and week(fechaEvento)=week(curdate())",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         
+                         } else {
+                            $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         
+                         }
+                         
                          $horasTotales = DB::select("SELECT SUM(horas) as horas FROM resumen_eventos WHERE idEvento=:idEvento and horas>-1",['idEvento'=>$transaccion->idEvento]);
                     }else{
 

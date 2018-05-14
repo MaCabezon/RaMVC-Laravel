@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "a13df1422a8d595d09b311767626760a",
@@ -2247,16 +2247,16 @@
         },
         {
             "name": "spatie/laravel-backup",
-            "version": "5.6.5",
+            "version": "5.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-backup.git",
-                "reference": "dc139dd381f38d9afcb6bbf861838acb1c838ef6"
+                "reference": "e40a94f5d1224356a002c1f74643782e684caa17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/dc139dd381f38d9afcb6bbf861838acb1c838ef6",
-                "reference": "dc139dd381f38d9afcb6bbf861838acb1c838ef6",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/e40a94f5d1224356a002c1f74643782e684caa17",
+                "reference": "e40a94f5d1224356a002c1f74643782e684caa17",
                 "shasum": ""
             },
             "require": {
@@ -2267,7 +2267,7 @@
                 "illuminate/notifications": "~5.5.0|~5.6.0",
                 "illuminate/support": "~5.5.0|~5.6.0",
                 "league/flysystem": "^1.0.27",
-                "php": "^7.0",
+                "php": "^7.1",
                 "spatie/db-dumper": "^2.10",
                 "spatie/temporary-directory": "^1.1",
                 "symfony/finder": "^3.3|^4.0"
@@ -2316,7 +2316,7 @@
                 "laravel-backup",
                 "spatie"
             ],
-            "time": "2018-05-01T07:48:28+00:00"
+            "time": "2018-05-05T09:08:56+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -3684,7 +3684,7 @@
             ],
             "authors": [
                 {
-                    "name": "Padraic Brady",
+                    "name": "Pádraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },

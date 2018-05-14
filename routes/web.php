@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
+Route::post('/justificar', 'ResumenAlumnosControllerr@justificarHoras');
 Route::post('/feedback',  function () {
 
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);

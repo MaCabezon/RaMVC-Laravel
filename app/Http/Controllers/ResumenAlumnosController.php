@@ -48,6 +48,24 @@ class ResumenAlumnosController extends AppBaseController
     {
         return view('resumen_alumnos.create');
     }
+    /**
+     * Crear Transacciones a traves de los datos de apk.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function justificarHoras(Request $resultado)
+    {
+       
+            $resumenAlumno=new ResumenAlumnos();
+            $resumenAlumno->idAlumno=$resultado['idPersona'];
+            $resumenAlumno->idEvento=$resultado['idEvento'];
+            $resumenAlumno->fechaEvento=$resultado['fechaEvento'];
+            $resumenAlumno->horas=$resultado['horas'];
+            $resumenAlumno->validado=1;
+            $resumenAlumno->justificado=1;
+            $resumenAlumno->jusrificante=$resultado['justificante'];
+    }
 
     /**
      * Store a newly created ResumenAlumnos in storage.
