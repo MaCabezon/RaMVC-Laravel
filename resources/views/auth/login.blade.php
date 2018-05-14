@@ -25,40 +25,19 @@
                             <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
                         </div>
                         <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form" action="{{ route('login') }}" method="POST">
-                              @csrf
-                                <div class="form-group">
-                                    <label for="email"><span class="glyphicon glyphicon-user"></span> Email</label>
-                                    <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" name="email" placeholder="Enter email">
-
-                                    @if ($errors->has('email'))
-                                            <span class="invalid-feedback">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
-                                </div>
-                                <div class="form-group">
-                                    <label for="password"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                                    <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"  id="password" name="password" placeholder="Enter password">
-                                    @if ($errors->has('password'))
-                                          <span class="invalid-feedback">
-                                              <strong>{{ $errors->first('password') }}</strong>
-                                          </span>
-                                      @endif
-                                </div>
-                                <button type="submit" class="btn btn-success btn-block" name="login"><span class="glyphicon glyphicon-off"></span>Login</button>
-                            
-                                  <div class="col-md-6 col-sm-6 col-xs-6">
-                                      <a href="{{ route('redirectSocialLite', ['provider' => 'google']) }}" class="btn btn-lg waves-effect waves-light btn-block google">Google+</a>
+                          <div id="gSignInWrapper">
+                                <div id="customBtn" class="customGPlusSignIn">
+                                    <span class="icon"></span>
+                                    <a href="{{ route('redirectSocialLite', ['provider' => 'google']) }}" class="buttonText">Google</a>
                                   </div>
-
-                            </form>
+                            </div>
                         </div>
 
                     </div>
 
                 </div>
-            </div>
+
+                </div>
         </div>
 
         <script>

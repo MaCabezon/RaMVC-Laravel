@@ -35,6 +35,13 @@ class SocialController extends Controller
         //Datos de usuario retornados por el proveedor de servicio
         $socialUser = Socialite::driver($provider)->user();
 
+        //Filtrado de usuarios
+        if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
+          return redirect('/');
+        }
+
+
+
         //Verifica si el email ya lo tiene un usuario
         $userInDB = User::where('email', '=', $socialUser->email)->get()->first();
         if(empty($userInDB)) {//Si no lo tiene crea el usuatrio
@@ -42,6 +49,14 @@ class SocialController extends Controller
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
+
+            if ($socialUser->email == "rap@uneatlantico.es") {
+              $userInDB->type == 'admin';
+            } else if ( stristr($socialUser->email, 'abraham.fernandez') === TRUE && stristr($socialUser->email, 'sara.berbil') === TRUE && stristr($socialUser->email, 'loyda.alas') === TRUE && stristr($socialUser->email, 'larisa.hernandez') === TRUE) {
+              $userInDB->type == 'member';
+            } else {
+              $userInDB->type == 'user';
+            }
         }
         $userInDB->name = $socialUser->name; //Actualiza el name
 
@@ -65,11 +80,13 @@ class SocialController extends Controller
 
         if ($userInDB!=null) {
           Session::flash('user',$userInDB);
+
         }
 
         return redirect('/');
-        //return redirect()->to('/')->with('user',$userInDB);
-        //return view('home')->with('user', stristr($userInDB->email, '@', true));//Redirecciona al home
+        //return \Auth::user();
+
+
     }
 }
 ?>
