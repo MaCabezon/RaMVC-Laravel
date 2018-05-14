@@ -30,12 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
 
 
-  //Rutas para Maria Carla Marti (PRUEBAS)
-  Route::resource('dashboardMarti', 'DashboardMartiController');
-
-
-  //Rutas para Sandra Sumalla (PRUEBAS)
-  Route::resource('dashboardSumalla', 'DashboardMartiController');
+  
 
 
   Route::get('/import', 'ImportController@import');
@@ -57,3 +52,6 @@ Route::post('/feedback',  function () {
 Route::get('/graficas', 'HighchartController@highchart');
 Route::resource('/dashboard', 'DashboardController');
 Route::get('/datosBecarios','ResumenALumnosController@obtenerDatosBecarios');
+Route::get('/reproteTable','ResumenALumnosController@reporteTable');
+
+

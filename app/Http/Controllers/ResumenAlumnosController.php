@@ -222,7 +222,7 @@ class ResumenAlumnosController extends AppBaseController
                 });
 
                 //data
-              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->get();
+              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
 
               $rowNumber = 3; // Numero de columnas por el cual empieza
                 foreach ($resumenes as $resumen) {
@@ -287,6 +287,34 @@ class ResumenAlumnosController extends AppBaseController
 
         return redirect()->route('resumenAlumnos.index');
 
+    }
+    /**
+     * Generate report 
+     *
+     * 
+     *
+     * @return Response
+     */
+    public function reporteTable(){
+
+          //data
+          $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',\Auth::user())->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+
+          $data=[];
+            foreach ($resumenes as $resumen) {
+                $row=[];
+                $row['alumno']=$resumen->Alumno;
+                $row['evento']=$resumen->Evento;
+                $row['horas']=$resumen->Horas;
+
+                // Calculamos el porcentaje de asistencia
+                $porcentaje = ($row['horas']*100)/20;
+                $row['porcentaje'] = $porcentaje."%";
+                array_push($data,$row);
+            }
+
+
+         return view('reportes.index')->with('data', $data);
     }
 
     /**

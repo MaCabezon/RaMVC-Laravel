@@ -53,7 +53,8 @@ class Reporte extends Mailable
               });
 
               //data
-            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->get();
+              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
+
 
             $rowNumber = 3; // Numero de columnas por el cual empieza
               foreach ($resumenes as $resumen) {
