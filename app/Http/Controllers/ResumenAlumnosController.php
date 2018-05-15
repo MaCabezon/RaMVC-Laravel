@@ -31,11 +31,11 @@ class ResumenAlumnosController extends AppBaseController
      * @return Response
      */
     public function index(Request $request)
-    {
+    {    
       if (\Auth::user()->type == 'admin') {
         $resumenAlumnos=DB::table('resumenalum')->get();
       } else if (\Auth::user()->type == 'member') {
-        $resumenAlumnos=DB::table('resumenalum')->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->get();
+        $resumenAlumnos=DB::table('resumenalum')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
       } else if (\Auth::user()->type == 'user') {
         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }

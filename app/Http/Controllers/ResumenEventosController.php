@@ -33,7 +33,7 @@ class ResumenEventosController extends AppBaseController
       if (\Auth::user()->type == 'admin') {
         $resumenEventos=DB::table('resumeneventos')->get();
       } else if (\Auth::user()->type == 'member') {
-        $resumenEventos=DB::table('resumeneventos')->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->get();
+        $resumenEventos=DB::table('resumeneventos')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
       } else if (\Auth::user()->type == 'user') {
         $resumenEventos=DB::table('resumeneventos')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get(); 
       }
