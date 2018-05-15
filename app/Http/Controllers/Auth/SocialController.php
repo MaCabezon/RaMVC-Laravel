@@ -89,7 +89,7 @@ class SocialController extends Controller
 
         }
 
-        return redirect('/');
+        return redirect('/home');
         //return \Auth::user();
 
 
