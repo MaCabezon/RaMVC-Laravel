@@ -39,6 +39,7 @@ class ResumenAlumnosController extends AppBaseController
       } else if (\Auth::user()->type == 'user') {
         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }
+      
 
         return view('resumen_alumnos.index')
             ->with('resumenAlumnos', $resumenAlumnos);

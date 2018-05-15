@@ -20,15 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::group(['middleware' => 'auth', 'admin'], function () {
 
-  Route::resource('eventos', 'EventosController');
-  Route::resource('resumenAlumnos', 'ResumenAlumnosController');
-  Route::resource('resumenEventos', 'ResumenEventosController');
-  Route::resource('dashboard', 'DashboardController');
-  Route::resource('dashboardTv', 'DashboardTvController');
-  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
-  Route::get('reporteTable', 'ResumenAlumnosController@reporteTable');
+  Route::resource('/eventos', 'EventosController');
+  Route::resource('/resumenAlumnos', 'ResumenAlumnosController');
+  Route::resource('/resumenEventos', 'ResumenEventosController');
+  Route::resource('/transacciones', 'TransaccionesController');
+  Route::resource('/dashboard', 'DashboardController');
+  Route::resource('/dashboardTv', 'DashboardTvController');
+  Route::get('/reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+  Route::get('/reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::get('/import', 'ImportController@import');
 
   
@@ -49,7 +51,7 @@ Route::post('/feedback',  function () {
 
 
 Route::get('/graficas', 'HighchartController@highchart');
-Route::resource('dashboardTv', 'DashboardTvController');
+Route::resource('/dashboardTv', 'DashboardTvController');
 
 //Login Google
 Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedirect')->name('redirectSocialLite');
