@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response,DB;
+use App\Models\Eventos;
 
 
 class ResumenEventosController extends AppBaseController
@@ -101,6 +102,7 @@ class ResumenEventosController extends AppBaseController
     public function edit($id)
     {
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
+        $listaEventos  = Eventos::pluck('nombre', 'id');
 
         if (empty($resumenEventos)) {
             Flash::error('Resumen Eventos no encontrado');
@@ -108,7 +110,7 @@ class ResumenEventosController extends AppBaseController
             return redirect(route('resumenEventos.index'));
         }
 
-        return view('resumen_eventos.edit')->with('resumenEventos', $resumenEventos);
+        return view('resumen_eventos.edit')->with('resumenEventos', $resumenEventos)->with('eventos', $listaEventos);
     }
 
     /**

@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
+use App\Models\Eventos;
 
 
 class ResumenAlumnosController extends AppBaseController
@@ -39,6 +40,7 @@ class ResumenAlumnosController extends AppBaseController
       } else if (\Auth::user()->type == 'user') {
         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }
+      
 
         return view('resumen_alumnos.index')
             ->with('resumenAlumnos', $resumenAlumnos);
@@ -135,6 +137,8 @@ class ResumenAlumnosController extends AppBaseController
     public function edit($id)
     {
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
+        $listaEventos  = Eventos::pluck('nombre', 'id');
+        
 
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
@@ -142,7 +146,7 @@ class ResumenAlumnosController extends AppBaseController
             return redirect(route('resumenAlumnos.index'));
         }
 
-        return view('resumen_alumnos.edit')->with('resumenAlumnos', $resumenAlumnos);
+        return view('resumen_alumnos.edit')->with('resumenAlumnos', $resumenAlumnos)->with('eventos', $listaEventos);
     }
 
     /**
