@@ -57,7 +57,6 @@ class Transacciones extends Model
         'idPersona' => 'required',
         'idEvento' => 'required',
         'fechaEvento' => 'required',
-        'fechaRegistro' => 'required',
         'tipo' => 'required',            
         'validado' => 'required'
     ];

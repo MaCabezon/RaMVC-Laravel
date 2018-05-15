@@ -3,21 +3,21 @@
 <div class="col-sm-5" id="contenedor_show">
 	 <h1 id="titulos">Resumen Eventos</h1>
 <!-- Idevento Field -->
-<div class="form-group col-sm-12">
+<div class="eventoVistas form-group col-sm-12">
     {!! Form::label('idEvento', 'Id evento:') !!}
-    {!! Form::number('idEvento', null, ['class' => 'form-control']) !!}
+    {!! Form::select('idEvento', $eventos, null, array('class' => 'form-control')) !!}
 </div>
 
 <!-- Fechaevento Field -->
-<div class="form-group col-sm-12">
+<div class="eventoVistas form-group col-sm-12">
     {!! Form::label('fechaEvento', 'Fecha evento:') !!}
     {!! Form::input('datetime', 'fechaEvento', null, ['class' => 'form-control','step'=>'1']) !!}
 </div>
 
 <!-- Horas Field -->
-<div class="form-group col-sm-12">
+<div class="eventoVistas form-group col-sm-12">
     {!! Form::label('horas', 'Horas:') !!}
-    {!! Form::number('horas', null, ['class' => 'form-control']) !!}
+    {!! Form::number('horas', null, ['class' => 'form-control','step'=>'.01']) !!}
 </div>
 
 <!-- Submit Field -->

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dashboard;
+use App\Models\DashboardTv;
 use Illuminate\Http\Request;
 use DB;
 
-class DashboardController extends Controller
+class DashboardTvController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +15,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-      if (\Auth::user()->type == 'admin' || \Auth::user()->type == 'member') {
-        $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reporte.Evento LIKE "Becas%" OR reporte.Evento LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
-        return view('dashboard.index')->with('vista',$vista);
-      }
+        $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
+        return view('dashboardTv.index')->with('vista',$vista);
     }
 
     /**
