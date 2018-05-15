@@ -1,7 +1,7 @@
-
 @extends('layouts.app')
-@section('content')
 
+@section('content')
+   
     <div class="content">
         <div class="clearfix"></div>
 
@@ -10,11 +10,12 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('dashboard.table')
+                    @include('reportes.table')
             </div>
         </div>
         <div class="text-center">
-
+        
         </div>
     </div>
 @endsection
+

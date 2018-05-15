@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\Dashboard;
+=======
+use App\Models\DashboardTv;
+>>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
 use Illuminate\Http\Request;
 use DB;
 
@@ -15,7 +19,11 @@ class DashboardTvController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE resumenalumnos.fechaEvento = CURDATE() ORDER BY Evento, Alumno ASC');
+=======
+        $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
+>>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
         return view('dashboardTv.index')->with('vista',$vista);
     }
 

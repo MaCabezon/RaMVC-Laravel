@@ -13,7 +13,7 @@ class CreateTransaccionesView extends Migration
      */
     public function up()
     {
-       DB::statement("CREATE alter VIEW  transaccionesView as SELECT t.id,t.idPersona,idEvento,ev.nombre,t.fechaEvento,t.tipo,if(t.validado=1,'Validado','No validado') as validado,
+       DB::statement("CREATE VIEW  transaccionesView as SELECT t.id,t.idPersona,idEvento,ev.nombre,t.fechaEvento,t.tipo,if(t.validado=1,'Validado','No validado') as validado,
                         t.created_at,t.updated_at,t.deleted_at  FROM transacciones AS t JOIN eventos AS ev  ON t.idEvento = ev.id ");
 
     }

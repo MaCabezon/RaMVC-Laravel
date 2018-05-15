@@ -30,9 +30,10 @@ class TransaccionesController extends AppBaseController
      */
     public function index(Request $request)
     {
-       // $this->transaccionesRepository->pushCriteria(new RequestCriteria($request));
-        //$transacciones = $this->transaccionesRepository->all();
-        $transacciones=DB::table('transaccionesView')->get();
+    
+        if (\Auth::user()->type == 'admin') {
+          $transacciones=DB::table('transaccionesView')->get();
+        }
 
         return view('transacciones.index')
             ->with('transacciones', $transacciones);
@@ -74,7 +75,7 @@ class TransaccionesController extends AppBaseController
      */
     public function registrarTransaccion(Request $resultado)
     {
-       
+
         $respon = array("valid" => false,"horasAlumno"=>'',"horasTotales"=>'');
         $horasAlumno = "";
         $horasTotales = "";
@@ -86,7 +87,7 @@ class TransaccionesController extends AppBaseController
             $valores = ["idPersona" => $resultado['idPersona'], "idEvento" => $resultado['idEvento'],"fecha"=>$resultado['fecha'],"tipoRegistro"=>$resultado['tipoRegistro'],"esPar"=>$resultado['esPar'] ,"validado"=>$resultado['validado'],"valido" =>$resultado['valido']];
            // $valores = ["idPersona" => "lazaro.hernandez", "idEvento" => "1","fecha"=>"2018-03-19 10:00:00","tipoRegistro"=>"Profesor","esPar"=>true ,"validado"=>"1","valido" =>true];
 
-           
+
             if ($valores['valido'] == true)
             {
                 //Creamos la transaccion y la insertamos
@@ -95,7 +96,7 @@ class TransaccionesController extends AppBaseController
                 $transaccion->idEvento=$valores['idEvento'];
                 $transaccion->fechaEvento=$valores['fecha'];
                 $transaccion->tipo=$valores['tipoRegistro'];
-                $transaccion->validado=$valores['validado'];               
+                $transaccion->validado=$valores['validado'];
                 $transaccion->save();
 
 
@@ -107,7 +108,15 @@ class TransaccionesController extends AppBaseController
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Alumno")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
 
                          DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
-                         $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         if ($transaccion->idEvento==207 || $transaccion->idEvento==208 || $transaccion->idEvento==220 ||$transaccion->idEvento==221) {
+                            
+                            $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno and week(fechaEvento)=week(curdate())",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         
+                         } else {
+                            $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
+                         
+                         }
+                         
                          $horasTotales = DB::select("SELECT SUM(horas) as horas FROM resumen_eventos WHERE idEvento=:idEvento and horas>-1",['idEvento'=>$transaccion->idEvento]);
                     }else{
 
@@ -124,9 +133,9 @@ class TransaccionesController extends AppBaseController
 
                         $transaccionImpar= new Transacciones();
                         $transaccionImpar=Transacciones::where('idPersona',$transaccion->idPersona)->where('idEvento',$transaccion->idEvento)->where('tipo',"Profesor")->orderBy('fechaEvento', 'desc')->take(1)->skip(1)->get()->first();
-                        
+
                         DB::update('update resumen_eventos set horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where  idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento]);
-                        
+
 
                     }else{
 

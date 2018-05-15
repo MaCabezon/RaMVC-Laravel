@@ -14,8 +14,8 @@
         </div>
         <!-- fechaEvento Field -->
         <div class="form-group col-sm-12" id="evento_dos">
-            {!! Form::label('fechaEvento', 'Fecha Evento:') !!}
-            {!! Form::text('fechaEvento', null, ['class' => 'form-control']) !!}
+            {!! Form::label('fechaEvento', 'Fecha Evento:') !!}            
+            {!! Form::input('datetime', 'fechaEvento', null, ['class' => 'form-control','step'=>'1']) !!}
         </div>
 
         <!-- Tipo Field -->
