@@ -25,24 +25,26 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('eventos', 'EventosController');
   Route::resource('resumenAlumnos', 'ResumenAlumnosController');
   Route::resource('resumenEventos', 'ResumenEventosController');
+  Route::resource('dashboard', 'DashboardController');
+  Route::resource('dashboardTv', 'DashboardTvController');
+  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+  Route::get('reporteTable', 'ResumenAlumnosController@reporteTable');
+  Route::get('/import', 'ImportController@import');
 
-  Route::resource('transacciones', 'TransaccionesController');
-  Route::resource('dashboard', 'DashboardController'); //RESTRINGIIRRR A MEMBER Y ADMIN
-
-  //quedan por comprobar
-  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel'); // RESTRINGIR A MEMBER Y ADMIN
-
+  
 });
 
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
-Route::post('/justificar', 'ResumenAlumnosControllerr@justificarHoras');
+Route::post('/datosBitPints','ResumenAlumnosController@obtenerDatosBecarios');
+Route::post('/justificar', 'ResumenAlumnosController@justificarHoras');
 Route::post('/feedback',  function () {
 
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
+
 
 
 

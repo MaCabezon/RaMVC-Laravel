@@ -13,6 +13,7 @@ use Response;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
+
 class ResumenAlumnosController extends AppBaseController
 {
     /** @var  ResumenAlumnosRepository */
@@ -30,13 +31,13 @@ class ResumenAlumnosController extends AppBaseController
      * @return Response
      */
     public function index(Request $request)
-    {
+    {    
       if (\Auth::user()->type == 'admin') {
         $resumenAlumnos=DB::table('resumenalum')->get();
       } else if (\Auth::user()->type == 'member') {
-        $resumenAlumnos=DB::table('resumenalum')->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->get();
+        $resumenAlumnos=DB::table('resumenalum')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
       } else if (\Auth::user()->type == 'user') {
-        $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',\Auth::user()->name)->get();
+        $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }
 
         return view('resumen_alumnos.index')
@@ -194,6 +195,13 @@ class ResumenAlumnosController extends AppBaseController
         return redirect(route('resumenAlumnos.index'));
     }
 
+    /**
+     * Generate report 
+     *
+     * 
+     *
+     * @return Response
+     */
     public function excel (){
 
         Excel::create('Reporte Alumnos', function($excel) {
@@ -219,7 +227,7 @@ class ResumenAlumnosController extends AppBaseController
                 });
 
                 //data
-              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->get();
+              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
 
               $rowNumber = 3; // Numero de columnas por el cual empieza
                 foreach ($resumenes as $resumen) {
@@ -284,5 +292,58 @@ class ResumenAlumnosController extends AppBaseController
 
         return redirect()->route('resumenAlumnos.index');
 
+    }
+    /**
+     * Generate report 
+     *
+     * 
+     *
+     * @return Response
+     */
+    public function reporteTable(){
+        
+        if (\Auth::user()->type == 'admin') {
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+          } else if (\Auth::user()->type == 'member') {
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
+          } else if (\Auth::user()->type == 'user') {
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+          }
+         
+
+          //data
+          
+
+          $data=[];
+            foreach ($resumenes as $resumen) {
+                $row=[];
+                $row['alumno']=$resumen->Alumno;
+                $row['evento']=$resumen->Evento;
+                $row['horas']=$resumen->Horas;
+
+                // Calculamos el porcentaje de asistencia
+                $porcentaje = ($row['horas']*100)/20;
+                $row['porcentaje'] = $porcentaje."%";
+                array_push($data,$row);
+            }
+
+
+         return view('reportes.index')->with('data', $data);
+    }
+
+    /**
+     * Obetencion de datos para bitpoints
+     *
+     * 
+     * 
+     */
+    public function obtenerDatosBecarios()
+    {
+
+            $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno
+                 AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reporte.Evento LIKE "Becas%" OR reporte.Evento
+                 LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
+        header('Content-Type: application/json');
+        return json_encode($vista);         
     }
 }
