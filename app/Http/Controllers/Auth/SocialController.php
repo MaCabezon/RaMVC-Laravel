@@ -50,9 +50,10 @@ class SocialController extends Controller
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
 
+            //Se puede meter en un for
             if ($socialUser->email == "rap@uneatlantico.es") {
               $userInDB->type = 'admin';
-            } else if ( stristr($socialUser->email, 'abraham.fernandez') === TRUE || stristr($socialUser->email, 'sara.berbil') === TRUE || stristr($socialUser->email, 'loyda.alas') === TRUE || stristr($socialUser->email, 'larisa.hernandez') === TRUE) {
+            } else if ( $socialUser->email == 'abraham.fernandez@alumnos.uneatlantico.es' || $socialUser->email == 'sara.berbil@alumnos.uneatlantico.es' || $socialUser->email == 'loyda.alas@alumnos.uneatlantico.es' || $socialUser->email == 'larisa.hernandez@alumnos.uneatlantico.es') {
               $userInDB->type = 'member';
             } else {
               $userInDB->type = 'user';
