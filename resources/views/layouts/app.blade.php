@@ -57,7 +57,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-     <a id="logo" class="navbar-brand col-lg-1" href="home" style="margin-bottom: 10px; margin-top: 10px;"></a>
+     <a id="logo" class="navbar-brand col-lg-1" href="{{ action('HomeController@index') }}" style="margin-bottom: 10px; margin-top: 10px;"></a>
 
     </div>
 
@@ -80,10 +80,12 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
           <ul class="dropdown-menu" >
-            <li><a href="eventos">Eventos</a></li>
-            <li><a href="resumenAlumnos">Resumen Alumnos</a></li>
-            <li><a href="resumenEventos">Resumen Eventos</a></li>
-            <li><a href="transacciones">Transacciones</a></li>
+          @if(\Auth::user()->type!='user')
+            <li><a href="{{ action('EventosController@index') }}">Eventos</a></li>
+          @endif  
+            <li><a href="{{ action('ResumenAlumnosController@index') }}">Resumen Alumnos</a></li>
+            <li><a href="{{ action('ResumenEventosController@index') }}">Resumen Eventos</a></li>
+            <li><a href="{{ action('TransaccionesController@index') }}">Transacciones</a></li>
           </ul>
         </li>
         <li class="dropdown">
