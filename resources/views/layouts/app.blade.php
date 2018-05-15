@@ -86,7 +86,13 @@
             <li><a href="transacciones">Transacciones</a></li>
           </ul>
         </li>
-        <li><a href="reporte">Generar reporte</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generar Reporte <span class="caret"></span></a>
+          <ul class="dropdown-menu" >           
+           <li> <a href="reporteTable">Visualizar reporte</a></li>
+           <li> <a href="reporte">Descargar reporte</a></li>
+          </ul>  
+        </li>
         @endauth
         @guest
           <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in

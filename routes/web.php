@@ -25,9 +25,16 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('eventos', 'EventosController');
   Route::resource('resumenAlumnos', 'ResumenAlumnosController');
   Route::resource('resumenEventos', 'ResumenEventosController');
+  Route::resource('dashboard', 'DashboardController');
+  Route::resource('dashboardTv', 'DashboardTvController');
+  //quedan por comprobar
+  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
 
-  Route::resource('transacciones', 'TransaccionesController');
-  Route::resource('dashboard', 'DashboardController'); //RESTRINGIIRRR A MEMBER Y ADMIN
+
+  
+
+
+  Route::get('/import', 'ImportController@import');
 
   //quedan por comprobar
   Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel'); // RESTRINGIR A MEMBER Y ADMIN
