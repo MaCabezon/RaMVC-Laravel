@@ -302,10 +302,17 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function reporteTable(){
         
+        if (\Auth::user()->type == 'admin') {
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+          } else if (\Auth::user()->type == 'member') {
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
+          } else if (\Auth::user()->type == 'user') {
+            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+          }
          
 
           //data
-          $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+          
 
           $data=[];
             foreach ($resumenes as $resumen) {
