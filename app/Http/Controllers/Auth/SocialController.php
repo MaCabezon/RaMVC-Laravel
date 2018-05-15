@@ -53,16 +53,12 @@ class SocialController extends Controller
             //Se puede meter en un for
             if ($socialUser->email == "rap@uneatlantico.es") {
               $userInDB->type = 'admin';
-<<<<<<< HEAD
-            } else if ( $socialUser->email == 'abraham.fernandez@alumnos.uneatlantico.es' || $socialUser->email == 'sara.berbil@alumnos.uneatlantico.es' || $socialUser->email == 'loyda.alas@alumnos.uneatlantico.es' || $socialUser->email == 'larisa.hernandez@alumnos.uneatlantico.es') {
-=======
             } else if (  str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
->>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
               $userInDB->type = 'member';
             } else {
               $userInDB->type = 'user';
             }
-           
+
         }
         $userInDB->name = $socialUser->name; //Actualiza el name
 
