@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src=" https://code.highcharts.com/modules/exporting.js"></script>
-    
-    
-   
 
-   
+
+
+
+
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script>
 
@@ -58,13 +58,14 @@
         <span class="icon-bar"></span>
       </button>
      <a id="logo" class="navbar-brand col-lg-1" href="home" style="margin-bottom: 10px; margin-top: 10px;"></a>
+
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse col-lg-11" id="navdos" style="padding-left: 0px;margin-top: 20px;">
       <ul class="nav navbar-nav">
          @auth
-        <li cl
+
         <form class="navbar-form navbar-left">
           <div class="form-group">
             <input id="filtrar"  type="text" class="form-control" placeholder="Introduzca dato a buscar...">
@@ -75,7 +76,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="graficas"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
         <li><a href="dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-         @auth
+        @auth
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
           <ul class="dropdown-menu" >
@@ -83,8 +84,6 @@
             <li><a href="resumenAlumnos">Resumen Alumnos</a></li>
             <li><a href="resumenEventos">Resumen Eventos</a></li>
             <li><a href="transacciones">Transacciones</a></li>
-            <!--<li role="separator" class="divider"></li>
-            <li><a href="Administracion/Registros">Registros</a></li>-->
           </ul>
         </li>
         <li class="dropdown">
@@ -98,16 +97,26 @@
         @guest
           <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in
           </a></li>
-          @else
-         <li>
-            <a  href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-             <span class="glyphicon glyphicon-log-out"></span> Log Out
-           </a>
-           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-            </form>
-             </li>
-             @endguest
+        @endguest
+        @auth
+        <li class="nav-item dropdown">
+          <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+          @if($user = \Auth::user())
+                  {{ stristr($user->email, '@', true)  }} <span class="caret"></span>
+          @endif
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  {{ __('Logout') }}
+              </a>
+
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          </div>
+        </li>
+      @endauth
      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

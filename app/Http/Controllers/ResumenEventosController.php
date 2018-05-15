@@ -30,9 +30,13 @@ class ResumenEventosController extends AppBaseController
      */
     public function index(Request $request)
     {
-        // $this->resumenEventosRepository->pushCriteria(new RequestCriteria($request));
-        //$resumenEventos = $this->resumenEventosRepository->all();
+      if (\Auth::user()->type == 'admin') {
         $resumenEventos=DB::table('resumeneventos')->get();
+      } else if (\Auth::user()->type == 'member') {
+        $resumenEventos=DB::table('resumeneventos')->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->get();
+      } else if (\Auth::user()->type == 'user') {
+        $resumenEventos=DB::table('resumeneventos')->where('nombreProfesor',\Auth::user()->name)->get();
+      }
 
         return view('resumen_eventos.index')
             ->with('resumenEventos', $resumenEventos);

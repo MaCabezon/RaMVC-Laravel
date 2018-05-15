@@ -12,16 +12,17 @@
 */
 use App\Mail\Feedback as FeedbackEmail;
 use App\Mail\Reporte as ReporteEmail;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'auth'], function () {
-
+Route::group(['middleware' => 'auth', 'admin'], function () {
 
   Route::resource('eventos', 'EventosController');
-  Route::resource('transacciones', 'TransaccionesController');
   Route::resource('resumenAlumnos', 'ResumenAlumnosController');
   Route::resource('resumenEventos', 'ResumenEventosController');
   Route::resource('dashboard', 'DashboardController');
@@ -35,8 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::get('/import', 'ImportController@import');
 
+  //quedan por comprobar
+  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel'); // RESTRINGIR A MEMBER Y ADMIN
 
 });
+
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
@@ -50,8 +54,9 @@ Route::post('/feedback',  function () {
 
 
 Route::get('/graficas', 'HighchartController@highchart');
-Route::resource('/dashboard', 'DashboardController');
-Route::get('/datosBecarios','ResumenALumnosController@obtenerDatosBecarios');
-Route::get('/reporteTable','ResumenALumnosController@reporteTable');
+Route::resource('dashboardTv', 'DashboardTvController');
 
-
+//Login Google
+Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedirect')->name('redirectSocialLite');
+Route::get('/social/handle/{provider}', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
+Route::get('/login/{provider}/callback', 'Auth\SocialController@getSocialHandle')->name('home');

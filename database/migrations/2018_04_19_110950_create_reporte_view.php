@@ -17,10 +17,6 @@ class CreateReporteView extends Migration
        ra.fechaEvento AS fechaEvento FROM resumen_alumnos AS ra JOIN eventos AS ev 
        ON ra.idEvento = ev.id where ra.horas>'-1.00' and week(curdate())=week(ra.fechaEvento) 
        GROUP BY ra.idAlumno,ra.idEvento ");
-
-
-
-
     }
 
     /**

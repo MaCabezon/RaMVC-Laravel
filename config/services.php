@@ -35,4 +35,14 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'google' => [
+        //Id suministrado por google
+        'client_id'     => env('GOOGLE_ID'),
+        //Secret suministrado por google
+        'client_secret' => env('GOOGLE_SECRET'),
+        //Página a la que sera redireccionado el navegador cuando el login se exitoso
+        //Ejemplo: http://midominio.com/social/handle/google
+        'redirect'      => env('GOOGLE_REDIRECT'),
+      ],
+
 ];

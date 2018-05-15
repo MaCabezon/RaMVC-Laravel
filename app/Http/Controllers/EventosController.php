@@ -32,7 +32,14 @@ class EventosController extends AppBaseController
     public function index(Request $request)
     {
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
-        $eventos = $this->eventosRepository->orderBy('nombre', 'ASC')->all();
+
+        ///ECHAR UN VISTAZO AL ERROR DE AQUI
+        if (\Auth::user()->type == 'user') {
+        $eventos = $this->eventosRepository->where('nombreProfesor',\Auth::user()->name)->orderBy('nombre', 'ASC')->all();}
+        else if (\Auth::user()->type == 'member') {
+        $eventos = $this->eventosRepository->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->orderBy('nombre', 'ASC')->all();}
+        else if (\Auth::user()->type == 'admin') {
+        $eventos = $this->eventosRepository->orderBy('nombre', 'ASC')->all();}
 
         return view('eventos.index')
             ->with('eventos', $eventos);
