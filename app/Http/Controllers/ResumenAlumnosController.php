@@ -37,7 +37,7 @@ class ResumenAlumnosController extends AppBaseController
       } else if (\Auth::user()->type == 'member') {
         $resumenAlumnos=DB::table('resumenalum')->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->get();
       } else if (\Auth::user()->type == 'user') {
-        $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',\Auth::user()->name)->get();
+        $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }
 
         return view('resumen_alumnos.index')

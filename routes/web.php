@@ -27,18 +27,11 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('resumenEventos', 'ResumenEventosController');
   Route::resource('dashboard', 'DashboardController');
   Route::resource('dashboardTv', 'DashboardTvController');
-  //quedan por comprobar
   Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
-
-
-  
-
-
+  Route::get('reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::get('/import', 'ImportController@import');
 
-  //quedan por comprobar
-  Route::get('reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel'); // RESTRINGIR A MEMBER Y ADMIN
-
+  
 });
 
 
