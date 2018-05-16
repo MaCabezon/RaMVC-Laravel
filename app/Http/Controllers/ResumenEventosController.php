@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response,DB;
+use App\Models\Eventos;
 
 
 class ResumenEventosController extends AppBaseController
@@ -30,9 +31,13 @@ class ResumenEventosController extends AppBaseController
      */
     public function index(Request $request)
     {
-        // $this->resumenEventosRepository->pushCriteria(new RequestCriteria($request));
-        //$resumenEventos = $this->resumenEventosRepository->all();
+      if (\Auth::user()->type == 'admin') {
         $resumenEventos=DB::table('resumeneventos')->get();
+      } else if (\Auth::user()->type == 'member') {
+        $resumenEventos=DB::table('resumeneventos')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
+      } else if (\Auth::user()->type == 'user') {
+        $resumenEventos=DB::table('resumeneventos')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get(); 
+      }
 
         return view('resumen_eventos.index')
             ->with('resumenEventos', $resumenEventos);
@@ -97,6 +102,7 @@ class ResumenEventosController extends AppBaseController
     public function edit($id)
     {
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
+        $listaEventos  = Eventos::pluck('nombre', 'id');
 
         if (empty($resumenEventos)) {
             Flash::error('Resumen Eventos no encontrado');
@@ -104,7 +110,7 @@ class ResumenEventosController extends AppBaseController
             return redirect(route('resumenEventos.index'));
         }
 
-        return view('resumen_eventos.edit')->with('resumenEventos', $resumenEventos);
+        return view('resumen_eventos.edit')->with('resumenEventos', $resumenEventos)->with('eventos', $listaEventos);
     }
 
     /**

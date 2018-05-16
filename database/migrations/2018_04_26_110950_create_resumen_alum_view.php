@@ -13,8 +13,8 @@ class CreateResumenAlumView extends Migration
      */
     public function up()
     {
-       DB::statement("CREATE VIEW  resumenalum as SELECT ra.id,ra.idAlumno,ra.idEvento,ev.nombre,ra.fechaEvento,ra.horas, 
-                    if(ra.validado=1,'Validado','No validado') as validado,ra.created_at,ra.updated_at,ra.deleted_at 
+       DB::statement("CREATE VIEW  resumenalum as SELECT ra.id,ra.idAlumno,ra.idEvento,ev.nombre,ra.fechaEvento,ra.horas,
+                    if(ra.validado=1,'Validado','No validado') as validado,ra.created_at,ra.updated_at,ra.deleted_at,ev.nombreProfesor 
                     FROM resumen_alumnos AS ra JOIN eventos AS ev ON ra.idEvento = ev.id ");
 
     }

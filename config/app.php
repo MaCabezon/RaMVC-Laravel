@@ -172,6 +172,8 @@ return [
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         //Backups
         //Spatie\Backup\BackupServiceProvider::class,
+        //Login Google
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
 
     ],
@@ -227,7 +229,7 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => Laracasts\Flash\Flash::class,
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
