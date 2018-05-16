@@ -23,6 +23,10 @@ class ResumenAlumnosController extends AppBaseController
     public function __construct(ResumenAlumnosRepository $resumenAlumnosRepo)
     {
         $this->resumenAlumnosRepository = $resumenAlumnosRepo;
+        $this->middleware('permission:resumenAlumnos-list');
+        $this->middleware('permission:resumenAlumnos-create', ['only' => ['create','store']]);
+        $this->middleware('permission:resumenAlumnos-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:resumenAlumnos-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -33,11 +37,11 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function index(Request $request)
     {    
-      if (\Auth::user()->type == 'admin') {
+      if (\Auth::user()->hasRole('admin')) {
         $resumenAlumnos=DB::table('resumenalum')->get();
-      } else if (\Auth::user()->type == 'member') {
+      } else if (\Auth::user()->hasRole('member')) {
         $resumenAlumnos=DB::table('resumenalum')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
-      } else if (\Auth::user()->type == 'user') {
+      } else if (\Auth::user()->hasRole('user')) {
         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }
       
@@ -53,7 +57,8 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function create()
     {
-        return view('resumen_alumnos.create');
+        $listaEventos  = Eventos::pluck('nombre', 'id');
+        return view('resumen_alumnos.create')->with('eventos',$listaEventos);
     }
     /**
      * Crear Transacciones a traves de los datos de apk.
