@@ -340,3 +340,14 @@ padding-right: 0.2% !important;
 text-align:center !important;
 font-size: 80% !important;
 }
+
+/*Welcome*/
+
+#background_web{
+	background-image: url(images/background.jpg);
+	background-position: center !important;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-size: 60% !important;
+	height: 815px !important;
+}
