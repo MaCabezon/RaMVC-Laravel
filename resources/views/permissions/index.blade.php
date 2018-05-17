@@ -9,7 +9,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('roles.table')
+                    @include('permissions.table')
             </div>
         </div>
         <div class="text-center">

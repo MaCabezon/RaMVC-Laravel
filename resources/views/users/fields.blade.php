@@ -24,10 +24,24 @@
         <div class="eventoVistas form-group col-sm-12">
             {!! Form::label('confirm-password', 'Confirmar contraseña:') !!}
             {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
+        </div>      
+        
+        <div class="eventoVistas form-group col-sm-12">
+        {!! Form::label('roles', 'Roles Asignados:') !!}        
+            <ul class="list-unstyled">
+                @foreach($roles as $role)
+                <li>
+                    <label>
+                    {{ Form::checkbox('roles[]', $role->id, null) }}
+                    {{ $role->name }}
+                    </label>
+                </li>
+                @endforeach
+            </ul>
         </div>
 
-        <!-- Submit Field -->
-        <div class="form-group col-sm-12" id="evento_botones">
+         <!-- Submit Field -->
+         <div class="form-group col-sm-12" id="evento_botones">
             {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
             <a href="{!! route('users.index') !!}" class="btn btn-default">Cancelar</a>
             

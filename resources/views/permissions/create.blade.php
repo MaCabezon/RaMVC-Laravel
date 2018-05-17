@@ -8,9 +8,9 @@
 
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'roles.store']) !!}
+                    {!! Form::open(['route' => 'permissions.store']) !!}
 
-                        @include('roles.fields')
+                        @include('permissions.fields')
 
                     {!! Form::close() !!}
                 </div>

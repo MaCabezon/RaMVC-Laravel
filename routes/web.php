@@ -31,8 +31,9 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::get('/reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
   Route::get('/reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::get('/import', 'ImportController@import');
-  Route::resource('users','UserController');
-  Route::resource('roles','RoleController');
+  Route::resource('/users','UserController');
+  Route::resource('/roles','RoleController');
+  Route::resource('/permissions', 'PermissionController');
 
   
 });

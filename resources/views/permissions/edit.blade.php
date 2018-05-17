@@ -6,9 +6,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($roles, ['route' => ['roles.update', $role->id], 'method' => 'patch']) !!}
+                   {!! Form::model($permissions, ['route' => ['permissions.update', $permission->id], 'method' => 'patch']) !!}
 
-                        @include('roles.fields')
+                        @include('permissions.fields')
 
                    {!! Form::close() !!}
                </div>

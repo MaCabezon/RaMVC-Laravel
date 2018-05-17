@@ -6,7 +6,7 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
-                    @include('roles.show_fields')
+                    @include('permissions.show_fields')
                 </div>
             </div>
         </div>

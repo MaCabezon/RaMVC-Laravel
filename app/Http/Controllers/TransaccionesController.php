@@ -21,6 +21,7 @@ class TransaccionesController extends AppBaseController
     {
         $this->transaccionesRepository = $transaccionesRepo;
         $this->middleware('permission:transacciones-list');
+        $this->middleware('permission:transacciones-show', ['only' => ['show']]);
         $this->middleware('permission:transacciones-create', ['only' => ['create','store']]);
         $this->middleware('permission:transacciones-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:transacciones-delete', ['only' => ['destroy']]);

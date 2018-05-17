@@ -24,6 +24,7 @@ class ResumenAlumnosController extends AppBaseController
     {
         $this->resumenAlumnosRepository = $resumenAlumnosRepo;
         $this->middleware('permission:resumenAlumnos-list');
+        $this->middleware('permission:resumenAlumnos-show', ['only' => ['show']]);
         $this->middleware('permission:resumenAlumnos-create', ['only' => ['create','store']]);
         $this->middleware('permission:resumenAlumnos-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:resumenAlumnos-delete', ['only' => ['destroy']]);

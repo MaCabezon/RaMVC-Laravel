@@ -22,6 +22,7 @@ class EventosController extends AppBaseController
     {
         $this->eventosRepository = $eventosRepo;
          $this->middleware('permission:eventos-list');
+         $this->middleware('permission:eventos-show', ['only' => ['show']]);
          $this->middleware('permission:eventos-create', ['only' => ['create','store']]);
          $this->middleware('permission:eventos-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:eventos-delete', ['only' => ['destroy']]);

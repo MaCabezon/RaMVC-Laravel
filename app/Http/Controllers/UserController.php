@@ -18,6 +18,7 @@ class UserController extends Controller
     {
        
          $this->middleware('permission:user-list');
+         $this->middleware('permission:user-show', ['only' => ['show']]);
          $this->middleware('permission:user-create', ['only' => ['create','store']]);
          $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:user-delete', ['only' => ['destroy']]);
@@ -98,12 +99,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
+       /* $user = User::find($id);
+        $roles = Role::pluck('id','name')->all();
+        
         $userRole = $user->roles->pluck('name','name')->all();
 
 
-        return view('users.edit',compact('user','roles','userRole'));
+        return view('users.edit',compact('user','roles','userRole'));*/
+        $user = User::find($id);
+        $roles = Role::get();
+
+        return view('users.edit', compact('user', 'roles'));
     }
 
 
