@@ -39,9 +39,9 @@ class SocialController extends Controller
         /*if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
           return redirect('/');
         }*/
-        
+
         if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez'){
-           
+
              return redirect('/');
         }
 
@@ -54,26 +54,7 @@ class SocialController extends Controller
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
-            $userInDB->assignRole('user');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            //Se puede meter en un for
-            if ($socialUser->email == "rap@uneatlantico.es") {
-              $userInDB->type = 'admin';
-            } else if ( $socialUser->email == 'abraham.fernandez@alumnos.uneatlantico.es' || $socialUser->email == 'sara.berbil@alumnos.uneatlantico.es' || $socialUser->email == 'loyda.alas@alumnos.uneatlantico.es' || $socialUser->email == 'larisa.hernandez@alumnos.uneatlantico.es') {
-=======
-            if ($socialUser->email == "rap@uneatlantico.es") {
-              $userInDB->type = 'admin';
-            } else if (  str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
->>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
-              $userInDB->type = 'member';
-            } else {
-              $userInDB->type = 'user';
-            }
-<<<<<<< HEAD
-=======
-=======
            /* if ($socialUser->email == "rap@uneatlantico.es") {
               $userInDB->type = 'admin';
             } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
@@ -81,13 +62,12 @@ class SocialController extends Controller
             } else {
               $userInDB->type = 'user';
             }*/
->>>>>>> 71ef0916cc6619beeeab348f1a092f0322325de7
-           
->>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
+
         }
         $userInDB->name = $socialUser->name; //Actualiza el name
 
         $userInDB->save();
+        $userInDB->assignRole('user');
         //Guarda el id oauth del proveedor de Oauth
         //$sameSocialId = new SocialEntity;
         DB::table('social_logins')->where('social_id', '=', $socialUser->id)
