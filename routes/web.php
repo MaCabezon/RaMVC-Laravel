@@ -34,8 +34,6 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/users','UserController');
   Route::resource('/roles','RoleController');
   Route::resource('/permissions', 'PermissionController');
-
-
 });
 
 
@@ -59,4 +57,3 @@ Route::resource('/dashboardTv', 'DashboardTvController');
 Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedirect')->name('redirectSocialLite');
 Route::get('/social/handle/{provider}', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
 Route::get('/login/{provider}/callback', 'Auth\SocialController@getSocialHandle')->name('home');
->>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
