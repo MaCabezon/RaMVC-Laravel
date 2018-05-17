@@ -36,8 +36,13 @@ class SocialController extends Controller
         $socialUser = Socialite::driver($provider)->user();
 
         //Filtrado de usuarios
-        if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
+        /*if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
           return redirect('/');
+        }*/
+        
+        if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez'){
+           
+             return redirect('/');
         }
 
 
@@ -49,7 +54,9 @@ class SocialController extends Controller
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
+            $userInDB->assignRole('user');
 
+<<<<<<< HEAD
 <<<<<<< HEAD
             //Se puede meter en un for
             if ($socialUser->email == "rap@uneatlantico.es") {
@@ -66,6 +73,15 @@ class SocialController extends Controller
             }
 <<<<<<< HEAD
 =======
+=======
+           /* if ($socialUser->email == "rap@uneatlantico.es") {
+              $userInDB->type = 'admin';
+            } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
+              $userInDB->type = 'member';
+            } else {
+              $userInDB->type = 'user';
+            }*/
+>>>>>>> 71ef0916cc6619beeeab348f1a092f0322325de7
            
 >>>>>>> a3518e1c44b7a46ea18cce6da6d87215f80936f5
         }
@@ -94,7 +110,7 @@ class SocialController extends Controller
 
         }
 
-        return redirect('/');
+        return redirect('/home');
         //return \Auth::user();
 
 

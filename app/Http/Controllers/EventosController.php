@@ -21,6 +21,11 @@ class EventosController extends AppBaseController
     public function __construct(EventosRepository $eventosRepo)
     {
         $this->eventosRepository = $eventosRepo;
+         $this->middleware('permission:eventos-list');
+         $this->middleware('permission:eventos-show', ['only' => ['show']]);
+         $this->middleware('permission:eventos-create', ['only' => ['create','store']]);
+         $this->middleware('permission:eventos-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:eventos-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -34,15 +39,14 @@ class EventosController extends AppBaseController
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
 
         ///ECHAR UN VISTAZO AL ERROR DE AQUI
-        if (\Auth::user()->type == 'user') {
-        $eventos = $this->eventosRepository->where('nombreProfesor',\Auth::user()->name)->orderBy('nombre', 'ASC')->all();}
-        else if (\Auth::user()->type == 'member') {
-        $eventos = $this->eventosRepository->where('id','=',220)->orWhere('id','=',221)->orWhere('id','=',207)->orWhere('id','=',208)->orderBy('nombre', 'ASC')->all();}
-        else if (\Auth::user()->type == 'admin') {
-        $eventos = $this->eventosRepository->orderBy('nombre', 'ASC')->all();}
-
-        return view('eventos.index')
+       
+       
+         $eventos = $this->eventosRepository->all();
+         return view('eventos.index')
             ->with('eventos', $eventos);
+        
+
+        
     }
 
     /**

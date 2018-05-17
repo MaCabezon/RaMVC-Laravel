@@ -13,11 +13,13 @@
                         <th>Evento</th>
                         <th>Fecha evento</th>
                         <th>Horas</th>
-                         <th>Validado</th>
+                        <th>Validado</th>
                         <th colspan="3">Acciones
-                            <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('resumenAlumnos.create') !!}"></a>
-
+                            @can('resumenAlumnos-create')
+                                <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('resumenAlumnos.create') !!}"></a>
+                                @endcan
                         </th>
+                        
                     </tr>
                 </thead>
                 <tbody class='buscar'>
@@ -31,9 +33,15 @@
                         <td>
                             {!! Form::open(['route' => ['resumenAlumnos.destroy', $resumenAlumnos->id], 'method' => 'delete']) !!}
                             <div class='btn-group'>
+                            @can('resumenAlumnos-show')
                                 <a href="{!! route('resumenAlumnos.show', [$resumenAlumnos->id]) !!}" class='btn btn-success btn-sm'><i class="glyphicon glyphicon-eye-open"></i></a>
+                            @endcan
+                            @can('resumenAlumnos-edit')    
                                 <a href="{!! route('resumenAlumnos.edit', [$resumenAlumnos->id]) !!}" class='btn btn-info btn-sm'><i class="glyphicon glyphicon-edit"></i></a>
+                            @endcan
+                            @can('resumenAlumnos-delete')    
                                 {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            @endcan
                             </div>
                             {!! Form::close() !!}
                         </td>

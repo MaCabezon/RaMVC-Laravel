@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response,DB;
+use App\Models\Eventos;
 
 
 class ResumenEventosController extends AppBaseController
@@ -20,6 +21,11 @@ class ResumenEventosController extends AppBaseController
     public function __construct(ResumenEventosRepository $resumenEventosRepo)
     {
         $this->resumenEventosRepository = $resumenEventosRepo;
+        $this->middleware('permission:resumenEventos-list');
+        $this->middleware('permission:resumenEventos-show', ['only' => ['show']]);
+        $this->middleware('permission:resumenEventos-create', ['only' => ['create','store']]);
+        $this->middleware('permission:resumenEventos-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:resumenEventos-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -30,11 +36,11 @@ class ResumenEventosController extends AppBaseController
      */
     public function index(Request $request)
     {
-      if (\Auth::user()->type == 'admin') {
+      if (\Auth::user()->hasRole('admin')) {
         $resumenEventos=DB::table('resumeneventos')->get();
-      } else if (\Auth::user()->type == 'member') {
+      } else if (\Auth::user()->hasRole('member')) {
         $resumenEventos=DB::table('resumeneventos')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
-      } else if (\Auth::user()->type == 'user') {
+      } else if (\Auth::user()->hasRole('user')) {
         $resumenEventos=DB::table('resumeneventos')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get(); 
       }
 
@@ -49,7 +55,8 @@ class ResumenEventosController extends AppBaseController
      */
     public function create()
     {
-        return view('resumen_eventos.create');
+        $listaEventos  = Eventos::pluck('nombre', 'id');
+        return view('resumen_eventos.create')->with('eventos',$listaEventos);
     }
 
     /**
@@ -101,6 +108,7 @@ class ResumenEventosController extends AppBaseController
     public function edit($id)
     {
         $resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
+        $listaEventos  = Eventos::pluck('nombre', 'id');
 
         if (empty($resumenEventos)) {
             Flash::error('Resumen Eventos no encontrado');
@@ -108,7 +116,7 @@ class ResumenEventosController extends AppBaseController
             return redirect(route('resumenEventos.index'));
         }
 
-        return view('resumen_eventos.edit')->with('resumenEventos', $resumenEventos);
+        return view('resumen_eventos.edit')->with('resumenEventos', $resumenEventos)->with('eventos', $listaEventos);
     }
 
     /**

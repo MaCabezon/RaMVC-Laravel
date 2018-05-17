@@ -12,6 +12,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
+use App\Models\Eventos;
 
 
 class ResumenAlumnosController extends AppBaseController
@@ -22,6 +23,11 @@ class ResumenAlumnosController extends AppBaseController
     public function __construct(ResumenAlumnosRepository $resumenAlumnosRepo)
     {
         $this->resumenAlumnosRepository = $resumenAlumnosRepo;
+        $this->middleware('permission:resumenAlumnos-list');
+        $this->middleware('permission:resumenAlumnos-show', ['only' => ['show']]);
+        $this->middleware('permission:resumenAlumnos-create', ['only' => ['create','store']]);
+        $this->middleware('permission:resumenAlumnos-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:resumenAlumnos-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -32,13 +38,14 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function index(Request $request)
     {    
-      if (\Auth::user()->type == 'admin') {
+      if (\Auth::user()->hasRole('admin')) {
         $resumenAlumnos=DB::table('resumenalum')->get();
-      } else if (\Auth::user()->type == 'member') {
+      } else if (\Auth::user()->hasRole('member')) {
         $resumenAlumnos=DB::table('resumenalum')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
-      } else if (\Auth::user()->type == 'user') {
+      } else if (\Auth::user()->hasRole('user')) {
         $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
       }
+      
 
         return view('resumen_alumnos.index')
             ->with('resumenAlumnos', $resumenAlumnos);
@@ -51,7 +58,8 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function create()
     {
-        return view('resumen_alumnos.create');
+        $listaEventos  = Eventos::pluck('nombre', 'id');
+        return view('resumen_alumnos.create')->with('eventos',$listaEventos);
     }
     /**
      * Crear Transacciones a traves de los datos de apk.
@@ -67,8 +75,7 @@ class ResumenAlumnosController extends AppBaseController
             $resumenAlumno->idEvento=$resultado['idEvento'];
             $resumenAlumno->fechaEvento=$resultado['fechaEvento'];
             $resumenAlumno->horas=$resultado['horas'];
-            $resumenAlumno->validado=1;
-            $resumenAlumno->justificado=1;
+            $resumenAlumno->validado=$resultado['validado'];            
             $resumenAlumno->jusrificante=$resultado['justificante'];
     }
 
@@ -135,6 +142,8 @@ class ResumenAlumnosController extends AppBaseController
     public function edit($id)
     {
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
+        $listaEventos  = Eventos::pluck('nombre', 'id');
+        
 
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
@@ -142,7 +151,7 @@ class ResumenAlumnosController extends AppBaseController
             return redirect(route('resumenAlumnos.index'));
         }
 
-        return view('resumen_alumnos.edit')->with('resumenAlumnos', $resumenAlumnos);
+        return view('resumen_alumnos.edit')->with('resumenAlumnos', $resumenAlumnos)->with('eventos', $listaEventos);
     }
 
     /**

@@ -4,8 +4,8 @@
 	 <h1 id="titulos">Resumen Eventos</h1>
 <!-- Idevento Field -->
 <div class="eventoVistas form-group col-sm-12">
-    {!! Form::label('idEvento', 'Id evento:') !!}
-    {!! Form::number('idEvento', null, ['class' => 'form-control']) !!}
+{!! Form::label('Evento', 'Evento:') !!} 
+    {!! Form::select('idEvento', $eventos, null, array('class' => 'form-control')) !!}
 </div>
 
 <!-- Fechaevento Field -->
