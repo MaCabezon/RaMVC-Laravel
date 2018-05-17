@@ -99,8 +99,9 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $permission = Permission::find($id);
+        $roles = Role::get();
         
-        return view('permissions.edit', compact('permission'));
+        return view('permissions.edit', compact('permission','roles'));
     }
 
     /**

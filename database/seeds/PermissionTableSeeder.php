@@ -34,7 +34,7 @@ class PermissionTableSeeder extends Seeder
            'permissions-create',
            'permissions-edit',
            'permissions-delete',
-           'persmissions-show',
+           'permissions-show',
            'transacciones-list',
            'transacciones-create',
            'transacciones-edit',
