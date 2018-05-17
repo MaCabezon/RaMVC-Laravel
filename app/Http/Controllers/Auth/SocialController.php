@@ -54,14 +54,15 @@ class SocialController extends Controller
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
+            $userInDB->assignRole('user');
 
-            if ($socialUser->email == "rap@uneatlantico.es") {
+           /* if ($socialUser->email == "rap@uneatlantico.es") {
               $userInDB->type = 'admin';
             } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
               $userInDB->type = 'member';
             } else {
               $userInDB->type = 'user';
-            }
+            }*/
            
         }
         $userInDB->name = $socialUser->name; //Actualiza el name
@@ -89,7 +90,7 @@ class SocialController extends Controller
 
         }
 
-        return redirect('/');
+        return redirect('/home');
         //return \Auth::user();
 
 

@@ -9,11 +9,12 @@ class UserTableSeeder extends Seeder
 	{
 	    DB::table('users')->delete();
 	    User::create(array(
-	        'name'     => 'lazaro.hernandez',
-	        'email'    => 'rap@uneatlantico.es',
-	        'password' => Hash::make('admin'),
-					'type'     => 'admin',
-	    ));
+	        'name'     => 'Soporte',
+	        'email'    => 'rap@uneatlantico.es'
+	        
+					
+		));
+		
 	}
 	//composer dump-autoload
 }

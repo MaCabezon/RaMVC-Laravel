@@ -20,6 +20,11 @@ class TransaccionesController extends AppBaseController
     public function __construct(TransaccionesRepository $transaccionesRepo)
     {
         $this->transaccionesRepository = $transaccionesRepo;
+        $this->middleware('permission:transacciones-list');
+        $this->middleware('permission:transacciones-show', ['only' => ['show']]);
+        $this->middleware('permission:transacciones-create', ['only' => ['create','store']]);
+        $this->middleware('permission:transacciones-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:transacciones-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -31,12 +36,14 @@ class TransaccionesController extends AppBaseController
     public function index(Request $request)
     {
     
-        if (\Auth::user()->type == 'admin') {
-          $transacciones=DB::table('transaccionesView')->get();
-        }
-
-        return view('transacciones.index')
+        
+        $transacciones=DB::table('transaccionesView')->get();
+       
+        if(!empty($transacciones)){
+            return view('transacciones.index')
             ->with('transacciones', $transacciones);
+        }
+        
     }
 
     /**
