@@ -2,7 +2,7 @@
 
     <!-- Abreviatura Field -->
     <div class="col-sm-4" id="contenedor">
-        <h1 id="titulos">Usuarios</h1>
+        <h1 id="titulos">Permisos</h1>
         <div class="eventoVistas form-group col-sm-12">
             {!! Form::label('name', 'Nombre:') !!}
             {!! Form::text('name', null, ['class' => 'form-control']) !!}

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Session;
+use Session,DB;
 
 class PermissionController extends Controller
 {
@@ -87,7 +87,10 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        return redirect('permissions');
+        $permission = Permission::find($id);
+        $roles = Role::get();
+        
+        return view('permissions.show')->with('permission',$permission)->with('roles',$roles); 
     }
 
     /**
@@ -120,7 +123,11 @@ class PermissionController extends Controller
         ]);
         
         $input = $request->all();
-        $permission->fill($input)->save();
+              
+        DB::table('permissions')->where('id', $id)->update(['name' => $input['name']]);
+        DB::table('role_has_permissions')->where('permission_id',$id)->delete();
+        $permission->assignRole($request->input('roles'));
+
 
         return redirect()->route('permissions.index')
             ->with('flash_message',

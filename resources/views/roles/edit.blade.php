@@ -6,7 +6,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($roles, ['route' => ['roles.update', $role->id], 'method' => 'patch']) !!}
+                   {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'patch']) !!}
 
                         @include('roles.fields')
 

@@ -25,9 +25,7 @@
                 <td>
                     {!! Form::open(['route' => ['roles.destroy', $role->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                    @can('role-show')
-                        <a href="{!! route('roles.show', [$role->id]) !!}" class='btn btn-success btn-sm'><i class="glyphicon glyphicon-eye-open"></i></a>
-                     @endcan
+                    
                      @can('role-edit')
                         <a href="{!! route('roles.edit', [$role->id]) !!}" class='btn btn-info btn-sm'><i class="glyphicon glyphicon-edit"></i></a>
                      @endcan
