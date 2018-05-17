@@ -54,8 +54,7 @@ class SocialController extends Controller
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
-            $userInDB->assignRole('user');
-
+           
            /* if ($socialUser->email == "rap@uneatlantico.es") {
               $userInDB->type = 'admin';
             } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
@@ -68,6 +67,8 @@ class SocialController extends Controller
         $userInDB->name = $socialUser->name; //Actualiza el name
 
         $userInDB->save();
+        $userInDB->assignRole('user');
+
         //Guarda el id oauth del proveedor de Oauth
         //$sameSocialId = new SocialEntity;
         DB::table('social_logins')->where('social_id', '=', $socialUser->id)

@@ -87,7 +87,10 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        return redirect('permissions');
+        $permission = Permission::find($id);
+        $roles = Role::get();
+        
+        return view('permissions.show')->with('permission',$permission)->with('roles',$roles); 
     }
 
     /**

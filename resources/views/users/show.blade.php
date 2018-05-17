@@ -6,7 +6,11 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
-                    @include('users.show_fields')
+                {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
+
+                        @include('users.show_fields')
+
+                {!! Form::close() !!}
                 </div>
             </div>
         </div>
