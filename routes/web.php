@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
-Route::get('/datosBitPoints','DatosController@obtenerDatosBecarios');
+Route::get('/datosBitPoints','ResumenAlumnosController@obtenerDatosBecarios');
 Route::post('/justificar', 'ResumenAlumnosController@justificarHoras');
 Route::post('/feedback',  function () {
 
