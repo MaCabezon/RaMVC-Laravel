@@ -77,6 +77,7 @@ class ResumenAlumnosController extends AppBaseController
             $resumenAlumno->horas=$resultado['horas'];
             $resumenAlumno->validado=$resultado['validado'];            
             $resumenAlumno->jusrificante=$resultado['justificante'];
+            $resumenAlumno->save();
     }
 
     /**
