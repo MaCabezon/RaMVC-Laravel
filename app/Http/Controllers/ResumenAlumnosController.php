@@ -76,7 +76,7 @@ class ResumenAlumnosController extends AppBaseController
             $resumenAlumno->fechaEvento=$resultado['fechaEvento'];
             $resumenAlumno->horas=$resultado['horas'];
             $resumenAlumno->validado=$resultado['validado'];            
-            $resumenAlumno->jusrificante=$resultado['justificante'];
+            $resumenAlumno->justificante=$resultado['justificante'];
             $resumenAlumno->save();
     }
 
