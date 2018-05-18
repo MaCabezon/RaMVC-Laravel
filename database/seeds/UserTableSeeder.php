@@ -11,8 +11,8 @@ class UserTableSeeder extends Seeder
 	    User::create(array(
 	        'name'     => 'lazaro.hernandez',
 	        'email'    => 'rap@uneatlantico.es',
-	        'password' => Hash::make('tuTUhY1y'),
-					'type'     => 'admin',
+	        
+					
 	    ));
 	}
 	//composer dump-autoload
