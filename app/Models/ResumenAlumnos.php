@@ -30,8 +30,7 @@ class ResumenAlumnos extends Model
         'idEvento',
         'fechaEvento',        
         'validado',
-        'horas',
-        'justificado',
+        'horas',       
         'justificante'
     ];
 

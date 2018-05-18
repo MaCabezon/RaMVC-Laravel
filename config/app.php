@@ -174,6 +174,7 @@ return [
         //Spatie\Backup\BackupServiceProvider::class,
         //Login Google
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
 
     ],

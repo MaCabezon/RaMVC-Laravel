@@ -74,25 +74,31 @@
        @endauth
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="graficas"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
-        <li><a href="dashboard"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-        @auth
+        <li><a href="{{ action('HighchartController@highchart') }}"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
+        <li><a href="{{ action('DashboardController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+        @auth       
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
           <ul class="dropdown-menu" >
-          @if(\Auth::user()->type!='user')
+          @can('eventos-list')
             <li><a href="{{ action('EventosController@index') }}">Eventos</a></li>
-          @endif  
+          @endcan  
+          @can('resumenAlumnos-list')
             <li><a href="{{ action('ResumenAlumnosController@index') }}">Resumen Alumnos</a></li>
+          @endcan  
+          @can('resumenEventos-list')
             <li><a href="{{ action('ResumenEventosController@index') }}">Resumen Eventos</a></li>
+          @endcan  
+          @can('transacciones-list')
             <li><a href="{{ action('TransaccionesController@index') }}">Transacciones</a></li>
+          @endcan  
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generar Reporte <span class="caret"></span></a>
           <ul class="dropdown-menu" >           
            <li> <a href="reporteTable">Visualizar reporte</a></li>
-           <li> <a href="reporte">Descargar reporte</a></li>
+           <li> <a href="ResumenAlumnos@excel">Descargar reporte</a></li>
           </ul>  
         </li>
         @endauth
@@ -101,23 +107,34 @@
           </a></li>
         @endguest
         @auth
-        <li class="nav-item dropdown">
-          <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           @if($user = \Auth::user())
-                  {{ stristr($user->email, '@', true)  }} <span class="caret"></span>
-          @endif
-          </a>
+                    {{ stristr($user->email, '@', true)  }} <span class="caret"></span>
+          @endif 
+        </a>
+            <ul class="dropdown-menu" >
+              @can('user-list')
+                <li><a href="{{ action('UserController@index') }}">Usuario</a></li>
+              @endcan  
+              @can('role-list')
+                <li><a href="{{ action('RoleController@index') }}">Roles</a></li>
+              @endcan
+              @can('permissions-list')
+                <li><a href="{{ action('PermissionController@index') }}">Permisos</a></li>
+              @endcan   
+                <li>
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
 
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                  {{ __('Logout') }}
-              </a>
-
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-              </form>
-          </div>
-        </li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                </li>
+                
+            </ul>
+ </li>
       @endauth
      </ul>
     </div><!-- /.navbar-collapse -->

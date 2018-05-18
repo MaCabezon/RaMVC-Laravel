@@ -39,9 +39,9 @@ class SocialController extends Controller
         /*if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
           return redirect('/');
         }*/
-        
+
         if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez'){
-           
+
              return redirect('/');
         }
 
@@ -55,6 +55,7 @@ class SocialController extends Controller
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
 
+            //Se puede meter en un for
             if ($socialUser->email == "rap@uneatlantico.es") {
               $userInDB->type = 'admin';
             } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
@@ -62,11 +63,12 @@ class SocialController extends Controller
             } else {
               $userInDB->type = 'user';
             }
-           
+
         }
         $userInDB->name = $socialUser->name; //Actualiza el name
 
         $userInDB->save();
+        $userInDB->assignRole('user');
         //Guarda el id oauth del proveedor de Oauth
         //$sameSocialId = new SocialEntity;
         DB::table('social_logins')->where('social_id', '=', $socialUser->id)
