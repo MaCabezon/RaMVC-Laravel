@@ -13,6 +13,7 @@ use Response;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use App\Models\Eventos;
+use App\Models\ResumenAlumnos;
 
 
 class ResumenAlumnosController extends AppBaseController
@@ -70,6 +71,9 @@ class ResumenAlumnosController extends AppBaseController
     public function justificarHoras(Request $resultado)
     {
        
+            if($resultado!=""){
+
+            
             $resumenAlumno=new ResumenAlumnos();
             $resumenAlumno->idAlumno=$resultado['idPersona'];
             $resumenAlumno->idEvento=$resultado['idEvento'];
@@ -78,6 +82,7 @@ class ResumenAlumnosController extends AppBaseController
             $resumenAlumno->validado=$resultado['validado'];            
             $resumenAlumno->justificante=$resultado['justificante'];
             $resumenAlumno->save();
+        }
     }
 
     /**
