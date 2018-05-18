@@ -71,6 +71,9 @@ class ResumenAlumnosController extends AppBaseController
     public function justificarHoras(Request $resultado)
     {
        
+            if($resultado!=""){
+
+            
             $resumenAlumno=new ResumenAlumnos();
             $resumenAlumno->idAlumno=$resultado['idPersona'];
             $resumenAlumno->idEvento=$resultado['idEvento'];
@@ -79,6 +82,7 @@ class ResumenAlumnosController extends AppBaseController
             $resumenAlumno->validado=$resultado['validado'];            
             $resumenAlumno->justificante=$resultado['justificante'];
             $resumenAlumno->save();
+        }
     }
 
     /**
