@@ -27,15 +27,13 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/resumenAlumnos', 'ResumenAlumnosController');
   Route::resource('/resumenEventos', 'ResumenEventosController');
   Route::resource('/transacciones', 'TransaccionesController');
-  Route::resource('/dashboard', 'DashboardController');  
+  Route::resource('/dashboard', 'DashboardController');
   Route::get('/reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
   Route::get('/reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::get('/import', 'ImportController@import');
   Route::resource('/users','UserController');
   Route::resource('/roles','RoleController');
   Route::resource('/permissions', 'PermissionController');
-
-  
 });
 
 
