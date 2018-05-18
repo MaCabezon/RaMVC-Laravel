@@ -13,6 +13,7 @@ use Response;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use App\Models\Eventos;
+use App\Models\ResumenAlumnos;
 
 
 class ResumenAlumnosController extends AppBaseController
