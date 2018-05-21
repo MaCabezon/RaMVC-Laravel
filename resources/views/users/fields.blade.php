@@ -13,18 +13,7 @@
             {!! Form::label('email', 'Email:') !!}
             {!! Form::email('email', null, ['class' => 'form-control']) !!}
         </div>
-
-        <!-- Grupo Field -->
-        <div class="eventoVistas form-group col-sm-12">
-            {!! Form::label('password', 'Password:') !!}
-            {!! Form::text('password', null, ['class' => 'form-control']) !!}
-        </div>
-
-        <!-- Nombreprofesor Field -->
-        <div class="eventoVistas form-group col-sm-12">
-            {!! Form::label('confirm-password', 'Confirmar contraseña:') !!}
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-        </div>      
+     
         
         <div class="eventoVistas form-group col-sm-12">
         {!! Form::label('roles', 'Roles Asignados:') !!}        
