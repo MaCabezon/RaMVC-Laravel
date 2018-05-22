@@ -14,7 +14,7 @@
             <th>Rol</th>
            
             <th colspan="3">Acciones
-                    <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('users.create') !!}"></a>
+                   <!-- <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('users.create') !!}"></a>-->
          </th>
             </tr>
         </thead>
