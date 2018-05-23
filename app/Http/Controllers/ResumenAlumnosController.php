@@ -242,8 +242,14 @@ class ResumenAlumnosController extends AppBaseController
                 });
 
                 //data
-              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
-
+              //$resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
+              if (\Auth::user()->hasRole('admin')) {
+                $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+              } else if (\Auth::user()->hasRole('member')) {
+                $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
+              } else if (\Auth::user()->hasRole('user')) {
+                $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+              }
               $rowNumber = 3; // Numero de columnas por el cual empieza
                 foreach ($resumenes as $resumen) {
                     $row=[];
@@ -317,11 +323,11 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function reporteTable(){
         
-        if (\Auth::user()->type == 'admin') {
+        if (\Auth::user()->hasRole('admin')) {
             $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
-          } else if (\Auth::user()->type == 'member') {
+          } else if (\Auth::user()->hasRole('member')) {
             $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
-          } else if (\Auth::user()->type == 'user') {
+          } else if (\Auth::user()->hasRole('user')) {
             $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           }
          
