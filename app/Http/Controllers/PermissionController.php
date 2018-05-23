@@ -123,11 +123,12 @@ class PermissionController extends Controller
         ]);
         
         $input = $request->all();
+        if($request->input('roles')!=""){
               
-        DB::table('permissions')->where('id', $id)->update(['name' => $input['name']]);
-        DB::table('role_has_permissions')->where('permission_id',$id)->delete();
-        $permission->assignRole($request->input('roles'));
-
+            DB::table('permissions')->where('id', $id)->update(['name' => $input['name']]);
+            DB::table('role_has_permissions')->where('permission_id',$id)->delete();
+            $permission->assignRole($request->input('roles'));
+        }
 
         return redirect()->route('permissions.index')
             ->with('flash_message',
