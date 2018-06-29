@@ -14,6 +14,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use App\Models\Eventos;
 use App\Models\ResumenAlumnos;
+//Nuevas
+use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 
 
 class ResumenAlumnosController extends AppBaseController
@@ -38,18 +41,151 @@ class ResumenAlumnosController extends AppBaseController
      * @return Response
      */
     public function index(Request $request)
-    {    
-      if (\Auth::user()->hasRole('admin')) {
-        $resumenAlumnos=DB::table('resumenalum')->get();
-      } else if (\Auth::user()->hasRole('member')) {
-        $resumenAlumnos=DB::table('resumenalum')->where('nombre','Becas I')->orWhere('nombre', 'Becas II')->orWhere('nombre', 'Intervencion Agil I')->orWhere('nombre','Intervencion Agil II')->get();
-      } else if (\Auth::user()->hasRole('user')) {
-        $resumenAlumnos=DB::table('resumenalum')->where('nombreProfesor',str_before(\Auth::user()->email,'@'))->get();
-      }
-      
+    {
+      $hasFilter = false;
+      $resumenAlumnos = null;
+      $alumno = Input::get('alumnos');
+      $evento = Input::get('eventos');
 
-        return view('resumen_alumnos.index')
-            ->with('resumenAlumnos', $resumenAlumnos);
+      // eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
+      $f1 = $f2 = null;//date('Y-m-d');
+
+      if(! is_null($request->fechaInicial) || ! empty($request->fechaInicial) && ! is_null($request->fechaFinal) || ! empty($request->fechaFinal))
+      {
+          $f1 = $request->fechaInicial;
+          $f2 = $request->fechaFinal;
+          $hasFilter = true;
+
+      }
+      elseif (is_null($request->fechaFinal) || empty($request->fechaFinal))
+      {
+        $f2 = date('Y-m-d');
+      }
+
+      if (!is_null($request->fechaInicial) || !is_null($request->fechaFinal) || !is_null($request->alumnos) || !is_null($request->eventos))
+      {
+        $hasFilter = true;
+      }
+
+
+      // Seleccion de datos SIN FILTRO (Para el SELECT)
+      if (\Auth::user()->hasRole('admin'))
+      {
+        $resumenAlumnosCompleto = DB::table('resumenalum')
+            ->orderBy('fechaEvento', 'DESC')
+            ->take(50)
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('member'))
+      {
+        $resumenAlumnosCompleto = DB::table('resumenalum')
+            ->where('nombre','Becas I')
+            ->orWhere('nombre', 'Becas II')
+            ->orWhere('nombre', 'Intervencion Agil I')
+            ->orWhere('nombre','Intervencion Agil II')
+            ->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('user'))
+      {
+        $resumenAlumnosCompleto = DB::table('resumenalum')
+            ->where('nombreProfesor',str_before(\Auth::user()->email,'@'))
+            ->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+
+      // Seleccion de datos con FILTRO
+      if (\Auth::user()->hasRole('admin'))
+      {
+        $query = DB::table('resumenalum');
+
+        if (!is_null($f1) && is_null($f2)) {
+          $f2 = date('Y-m-d');
+          $query->whereBetween('fechaEvento', [$f1, $f2]);
+        }
+        if (is_null($f1) && !is_null($f2)) {
+          $query->where('fechaEvento', '<=', $f2);
+        }
+        if (!is_null($f1) && !is_null($f2)) {
+          $query->whereBetween('fechaEvento', [$f1, $f2]);
+        }
+
+        if ($evento != null) {
+          $query->where('nombre',$evento);
+        }
+        if ($alumno != null) {
+          $query->where('idAlumno',$alumno);
+        }
+
+        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('member'))
+      {
+        $resumenAlumnos = DB::table('resumenalum')
+            ->where('nombre','Becas I')
+            ->orWhere('nombre', 'Becas II')
+            ->orWhere('nombre', 'Intervencion Agil I')
+            ->orWhere('nombre','Intervencion Agil II');
+
+            if (!is_null($f1) && is_null($f2)) {
+              $f2 = date('Y-m-d');
+              $query->whereBetween('fechaEvento', [$f1, $f2]);
+            }
+            if (is_null($f1) && !is_null($f2)) {
+              $query->where('fechaEvento', '<=', $f2);
+            }
+            if (!is_null($f1) && !is_null($f2)) {
+              $query->whereBetween('fechaEvento', [$f1, $f2]);
+            }
+
+            if ($evento != null) {
+              $query->where('nombre',$evento);
+            }
+            if ($alumno != null) {
+              $query->where('idAlumno',$alumno);
+            }
+
+            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
+                ->get();
+      }
+      else if (\Auth::user()->hasRole('user'))
+      {
+        $resumenAlumnos = DB::table('resumenalum')
+            ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
+
+            if (!is_null($f1) && is_null($f2)) {
+              $f2 = date('Y-m-d');
+              $query->whereBetween('fechaEvento', [$f1, $f2]);
+            }
+            if (is_null($f1) && !is_null($f2)) {
+              $query->where('fechaEvento', '<=', $f2);
+            }
+            if (!is_null($f1) && !is_null($f2)) {
+              $query->whereBetween('fechaEvento', [$f1, $f2]);
+            }
+
+            if ($evento != null) {
+              $query->where('nombre',$evento);
+            }
+            if ($alumno != null) {
+              $query->where('idAlumno',$alumno);
+            }
+
+            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
+                ->get();
+      }
+
+
+      if (is_null($resumenAlumnos))
+      {
+        return view('resumen_alumnos.index', ["hasFilter" => $hasFilter]);
+      }
+      else
+      {
+        return view('resumen_alumnos.index', ["hasFilter" => $hasFilter, "resumenAlumnos" => $resumenAlumnos, "f1" => $f1, "f2" => $f2, "resumenAlumnosCompleto" => $resumenAlumnosCompleto]);
+      }
+
     }
 
     /**
@@ -70,16 +206,16 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function justificarHoras(Request $resultado)
     {
-       
+
             if($resultado!=""){
 
-            
+
             $resumenAlumno=new ResumenAlumnos();
             $resumenAlumno->idAlumno=$resultado['idPersona'];
             $resumenAlumno->idEvento=$resultado['idEvento'];
             $resumenAlumno->fechaEvento=$resultado['fechaEvento'];
             $resumenAlumno->horas=$resultado['horas'];
-            $resumenAlumno->validado=$resultado['validado'];            
+            $resumenAlumno->validado=$resultado['validado'];
             $resumenAlumno->justificante=$resultado['justificante'];
             $resumenAlumno->save();
         }
@@ -149,7 +285,7 @@ class ResumenAlumnosController extends AppBaseController
     {
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
         $listaEventos  = Eventos::pluck('nombre', 'id');
-        
+
 
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
@@ -211,9 +347,9 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Generate report 
+     * Generate report
      *
-     * 
+     *
      *
      * @return Response
      */
@@ -242,7 +378,7 @@ class ResumenAlumnosController extends AppBaseController
                 });
 
                 //data
-              //$resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
+              //$resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
               if (\Auth::user()->hasRole('admin')) {
                 $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
               } else if (\Auth::user()->hasRole('member')) {
@@ -315,14 +451,14 @@ class ResumenAlumnosController extends AppBaseController
 
     }
     /**
-     * Generate report 
+     * Generate report
      *
-     * 
+     *
      *
      * @return Response
      */
     public function reporteTable(){
-        
+
         if (\Auth::user()->hasRole('admin')) {
             $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           } else if (\Auth::user()->hasRole('member')) {
@@ -330,10 +466,10 @@ class ResumenAlumnosController extends AppBaseController
           } else if (\Auth::user()->hasRole('user')) {
             $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           }
-         
+
 
           //data
-          
+
 
           $data=[];
             foreach ($resumenes as $resumen) {
@@ -354,13 +490,13 @@ class ResumenAlumnosController extends AppBaseController
 
     public function obtenerDatosBecarios()
     {
-            
+
             $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno
                  AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reporte.Evento LIKE "Becas%" OR reporte.Evento
                  LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
         header('Content-Type: application/json');
-        return json_encode($vista);         
+        return json_encode($vista);
     }
 
-    
+
 }
