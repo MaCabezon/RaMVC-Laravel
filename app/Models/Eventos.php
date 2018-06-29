@@ -20,7 +20,7 @@ class Eventos extends Model
     use SoftDeletes;
 
     public $table = 'eventos';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -56,5 +56,5 @@ class Eventos extends Model
         'nombreProfesor' => 'required'
     ];
 
-    
+
 }
