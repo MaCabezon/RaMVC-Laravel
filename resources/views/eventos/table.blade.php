@@ -1,7 +1,4 @@
-<div id ="encabezado" class="col-lg-12" class="label label-default" >
-         <h3>Listado de Eventos</h3>
-         <hr/>
-</div>
+
 
     <div class="container" >
         <div class="row"></div>
@@ -18,7 +15,7 @@
                       <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('eventos.create') !!}"></a>
                 @endcan
             </th>
-           
+
             </tr>
         </thead>
         <tbody class='buscar'>
@@ -34,10 +31,10 @@
                     @can('eventos-show')
                         <a href="{!! route('eventos.show', [$eventos->id]) !!}" class='btn btn-success btn-sm'><i class="glyphicon glyphicon-eye-open"></i></a>
                     @endcan
-                    @can('eventos-edit')   
+                    @can('eventos-edit')
                         <a href="{!! route('eventos.edit', [$eventos->id]) !!}" class='btn btn-info btn-sm'><i class="glyphicon glyphicon-edit"></i></a>
                     @endcan
-                    @can('eventos-delete')    
+                    @can('eventos-delete')
                         {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     @endcan
                     </div>

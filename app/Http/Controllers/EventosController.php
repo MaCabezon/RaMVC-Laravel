@@ -39,14 +39,14 @@ class EventosController extends AppBaseController
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
 
         ///ECHAR UN VISTAZO AL ERROR DE AQUI
-       
-       
+
+
          $eventos = $this->eventosRepository->all();
          return view('eventos.index')
             ->with('eventos', $eventos);
-        
 
-        
+
+
     }
 
     /**
