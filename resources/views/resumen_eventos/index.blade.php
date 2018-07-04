@@ -26,19 +26,19 @@
                        </div>
 
                          @php
-                          $arrayAlumnos = [];
                           $arrayEventos = [];
                          @endphp
 
                         @foreach ($resumenEventosCompleto as $resumenEvento)
                           @php
                             $arrayEventos[] = $resumenEvento->nombre;
+                            asort($arrayEventos);
                           @endphp
                         @endforeach
 
 
                         {!! Form::open(['route' => ['resumenAlumnos.index'], 'method' => 'POST']) !!}
-                      
+
                         <div class="form-group">
                           <h6>Materia</h6>
                           <select name="eventos" class="form-control">

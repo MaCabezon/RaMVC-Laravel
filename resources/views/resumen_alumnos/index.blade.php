@@ -34,6 +34,8 @@
                           @php
                             $arrayAlumnos[] = $resumenAlumno->idAlumno;
                             $arrayEventos[] = $resumenAlumno->nombre;
+                            asort($arrayAlumnos);
+                            asort($arrayEventos);
                           @endphp
                         @endforeach
 
