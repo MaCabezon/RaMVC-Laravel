@@ -117,16 +117,11 @@ class ResumenAlumnosController extends AppBaseController
           $query->where('idAlumno',$alumno);
         }
 
-        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
-            ->get();
+        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
       else if (\Auth::user()->hasRole('member'))
       {
-        $query = DB::table('resumenalum')
-            ->where('nombre','Becas I')
-            ->orWhere('nombre', 'Becas II')
-            ->orWhere('nombre', 'Intervencion Agil I')
-            ->orWhere('nombre','Intervencion Agil II');
+        $query = DB::table('resumenalum');
 
             if (!is_null($f1) && is_null($f2)) {
               $f2 = date('Y-m-d');
@@ -146,8 +141,7 @@ class ResumenAlumnosController extends AppBaseController
               $query->where('idAlumno',$alumno);
             }
 
-            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
-                ->get();
+            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
       else if (\Auth::user()->hasRole('user'))
       {
@@ -172,8 +166,7 @@ class ResumenAlumnosController extends AppBaseController
               $query->where('idAlumno',$alumno);
             }
 
-            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
-                ->get();
+            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
 
 
