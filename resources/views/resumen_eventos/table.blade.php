@@ -1,6 +1,5 @@
+
 <div id ="encabezado" class="col-lg-12" class="label label-default" >
-         <h3>Resumen de Eventos</h3>
-         <hr/>
 </div>
 
     <div class="container" >
@@ -30,11 +29,11 @@
                     <div class='btn-group'>
                     @can('resumenEventos-show')
                         <a href="{!! route('resumenEventos.show', [$resumenEventos->id]) !!}" class='btn btn-success btn-sm'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    @endcan  
-                    @can('resumenEventos-show')    
+                    @endcan
+                    @can('resumenEventos-show')
                         <a href="{!! route('resumenEventos.edit', [$resumenEventos->id]) !!}" class='btn btn-info btn-sm'><i class="glyphicon glyphicon-edit"></i></a>
                     @endcan
-                    @can('resumenEventos-delete')    
+                    @can('resumenEventos-delete')
                         {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     @endcan
                     </div>

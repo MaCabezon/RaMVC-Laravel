@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
+    <!--Link del Datepicker-->
+    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -76,30 +78,30 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="{{ action('HighchartController@highchart') }}"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
         <li><a href="{{ action('DashboardController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-        @auth       
+        @auth
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
           <ul class="dropdown-menu" >
           @can('eventos-list')
             <li><a href="{{ action('EventosController@index') }}">Eventos</a></li>
-          @endcan  
+          @endcan
           @can('resumenAlumnos-list')
             <li><a href="{{ action('ResumenAlumnosController@index') }}">Resumen Alumnos</a></li>
-          @endcan  
+          @endcan
           @can('resumenEventos-list')
             <li><a href="{{ action('ResumenEventosController@index') }}">Resumen Eventos</a></li>
-          @endcan  
+          @endcan
           @can('transacciones-list')
             <li><a href="{{ action('TransaccionesController@index') }}">Transacciones</a></li>
-          @endcan  
+          @endcan
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generar Reporte <span class="caret"></span></a>
-          <ul class="dropdown-menu" >           
+          <ul class="dropdown-menu" >
            <li> <a href="reporteTable">Visualizar reporte</a></li>
            <li> <a href="{{ action('ResumenAlumnosController@excel') }}">Descargar reporte</a></li>
-          </ul>  
+          </ul>
         </li>
         @endauth
         @guest
@@ -111,18 +113,18 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           @if($user = \Auth::user())
                     {{ stristr($user->email, '@', true)  }} <span class="caret"></span>
-          @endif 
+          @endif
         </a>
             <ul class="dropdown-menu" >
               @can('user-list')
                 <li><a href="{{ action('UserController@index') }}">Usuario</a></li>
-              @endcan  
+              @endcan
               @can('role-list')
                 <li><a href="{{ action('RoleController@index') }}">Roles</a></li>
               @endcan
               @can('permissions-list')
                 <li><a href="{{ action('PermissionController@index') }}">Permisos</a></li>
-              @endcan   
+              @endcan
                 <li>
                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
@@ -132,7 +134,7 @@
                             @csrf
                         </form>
                 </li>
-                
+
             </ul>
  </li>
       @endauth

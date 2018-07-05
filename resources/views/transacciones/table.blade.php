@@ -1,6 +1,4 @@
 <div id ="encabezado" class="col-lg-12" class="label label-default" >
-         <h3>Listado de Transacciones</h3>
-         <hr/>
 </div>
 
     <div class="container" >

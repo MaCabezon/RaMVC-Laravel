@@ -20,7 +20,7 @@ class ResumenAlumnos extends Model
     use SoftDeletes;
 
     public $table = 'resumen_alumnos';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -28,9 +28,9 @@ class ResumenAlumnos extends Model
     public $fillable = [
         'idAlumno',
         'idEvento',
-        'fechaEvento',        
+        'fechaEvento',
         'validado',
-        'horas',       
+        'horas',
         'justificante'
     ];
 
@@ -54,10 +54,20 @@ class ResumenAlumnos extends Model
     public static $rules = [
         'idAlumno' => 'required',
         'idEvento' => 'required',
-        'fechaEvento' => 'required',        
+        'fechaEvento' => 'required',
         'validado'=> 'required',
         'horas' => 'required'
     ];
 
-    
+    public function scopeAlumno($query, $alumno)
+    {
+        $alumnos = config('options.alumnos');
+
+        if ($alumnos != null && isset($alumnos[$alumno]))
+        {
+          $query->where('Alumno', 'LIKE', $alumno);
+        }
+    }
+
+
 }
