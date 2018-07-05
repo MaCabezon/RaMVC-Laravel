@@ -1,6 +1,9 @@
+/*Nav bar */
+
 a{
 	color:white;
 }
+
 .navbar-default {
 	background-color: #048cd4;
 	height: 100px;
@@ -55,8 +58,6 @@ div#navdos.navbar-collapse.col-lg-4.collapse.in.show{
 	height: 85px;
 	width: 100px;
 }
-
-
 
 #navdos{
 	float:right !important;
@@ -353,7 +354,7 @@ padding-right: 0.2% !important;
     padding-left: 0% !important;
     border: 0px !important;
     padding-bottom: 0.3% !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.24) !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.24) !important; 
     overflow: hidden;
     background-color: #FAFAFA !important;
     font-size: 75% !important;
@@ -367,16 +368,16 @@ font-size: 80% !important;
 
 /*Welcome*/
 
-#background_web{
+/*#background_web{
 	background-image: url(images/background.jpg);
 	margin-left: 15% !important;
-	margin-right:15% !important: 
+	margin-right:15% !important; 
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-size: 80% !important;
-	height: 815px !important;
+	height: 815px !important;	
 	margin-top: 0% !important;
-}
+}*/
 
 /*Login Google*/
 
@@ -391,11 +392,11 @@ font-size: 80% !important;
   white-space: nowrap;
 }
 
-#customBtn:hover {
+#customBtn:hover{
   cursor: pointer;
 }
 
-span.label {
+span.label{
   font-family: serif;
   font-weight: normal;
 }
@@ -403,7 +404,7 @@ span.label {
 span.icon {
   background: url(images/LogoGoogle32px.png) transparent 5px 50% no-repeat;
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: middle; 
   width: 42px;
   height: 42px;
 }
