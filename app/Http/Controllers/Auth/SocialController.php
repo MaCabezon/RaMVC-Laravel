@@ -39,9 +39,9 @@ class SocialController extends Controller
         /*if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
           return redirect('/');
         }*/
-        
+
         if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez'){
-           
+
              return redirect('/');
         }
 
@@ -54,19 +54,21 @@ class SocialController extends Controller
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
+            $userInDB->name = $socialUser->name; //Actualiza el name
+            $userInDB->save();
 
+            //Se puede meter en un for
             if ($socialUser->email == "rap@uneatlantico.es") {
-              $userInDB->type = 'admin';
+                $userInDB->assignRole('admin');
             } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
-              $userInDB->type = 'member';
+                $userInDB->assignRole('member');
             } else {
-              $userInDB->type = 'user';
+                $userInDB->assignRole('user');
             }
-           
-        }
-        $userInDB->name = $socialUser->name; //Actualiza el name
 
-        $userInDB->save();
+        }
+       
+      
         //Guarda el id oauth del proveedor de Oauth
         //$sameSocialId = new SocialEntity;
         DB::table('social_logins')->where('social_id', '=', $socialUser->id)
@@ -89,7 +91,7 @@ class SocialController extends Controller
 
         }
 
-        return redirect('/');
+        return redirect('/home');
         //return \Auth::user();
 
 

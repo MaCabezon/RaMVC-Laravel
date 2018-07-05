@@ -263,7 +263,7 @@ padding-left: 4% !important;
    	font-style: initial;
    	color: black !important;
    	margin-top: 1% !important;
-}	
+}
 
 #cabecera_dashboard{
 text-align:center !important;
@@ -319,7 +319,7 @@ padding-right: 0.2% !important;
 	height: 25px;
 	width: 25px !important;
 	margin-top: 1% !important;
-	
+
 }
 
 .rojo_tv{
@@ -330,7 +330,7 @@ padding-right: 0.2% !important;
 	height: 25px;
 	width: 25px;
 	margin-top: 1% !important;
-	
+
 
 }
 
@@ -342,7 +342,7 @@ padding-right: 0.2% !important;
 	height: 25px;
 	width:  25px;
 	margin-top: 1% !important;
-	
+
 }
 
 
@@ -358,7 +358,7 @@ padding-right: 0.2% !important;
     overflow: hidden;
     background-color: #FAFAFA !important;
     font-size: 75% !important;
-}	
+}
 
 #cabecera_dashboardTv{
 text-align:center !important;
@@ -420,3 +420,27 @@ a.buttonText {
   font-family: 'Roboto', sans-serif;
 }
 
+<<<<<<< HEAD
+=======
+/*Estilo de los cuadros de filtrado*/
+
+.form-filtro {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-filtro .form-group {
+  flex-grow: 1;
+  padding: 0 5px 0 0;
+  flex-basis: 10%;
+}
+
+.form-filtro .form-control {
+  width: 100%;
+}
+
+.form-filtro .form-nowrap {
+  white-space: nowrap;
+}
+>>>>>>> 7d7df26253a9ca59921c33d1ebb88cb8de37bbe5

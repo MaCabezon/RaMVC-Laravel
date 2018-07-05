@@ -28,19 +28,19 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/resumenEventos', 'ResumenEventosController');
   Route::resource('/transacciones', 'TransaccionesController');
   Route::resource('/dashboard', 'DashboardController');
-  Route::resource('/dashboardTv', 'DashboardTvController');
   Route::get('/reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
   Route::get('/reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::get('/import', 'ImportController@import');
-
-  
+  Route::resource('/users','UserController');
+  Route::resource('/roles','RoleController');
+  Route::resource('/permissions', 'PermissionController');
 });
 
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
-Route::post('/datosBitPints','ResumenAlumnosController@obtenerDatosBecarios');
+Route::get('/datosBitPoints','ResumenAlumnosController@obtenerDatosBecarios');
 Route::post('/justificar', 'ResumenAlumnosController@justificarHoras');
 Route::post('/feedback',  function () {
 

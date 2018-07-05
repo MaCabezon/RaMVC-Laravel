@@ -12,6 +12,9 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\Transacciones;
 use DB;
+use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
+
 class TransaccionesController extends AppBaseController
 {
     /** @var  TransaccionesRepository */
@@ -20,6 +23,11 @@ class TransaccionesController extends AppBaseController
     public function __construct(TransaccionesRepository $transaccionesRepo)
     {
         $this->transaccionesRepository = $transaccionesRepo;
+        $this->middleware('permission:transacciones-list', ['only' => ['index']]);
+        $this->middleware('permission:transacciones-show', ['only' => ['show']]);
+        $this->middleware('permission:transacciones-create', ['only' => ['create','store']]);
+        $this->middleware('permission:transacciones-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:transacciones-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -28,15 +36,98 @@ class TransaccionesController extends AppBaseController
      * @param Request $request
      * @return Response
      */
+
     public function index(Request $request)
     {
-    
-        if (\Auth::user()->type == 'admin') {
-          $transacciones=DB::table('transaccionesView')->get();
+      $hasFilter = false;
+      $transacciones = null;
+      $alumno = Input::get('alumnos');
+      $evento = Input::get('eventos');
+
+      // eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
+      $f1 = $f2 = null;//date('Y-m-d');
+
+      if(! is_null($request->fechaInicial) || ! empty($request->fechaInicial) && ! is_null($request->fechaFinal) || ! empty($request->fechaFinal))
+      {
+          $f1 = $request->fechaInicial;
+          $f2 = $request->fechaFinal;
+          $hasFilter = true;
+
+      }
+      elseif (is_null($request->fechaFinal) || empty($request->fechaFinal))
+      {
+        $f2 = date('Y-m-d');
+      }
+
+      if (!is_null($request->fechaInicial) || !is_null($request->fechaFinal) || !is_null($request->alumnos) || !is_null($request->eventos))
+      {
+        $hasFilter = true;
+      }
+
+
+      // Seleccion de datos SIN FILTRO (Para el SELECT)
+      if (\Auth::user()->hasRole('admin'))
+      {
+        $transaccionesCompleto = DB::table('transaccionesView')
+            ->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('member'))
+      {
+        $transaccionesCompleto = DB::table('transaccionesView')
+            ->where('nombre','Becas I')
+            ->orWhere('nombre', 'Becas II')
+            ->orWhere('nombre', 'Intervencion Agil I')
+            ->orWhere('nombre','Intervencion Agil II')
+            ->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('user'))
+      {
+        $transaccionesCompleto = DB::table('transaccionesView')
+            ->where('nombreProfesor',str_before(\Auth::user()->email,'@'))
+            ->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+
+      // Seleccion de datos con FILTRO
+      if (\Auth::user()->hasRole('admin'))
+      {
+        $query = DB::table('transaccionesView');
+
+        if (!is_null($f1) && is_null($f2)) {
+          $f2 = date('Y-m-d');
+          $query->whereBetween('fechaEvento', [Carbon::parse($f1)->startOfDay(), Carbon::parse($f2)->endOfDay()]);
+        }
+        if (is_null($f1) && !is_null($f2)) {
+          $query->where('fechaEvento', '<=', Carbon::parse($f2)->endOfDay());
+        }
+        if (!is_null($f1) && !is_null($f2)) {
+          $query->whereBetween('fechaEvento', [Carbon::parse($f1)->startOfDay(), Carbon::parse($f2)->endOfDay()]);
         }
 
-        return view('transacciones.index')
-            ->with('transacciones', $transacciones);
+        if ($evento != null) {
+          $query->where('nombre',$evento);
+        }
+        if ($alumno != null) {
+          $query->where('idPersona',$alumno);
+        }
+
+        $transacciones = $query->orderBy('fechaEvento', 'DESC')
+            ->get();
+      }
+      
+
+
+      if (is_null($transacciones))
+      {
+        return view('transacciones.index', ["hasFilter" => $hasFilter]);
+      }
+      else
+      {
+        return view('transacciones.index', ["hasFilter" => $hasFilter, "transacciones" => $transacciones, "f1" => $f1, "f2" => $f2, "transaccionesCompleto" => $transaccionesCompleto]);
+      }
+
     }
 
     /**
@@ -109,14 +200,14 @@ class TransaccionesController extends AppBaseController
 
                          DB::update('update resumen_alumnos set validado=:validado, horas = cast( TIMESTAMPDIFF(minute, :fechaInicio, :fechaFin) /60 as  decimal(5,2)) where idAlumno = :idPersona and idEvento=:idEvento and fechaEvento=cast(:fechaEvento as Date) and horas=-1', ['idPersona' =>$transaccion->idPersona,'idEvento'=>$transaccion->idEvento,'fechaEvento'=>$transaccion->fechaEvento,'fechaInicio'=>$transaccionImpar->fechaEvento,'fechaFin'=>$transaccion->fechaEvento,'validado'=>$transaccion->validado]);
                          if ($transaccion->idEvento==207 || $transaccion->idEvento==208 || $transaccion->idEvento==220 ||$transaccion->idEvento==221) {
-                            
+
                             $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno and week(fechaEvento)=week(curdate())",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
-                         
+
                          } else {
                             $horasAlumno = DB::select("SELECT SUM(horas) as horas FROM resumen_alumnos WHERE idEvento=:idEvento and idAlumno=:idAlumno",['idEvento'=>$transaccion->idEvento,'idAlumno'=>$transaccion->idPersona]);
-                         
+
                          }
-                         
+
                          $horasTotales = DB::select("SELECT SUM(horas) as horas FROM resumen_eventos WHERE idEvento=:idEvento and horas>-1",['idEvento'=>$transaccion->idEvento]);
                     }else{
 

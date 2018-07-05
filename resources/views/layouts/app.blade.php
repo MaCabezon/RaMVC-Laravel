@@ -10,12 +10,22 @@
 
   <title>{{ config('app.name', 'Asistencias Uneatlantico') }}</title>
 
+<<<<<<< HEAD
   <!-- Styles -->
   <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
  
   <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
   <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+=======
+    <!-- Styles -->
+    <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
+    <!--Link del Datepicker-->
+    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+    <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+>>>>>>> 7d7df26253a9ca59921c33d1ebb88cb8de37bbe5
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src=" https://code.highcharts.com/modules/exporting.js"></script>
@@ -51,6 +61,7 @@
         <a id="logo" class="navbar-brand " href="{{ action('HomeController@index') }}" style="margin-bottom: 10px; margin-top: 10px;margin-left: 1%;"></a>
       </div>
 
+<<<<<<< HEAD
       <div class="col-lg-7" style="padding-left: 0%; padding-right:0%;margin-left: 0%; margin-right: 0%; margin-top: 20px;float: left;">
         @auth
          <form class="navbar-form navbar-right" style="border:none;">
@@ -128,6 +139,73 @@
         @endauth
       </ul>
    </div>  
+=======
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{{ action('HighchartController@highchart') }}"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
+        <li><a href="{{ action('DashboardController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+        @auth
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
+          <ul class="dropdown-menu" >
+          @can('eventos-list')
+            <li><a href="{{ action('EventosController@index') }}">Eventos</a></li>
+          @endcan
+          @can('resumenAlumnos-list')
+            <li><a href="{{ action('ResumenAlumnosController@index') }}">Resumen Alumnos</a></li>
+          @endcan
+          @can('resumenEventos-list')
+            <li><a href="{{ action('ResumenEventosController@index') }}">Resumen Eventos</a></li>
+          @endcan
+          @can('transacciones-list')
+            <li><a href="{{ action('TransaccionesController@index') }}">Transacciones</a></li>
+          @endcan
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generar Reporte <span class="caret"></span></a>
+          <ul class="dropdown-menu" >
+           <li> <a href="reporteTable">Visualizar reporte</a></li>
+           <li> <a href="{{ action('ResumenAlumnosController@excel') }}">Descargar reporte</a></li>
+          </ul>
+        </li>
+        @endauth
+        @guest
+          <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in
+          </a></li>
+        @endguest
+        @auth
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          @if($user = \Auth::user())
+                    {{ stristr($user->email, '@', true)  }} <span class="caret"></span>
+          @endif
+        </a>
+            <ul class="dropdown-menu" >
+              @can('user-list')
+                <li><a href="{{ action('UserController@index') }}">Usuario</a></li>
+              @endcan
+              @can('role-list')
+                <li><a href="{{ action('RoleController@index') }}">Roles</a></li>
+              @endcan
+              @can('permissions-list')
+                <li><a href="{{ action('PermissionController@index') }}">Permisos</a></li>
+              @endcan
+                <li>
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                </li>
+
+            </ul>
+ </li>
+      @endauth
+     </ul>
+    </div><!-- /.navbar-collapse -->
+>>>>>>> 7d7df26253a9ca59921c33d1ebb88cb8de37bbe5
   </div><!-- /.container-fluid -->
 </nav>
 
