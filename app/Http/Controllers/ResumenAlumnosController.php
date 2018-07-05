@@ -122,7 +122,7 @@ class ResumenAlumnosController extends AppBaseController
       }
       else if (\Auth::user()->hasRole('member'))
       {
-        $resumenAlumnos = DB::table('resumenalum')
+        $query = DB::table('resumenalum')
             ->where('nombre','Becas I')
             ->orWhere('nombre', 'Becas II')
             ->orWhere('nombre', 'Intervencion Agil I')
@@ -151,7 +151,7 @@ class ResumenAlumnosController extends AppBaseController
       }
       else if (\Auth::user()->hasRole('user'))
       {
-        $resumenAlumnos = DB::table('resumenalum')
+        $query = DB::table('resumenalum')
             ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
 
             if (!is_null($f1) && is_null($f2)) {
