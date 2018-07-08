@@ -65,8 +65,8 @@ class Reporte extends Mailable
                   $row[4]=$resumen->Horas;
 
                   // Calculamos el porcentaje de asistencia
-                  $porcentaje = ($row[3]*100)/20;
-                  $row[4] = $porcentaje."%";
+                  $porcentaje = ($row[4]*100)/20;
+                  $row[5] = $porcentaje."%";
 
                   $sheet->appendRow($row);
 
