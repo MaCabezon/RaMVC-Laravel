@@ -56,7 +56,7 @@ class Reporte extends Mailable
               $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas','HorasDia')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
 
 
-            $rowNumber = 3; // Numero de columnas por el cual empieza
+            $rowNumber = 4; // Numero de columnas por el cual empieza
               foreach ($resumenes as $resumen) {
                   $row=[];
                   $row[1]=$resumen->Alumno;
@@ -65,8 +65,8 @@ class Reporte extends Mailable
                   $row[4]=$resumen->Horas;
 
                   // Calculamos el porcentaje de asistencia
-                  $porcentaje = ($row[3]*100)/20;
-                  $row[4] = $porcentaje."%";
+                  $porcentaje = ($row[4]*100)/20;
+                  $row[5] = $porcentaje."%";
 
                   $sheet->appendRow($row);
 
@@ -94,17 +94,17 @@ class Reporte extends Mailable
 
                   // Aplicamos color segun el porcentaje de asistencia
                   if ($porcentaje>=90) {
-                    $sheet->cells("D".$rowNumber, function ($cells) {
+                    $sheet->cells("E".$rowNumber, function ($cells) {
                       $cells->setBackground('#6CF159');
                       $cells->setBorder('thin','thin','thin','thin');
                     });
                   } else if ($porcentaje>=60) {
-                    $sheet->cells("D".$rowNumber, function ($cells) {
+                    $sheet->cells("E".$rowNumber, function ($cells) {
                       $cells->setBackground('#F8E64F');
                       $cells->setBorder('thin','thin','thin','thin');
                     });
                   } else {
-                    $sheet->cells("D".$rowNumber, function ($cells) {
+                    $sheet->cells("E".$rowNumber, function ($cells) {
                       $cells->setBackground('#F15959');
                       $cells->setBorder('thin','thin','thin','thin');
                     });
