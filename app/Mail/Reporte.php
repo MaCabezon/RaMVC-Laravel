@@ -35,7 +35,7 @@ class Reporte extends Mailable
             $excel->sheet('Datos', function($sheet) {
 
               //headers
-              $sheet->mergeCells('A1:D1');
+              $sheet->mergeCells('A1:E1');
               $sheet->row(1,['Informe de Asistencias']);
               $sheet->cells('A1', function ($cells) {
                   $cells->setBackground('#1EAAFF');
@@ -56,7 +56,7 @@ class Reporte extends Mailable
               $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas','HorasDia')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
 
 
-            $rowNumber = 4; // Numero de columnas por el cual empieza
+            $rowNumber = 3; // Numero de columnas por el cual empieza
               foreach ($resumenes as $resumen) {
                   $row=[];
                   $row[1]=$resumen->Alumno;
