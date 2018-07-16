@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th>Alumno</th>
-                        <th>Evento</th>
+                        <th>Evento</th>                        
                         <th>Horas</th>
                         <th>Porcentaje</th>
                         
@@ -21,7 +21,7 @@
                 @foreach($data as $dat)
                     <tr>
                         <td>{!! $dat['alumno'] !!}</td>
-                        <td>{!! $dat['evento'] !!}</td>
+                        <td>{!! $dat['evento'] !!}</td>                       
                         <td>{!! $dat['horas'] !!}</td>
                         <td>{!! $dat['porcentaje'] !!}</td>                  
                         

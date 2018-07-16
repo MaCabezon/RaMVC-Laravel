@@ -47,7 +47,10 @@ Route::post('/feedback',  function () {
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
+Route::get('/correo',  function () {
 
+  Mail::to('abraham.fernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
+});
 
 
 Route::get('/graficas', 'HighchartController@highchart');

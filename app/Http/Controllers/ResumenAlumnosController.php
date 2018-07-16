@@ -117,16 +117,11 @@ class ResumenAlumnosController extends AppBaseController
           $query->where('idAlumno',$alumno);
         }
 
-        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
-            ->get();
+        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
       else if (\Auth::user()->hasRole('member'))
       {
-        $resumenAlumnos = DB::table('resumenalum')
-            ->where('nombre','Becas I')
-            ->orWhere('nombre', 'Becas II')
-            ->orWhere('nombre', 'Intervencion Agil I')
-            ->orWhere('nombre','Intervencion Agil II');
+        $query = DB::table('resumenalum');
 
             if (!is_null($f1) && is_null($f2)) {
               $f2 = date('Y-m-d');
@@ -146,12 +141,11 @@ class ResumenAlumnosController extends AppBaseController
               $query->where('idAlumno',$alumno);
             }
 
-            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
-                ->get();
+            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
       else if (\Auth::user()->hasRole('user'))
       {
-        $resumenAlumnos = DB::table('resumenalum')
+        $query = DB::table('resumenalum')
             ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
 
             if (!is_null($f1) && is_null($f2)) {
@@ -172,8 +166,7 @@ class ResumenAlumnosController extends AppBaseController
               $query->where('idAlumno',$alumno);
             }
 
-            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')
-                ->get();
+            $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
 
 
@@ -460,11 +453,11 @@ class ResumenAlumnosController extends AppBaseController
     public function reporteTable(){
 
         if (\Auth::user()->hasRole('admin')) {
-            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+            $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           } else if (\Auth::user()->hasRole('member')) {
-            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
+            $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
           } else if (\Auth::user()->hasRole('user')) {
-            $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+            $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           }
 
 
@@ -475,7 +468,7 @@ class ResumenAlumnosController extends AppBaseController
             foreach ($resumenes as $resumen) {
                 $row=[];
                 $row['alumno']=$resumen->Alumno;
-                $row['evento']=$resumen->Evento;
+                $row['evento']=$resumen->Evento;               
                 $row['horas']=$resumen->Horas;
 
                 // Calculamos el porcentaje de asistencia
@@ -491,8 +484,8 @@ class ResumenAlumnosController extends AppBaseController
     public function obtenerDatosBecarios()
     {
 
-            $vista = DB::select('SELECT reporte.*, resumenalumnos.Estado FROM reporte INNER JOIN resumenalumnos ON reporte.Alumno = resumenalumnos.Alumno
-                 AND reporte.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reporte.Evento LIKE "Becas%" OR reporte.Evento
+            $vista = DB::select('SELECT reportedatos.*, resumenalumnos.Estado FROM reportedatos INNER JOIN resumenalumnos ON reportedatos.Alumno = resumenalumnos.Alumno
+                 AND reportedatos.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reportedatos.Evento LIKE "Becas%" OR reportedatos.Evento
                  LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
         header('Content-Type: application/json');
         return json_encode($vista);
