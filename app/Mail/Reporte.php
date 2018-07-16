@@ -35,7 +35,7 @@ class Reporte extends Mailable
             $excel->sheet('Datos', function($sheet) {
 
               //headers
-              $sheet->mergeCells('A1:D1');
+              $sheet->mergeCells('A1:E1');
               $sheet->row(1,['Informe de Asistencias']);
               $sheet->cells('A1', function ($cells) {
                   $cells->setBackground('#1EAAFF');
@@ -44,7 +44,7 @@ class Reporte extends Mailable
                   $cells->setBorder('thin','thin','thin','thin');
               });
 
-              $sheet->row(2,['Alumno','Evento','Horas','Objetivo Cumplido']);
+              $sheet->row(2,['Alumno','Evento','HorasDia','HorasTotales','Objetivo Cumplido']);
               $sheet->row(2, function ($cells) {
                   $cells->setBackground('#55D6BF');
                   $cells->setAlignment('center');
@@ -53,7 +53,7 @@ class Reporte extends Mailable
               });
 
               //data
-              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
+              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas','HorasDia')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
 
 
             $rowNumber = 3; // Numero de columnas por el cual empieza
@@ -61,11 +61,12 @@ class Reporte extends Mailable
                   $row=[];
                   $row[1]=$resumen->Alumno;
                   $row[2]=$resumen->Evento;
-                  $row[3]=$resumen->Horas;
+                  $row[3]=$resumen->HorasDia;
+                  $row[4]=$resumen->Horas;
 
                   // Calculamos el porcentaje de asistencia
-                  $porcentaje = ($row[3]*100)/20;
-                  $row[4] = $porcentaje."%";
+                  $porcentaje = ($row[4]*100)/20;
+                  $row[5] = $porcentaje."%";
 
                   $sheet->appendRow($row);
 
@@ -93,17 +94,17 @@ class Reporte extends Mailable
 
                   // Aplicamos color segun el porcentaje de asistencia
                   if ($porcentaje>=90) {
-                    $sheet->cells("D".$rowNumber, function ($cells) {
+                    $sheet->cells("E".$rowNumber, function ($cells) {
                       $cells->setBackground('#6CF159');
                       $cells->setBorder('thin','thin','thin','thin');
                     });
                   } else if ($porcentaje>=60) {
-                    $sheet->cells("D".$rowNumber, function ($cells) {
+                    $sheet->cells("E".$rowNumber, function ($cells) {
                       $cells->setBackground('#F8E64F');
                       $cells->setBorder('thin','thin','thin','thin');
                     });
                   } else {
-                    $sheet->cells("D".$rowNumber, function ($cells) {
+                    $sheet->cells("E".$rowNumber, function ($cells) {
                       $cells->setBackground('#F15959');
                       $cells->setBorder('thin','thin','thin','thin');
                     });

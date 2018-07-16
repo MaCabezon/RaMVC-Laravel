@@ -70,7 +70,6 @@ class TransaccionesController extends AppBaseController
       {
         $transaccionesCompleto = DB::table('transaccionesView')
             ->orderBy('fechaEvento', 'DESC')
-            ->take(50)
             ->get();
       }
       else if (\Auth::user()->hasRole('member'))
@@ -117,61 +116,7 @@ class TransaccionesController extends AppBaseController
         $transacciones = $query->orderBy('fechaEvento', 'DESC')
             ->get();
       }
-      else if (\Auth::user()->hasRole('member'))
-      {
-        $query = DB::table('transaccionesView')
-            ->where('nombre','Becas I')
-            ->orWhere('nombre', 'Becas II')
-            ->orWhere('nombre', 'Intervencion Agil I')
-            ->orWhere('nombre','Intervencion Agil II');
-
-            if (!is_null($f1) && is_null($f2)) {
-              $f2 = date('Y-m-d');
-              $query->whereBetween('fechaEvento', [Carbon::parse($f1)->startOfDay(), Carbon::parse($f2)->endOfDay()]);
-            }
-            if (is_null($f1) && !is_null($f2)) {
-              $query->where('fechaEvento', '<=', Carbon::parse($f2)->endOfDay());
-            }
-            if (!is_null($f1) && !is_null($f2)) {
-              $query->whereBetween('fechaEvento', [Carbon::parse($f1)->startOfDay(), Carbon::parse($f2)->endOfDay()]);
-            }
-
-            if ($evento != null) {
-              $query->where('nombre',$evento);
-            }
-            if ($alumno != null) {
-              $query->where('idPersona',$alumno);
-            }
-
-            $transacciones = $query->orderBy('fechaEvento', 'DESC')
-                ->get();
-      }
-      else if (\Auth::user()->hasRole('user'))
-      {
-        $query = DB::table('transaccionesView')
-            ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
-
-            if (!is_null($f1) && is_null($f2)) {
-              $f2 = date('Y-m-d');
-              $query->whereBetween('fechaEvento', [Carbon::parse($f1)->startOfDay(), Carbon::parse($f2)->endOfDay()]);
-            }
-            if (is_null($f1) && !is_null($f2)) {
-              $query->where('fechaEvento', '<=', Carbon::parse($f2)->endOfDay());
-            }
-            if (!is_null($f1) && !is_null($f2)) {
-              $query->whereBetween('fechaEvento', [Carbon::parse($f1)->startOfDay(), Carbon::parse($f2)->endOfDay()]);
-            }
-
-            if ($evento != null) {
-              $query->where('nombre',$evento);
-            }
-            if ($alumno != null) {
-              $query->where('idPersona',$alumno);
-            }
-
-            $transacciones = $query->orderBy('fechaEvento', 'DESC')
-                ->get();
-      }
+      
 
 
       if (is_null($transacciones))
