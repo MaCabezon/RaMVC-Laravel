@@ -491,5 +491,17 @@ class ResumenAlumnosController extends AppBaseController
         return json_encode($vista);
     }
 
+    public function obtenerHoras(){
+      
+    $horasNow=  DB::select("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND,max(fechaEvento),now())) Horas from transacciones where idPersona='abraham.fernandez'");
+    
+     $horasAcumuladas=DB::table('resumen_alumnos')->select(DB::raw('SUM(horas) as Horas'))->where('idAlumno','abraham.fernandez')->where('horas','<>','-1.00')->where('fechaEvento','curdate()')->get();
+     if($horasAcumuladas!=null){
+       return $horasNow;
+     }
+       return $horasNow+$horasAcumuladas;
+     
+    }
+
 
 }
