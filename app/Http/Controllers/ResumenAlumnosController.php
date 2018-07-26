@@ -491,12 +491,29 @@ class ResumenAlumnosController extends AppBaseController
         return json_encode($vista);
     }
 
-    public function obtenerHoras(){
-      
-    $horasNow=  DB::select("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND,max(fechaEvento),now())) Horas from transacciones where idPersona='abraham.fernandez'");
+    public function obtenerHoras(Request $resultado){
+      $resultado['idPersona']='gustavo.olaya';
+
+      //HORAS DIARIAS
+      $horasNow=  DB::select("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND,max(fechaEvento),now())) Horas from transacciones where idPersona=:id and (idEvento=221 or idEvento=220 or idEvento=207 or IdEvento=208)",['id'=>$resultado->idPersona]);
     
-     $horasAcumuladas=DB::table('resumen_alumnos')->select(DB::raw('SUM(horas) as Horas'))->where('idAlumno','abraham.fernandez')->where('horas','<>','-1.00')->where('fechaEvento','curdate()')->get();
-     if($horasAcumuladas!=null){
+      $horasAcumuladas=DB::table('resumen_alumnos')->select(DB::raw('SUM(horas) as HorasTotales'))->where('idAlumno',$resultado->idPersona)->where('horas','<>','-1.00')
+      ->where('fechaEvento','curdate()')->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
+
+       //HORAS MENSULAES
+       $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
+       ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('WEEK(fechaEvento) = WEEK(CURDATE()')->get();
+
+      //HORAS MENSULAES
+      $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
+      ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('MONTH(fechaEvento) = MONTH(CURDATE()')->get();
+
+      //HORAS TOTALES DEL AÑO
+      $horasTotales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
+      ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
+
+      
+      if($horasAcumuladas!=null){
        return $horasNow;
      }
        return $horasNow+$horasAcumuladas;
