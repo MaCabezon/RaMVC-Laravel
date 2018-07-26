@@ -492,7 +492,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     public function obtenerHoras(Request $resultado){
-      $resultado['idPersona']='gustavo.olaya';
+      $resultado['idPersona']='miguel.cabezon';
 
       //HORAS DIARIAS
       $horasNow=  DB::select("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND,max(fechaEvento),now())) Horas from transacciones where idPersona=:id and (idEvento=221 or idEvento=220 or idEvento=207 or IdEvento=208)",['id'=>$resultado->idPersona]);
@@ -501,16 +501,16 @@ class ResumenAlumnosController extends AppBaseController
       ->where('fechaEvento','curdate()')->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
 
        //HORAS MENSULAES
-       $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
-       ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('WEEK(fechaEvento) = WEEK(CURDATE()')->get();
+       /*$horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('Alumno',$resultado->idPersona)
+       ->orWhere('Evento','Becas I')->orWhere('Evento','Becas II')->orWhere('Evento','Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->whereRaw('WEEK(fechaEvento) = WEEK(CURDATE()')->get();
 
       //HORAS MENSULAES
-      $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
-      ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('MONTH(fechaEvento) = MONTH(CURDATE()')->get();
+      $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('Alumno',$resultado->idPersona)
+      ->orWhere('Evento','Becas I')->orWhere('Evento','Becas II')->orWhere('Evento','Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->whereRaw('MONTH(fechaEvento) = MONTH(CURDATE()')->get();
 
       //HORAS TOTALES DEL AÑO
-      $horasTotales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
-      ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
+      $horasTotales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('Alumno',$resultado->idPersona)
+      ->orWhere('Evento','Becas I')->orWhere('Evento','Becas II')->orWhere('Evento','Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();*/
 
       
       if($horasAcumuladas!=null){
