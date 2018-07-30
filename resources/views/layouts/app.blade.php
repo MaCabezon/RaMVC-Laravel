@@ -14,6 +14,7 @@
   <!-- Styles -->
   <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
   <!--Link del Datepicker-->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
   <link href="{{ asset('css/webService.css') }}" rel="stylesheet">
@@ -79,7 +80,10 @@
       <div class="collapse navbar-collapse col-lg-1" id="navdos" style="padding-left: 0px;margin-top: 20px; float=right">
         
         <ul class="nav navbar-nav navbar-right">
-        
+          <li>
+          <a href="{{ action('ResumenAlumnosController@obtenerHoras') }}" data-toggle="modal" data-target=".bs-example-modal-sm">
+            <span class="glyphicon glyphicon-time"></span>Mis horas</a>
+          </li>
 
           <li>
             <a href="{{ action('HighchartController@highchart') }}"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a>
@@ -153,6 +157,16 @@
   </div><!-- /.container-fluid -->
 </nav>
 <div>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        {!! Form::open(['route' => 'resumenAlumnos.obtenerHoras']) !!}
+             <label>Introduzca su usuario<label><input type="text" name='usuario' placeholder="Introduzca su nombre de usuario">
+             {!! Form::submit('Enviar', ['class' => 'btn btn-primary']) !!}
+        {!! Form::close() !!}    
+    </div>
+  </div>
+</div>
   <main class="py-4">
     @yield('content')
   </main>
