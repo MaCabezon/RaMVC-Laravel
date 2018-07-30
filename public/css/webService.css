@@ -48,6 +48,11 @@ div#navdos.navbar-collapse.col-lg-4.collapse.in.show{
 	color: #fefdfd;
 }
 
+div.Contenedor_nav.col-lg-12{
+	padding-left: 0% !important;
+	padding-right: 0% !important;
+}
+
 #logo{
 	background-image: url(images/logo3.gif);
 	background-repeat: no-repeat;
@@ -420,8 +425,7 @@ a.buttonText {
   font-family: 'Roboto', sans-serif;
 }
 
-<<<<<<< HEAD
-=======
+
 /*Estilo de los cuadros de filtrado*/
 
 .form-filtro {
@@ -443,4 +447,4 @@ a.buttonText {
 .form-filtro .form-nowrap {
   white-space: nowrap;
 }
->>>>>>> 7d7df26253a9ca59921c33d1ebb88cb8de37bbe5
+

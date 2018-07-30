@@ -501,23 +501,23 @@ class ResumenAlumnosController extends AppBaseController
       ->where('fechaEvento','curdate()')->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
 
        //HORAS MENSULAES
-       $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
-       ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('WEEK(fechaEvento) = WEEK(CURDATE()')->get();
+       //$horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
+       //->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('WEEK(fechaEvento) = WEEK(CURDATE()')->get();
 
       //HORAS MENSULAES
-      $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
-      ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('MONTH(fechaEvento) = MONTH(CURDATE()')->get();
+     // $horasMensuales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
+      //->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->whereRaw('MONTH(fechaEvento) = MONTH(CURDATE()')->get();
 
       //HORAS TOTALES DEL AÑO
-      $horasTotales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
-      ->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
+     // $horasTotales=DB::table('reportediario')->select(DB::raw('SUM(HorasDia) as Horas'))->where('idAlumno',$resultado->idPersona)
+      //->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->get();
 
       
       if($horasAcumuladas!=null){
        return $horasNow;
      }
-       return $horasNow+$horasAcumuladas;
-     
+     //  return $horasNow+$horasAcumuladas;
+      return view('horas.index')->with('horas', $horasNow);
     }
 
 
