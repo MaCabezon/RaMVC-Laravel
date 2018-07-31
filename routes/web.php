@@ -47,7 +47,10 @@ Route::post('/feedback',  function () {
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
+Route::get('/correo',  function () {
 
+  Mail::to('abraham.fernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
+});
 
 
 Route::get('/graficas', 'HighchartController@highchart');
@@ -57,4 +60,4 @@ Route::resource('/dashboardTv', 'DashboardTvController');
 Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedirect')->name('redirectSocialLite');
 Route::get('/social/handle/{provider}', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
 Route::get('/login/{provider}/callback', 'Auth\SocialController@getSocialHandle')->name('home');
-Route::get('/mishoras', 'ResumenAlumnosController@obtenerHoras');
+Route::post('/mishoras', 'ResumenAlumnosController@obtenerHoras')->name('resumenAlumnos.obtenerHoras');

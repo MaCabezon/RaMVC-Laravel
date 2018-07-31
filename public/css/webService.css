@@ -48,11 +48,6 @@ div#navdos.navbar-collapse.col-lg-4.collapse.in.show{
 	color: #fefdfd;
 }
 
-div.Contenedor_nav.col-lg-12{
-	padding-left: 0% !important;
-	padding-right: 0% !important;
-}
-
 #logo{
 	background-image: url(images/logo3.gif);
 	background-repeat: no-repeat;
@@ -425,7 +420,6 @@ a.buttonText {
   font-family: 'Roboto', sans-serif;
 }
 
-
 /*Estilo de los cuadros de filtrado*/
 
 .form-filtro {
@@ -445,6 +439,42 @@ a.buttonText {
 }
 
 .form-filtro .form-nowrap {
-  white-space: nowrap;
+  white-space: nowrap;	
 }
+#tarjeta{
+	background-image: url(images/miniyo.jpeg);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	height: 150px;
+	width: 150px;
+	margin-left: 30% !important;
+	margin-right:60% !important;
+
+
+	
+}
+
+#horas_{
+	margin-left: 20% !important;
+	margin-right:40% !important;
+}
+
+#contenedor_horas{
+color:black !important;
+background-color: white !important;
+position: absolute!important;
+box-shadow:15px -14px 37px 20px rgba(0,0,0,0.30)!important;
+border-radius: 20px 20px 20px 20px;
+overflow: hidden;
+z-index: 1;
+padding-top: 2% !important;
+width: 25% !important;
+margin-left: 35% !important;
+margin-right:40% !important;
+margin-top: 8% !important;	
+}
+
+
+/*Horas becarios*/
 
