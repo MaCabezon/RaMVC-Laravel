@@ -8,7 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that are not reported.
+     * Lista de los tipos de excepcion que no deben ser reportados.
      *
      * @var array
      */
@@ -17,7 +17,7 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
+     * Lista de las entradas que no deben apareceer para las excepciones de validacion.
      *
      * @var array
      */
@@ -27,9 +27,9 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
+     * Reporta o registra una excepcion.
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     * Ese es un buen punto para enviar excepcion a Sentry, Bugsnag, etc.
      *
      * @param  \Exception  $exception
      * @return void
@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
+     * Renderiza una excepcion en una respuesta HTTP.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception

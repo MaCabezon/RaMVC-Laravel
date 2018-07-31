@@ -9,19 +9,24 @@ class ForgotPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Password Reset Controller
+    | Password Reset Controller (Controlador de Reseteo de Constraseñas)
     |--------------------------------------------------------------------------
     |
     | This controller is responsible for handling password reset emails and
     | includes a trait which assists in sending these notifications from
     | your application to your users. Feel free to explore this trait.
     |
+    | Este controlador es responsable de gestionar el reseteo de las
+    | contraseñas de los emails y un asistente que envia esas notificaciones
+    | desde tu aplicacion a tus usuarios. Sientete libre de explorar esta clase.
+    |
+    |
     */
 
     use SendsPasswordResetEmails;
 
     /**
-     * Create a new controller instance.
+     * Crea una nueva instancia del controlador.
      *
      * @return void
      */

@@ -29,8 +29,10 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        $schedule->call(function () {
 
+      // Programos el envio de reporte
+        $schedule->call(function () {
+          // Lista de emails donde enviar el reporte
             Mail::to('lazaro.hernandez@uneatlantico.es')->send(new ReporteEmail);
             Mail::to('abraham.fernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('juan.tortajada@uneatlantico.es')->send(new ReporteEmail);

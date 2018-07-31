@@ -12,26 +12,30 @@ class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Register Controller
+    | Register Controller (Controlador de registro)
     |--------------------------------------------------------------------------
     |
     | This controller handles the registration of new users as well as their
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
+    | El controlador gestiona el registro de nuevos usuarios asi como su
+    | validacion y creacion. Por defecto este controlador usa la caracteristica
+    | de proveer su funcionalidad sin requerir un codigo adicional.
+    |
     */
 
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * A donde redirigir a los usuarios despues del registro.
      *
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * Crea una nueva instancia del controlador.
      *
      * @return void
      */
@@ -41,7 +45,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Recoge un validador para una peticion de registro en camino.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -56,7 +60,8 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Crea una instancia de un nuevo usuario despues
+     * de un registro satisfactorio.
      *
      * @param  array  $data
      * @return \App\User

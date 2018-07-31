@@ -11,7 +11,7 @@ use DB;
 class DashboardTvController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra un listado de los registros.
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,7 +24,7 @@ class DashboardTvController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para la creación de un nuevo registro.
      *
      * @return \Illuminate\Http\Response
      */
@@ -34,7 +34,7 @@ class DashboardTvController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo registro creado en la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -45,7 +45,7 @@ class DashboardTvController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el registro deseado.
      *
      * @param  \App\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
@@ -56,7 +56,7 @@ class DashboardTvController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para poder editar un registro especifico.
      *
      * @param  \App\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
@@ -67,7 +67,7 @@ class DashboardTvController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un registro específico de la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Dashboard  $dashboard
@@ -79,7 +79,7 @@ class DashboardTvController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un registro específico de la base de datos.
      *
      * @param  \App\Dashboard  $dashboard
      * @return \Illuminate\Http\Response

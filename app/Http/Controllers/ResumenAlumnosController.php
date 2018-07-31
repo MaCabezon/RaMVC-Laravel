@@ -35,7 +35,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Display a listing of the ResumenAlumnos.
+     * Muestra un listado de los objetos ResumenAlumnos.
      *
      * @param Request $request
      * @return Response
@@ -47,15 +47,14 @@ class ResumenAlumnosController extends AppBaseController
       $alumno = Input::get('alumnos');
       $evento = Input::get('eventos');
 
-      // eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
-      $f1 = $f2 = null;//date('Y-m-d');
+      // Eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
+      $f1 = $f2 = null;
 
       if(! is_null($request->fechaInicial) || ! empty($request->fechaInicial) && ! is_null($request->fechaFinal) || ! empty($request->fechaFinal))
       {
-          $f1 = $request->fechaInicial;
-          $f2 = $request->fechaFinal;
-          $hasFilter = true;
-
+        $f1 = $request->fechaInicial;
+        $f2 = $request->fechaFinal;
+        $hasFilter = true;
       }
       elseif (is_null($request->fechaFinal) || empty($request->fechaFinal))
       {
@@ -66,7 +65,6 @@ class ResumenAlumnosController extends AppBaseController
       {
         $hasFilter = true;
       }
-
 
       // Seleccion de datos SIN FILTRO (Para el SELECT)
       if (\Auth::user()->hasRole('admin'))
@@ -109,7 +107,6 @@ class ResumenAlumnosController extends AppBaseController
         if (!is_null($f1) && !is_null($f2)) {
           $query->whereBetween('fechaEvento', [$f1, $f2]);
         }
-
         if ($evento != null) {
           $query->where('nombre',$evento);
         }
@@ -169,7 +166,6 @@ class ResumenAlumnosController extends AppBaseController
             $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
 
-
       if (is_null($resumenAlumnos))
       {
         return view('resumen_alumnos.index', ["hasFilter" => $hasFilter]);
@@ -182,7 +178,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Show the form for creating a new ResumenAlumnos.
+     * Muestra el formulario para la creación de un nuevo objeto ResumenAlumnos.
      *
      * @return Response
      */
@@ -199,9 +195,7 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function justificarHoras(Request $resultado)
     {
-
             if($resultado!=""){
-
 
             $resumenAlumno=new ResumenAlumnos();
             $resumenAlumno->idAlumno=$resultado['idPersona'];
@@ -215,7 +209,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Store a newly created ResumenAlumnos in storage.
+     * Almacena un nuevo objeto ResumenAlumnos creado en la base de datos.
      *
      * @param CreateResumenAlumnosRequest $request
      *
@@ -233,7 +227,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Display the specified ResumenAlumnos.
+     * Muestra el objeto ResumenAlumnos deseado.
      *
      * @param  int $id
      *
@@ -241,7 +235,6 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function show($id)
     {
-        //$resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
         $resumenAlumnos=DB::table('resumenalum')->find($id);
 
         if (empty($resumenAlumnos)) {
@@ -253,7 +246,7 @@ class ResumenAlumnosController extends AppBaseController
         return view('resumen_alumnos.show')->with('resumenAlumnos', $resumenAlumnos);
     }
      /**
-     * Display a listing of the ResumenAlumnos.
+     * Muestra un listado de los objetos ResumenAlumnos.
      *
      * @param Request $request
      * @return Response
@@ -268,7 +261,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified ResumenAlumnos.
+     * Muestra el formulario para poder editar un objeto ResumenAlumnos especifico.
      *
      * @param  int $id
      *
@@ -278,7 +271,6 @@ class ResumenAlumnosController extends AppBaseController
     {
         $resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
         $listaEventos  = Eventos::pluck('nombre', 'id');
-
 
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
@@ -290,7 +282,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Update the specified ResumenAlumnos in storage.
+     * Actualiza un objeto ResumenAlumnos específico de la base de datos.
      *
      * @param  int              $id
      * @param UpdateResumenAlumnosRequest $request
@@ -315,7 +307,7 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Remove the specified ResumenAlumnos from storage.
+     * Elimina un objeto ResumenAlumnos específico de la base de datos.
      *
      * @param  int $id
      *
@@ -323,7 +315,6 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function destroy($id)
     {
-        //$resumenAlumnos = $this->resumenAlumnosRepository->findWithoutFail($id);
         $resumenAlumnos=DB::table('resumen_alumnos')->find($id);
         if (empty($resumenAlumnos)) {
             Flash::error('Resumen Alumnos no encontrado');
@@ -331,7 +322,6 @@ class ResumenAlumnosController extends AppBaseController
             return redirect(route('resumenAlumnos.index'));
         }
 
-        //$this->resumenAlumnosRepository->delete($id);
         DB::table('resumen_alumnos')->delete($id);
 
         Flash::success('Resumen Alumnos borrado exitosamente.');
@@ -340,19 +330,17 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
-     * Generate report
-     *
-     *
+     * Genera un reporte
      *
      * @return Response
      */
-    public function excel (){
-
+    public function excel () {
+        // Creamos un excel y le damos formato
         Excel::create('Reporte Alumnos', function($excel) {
 
             $excel->sheet('Datos', function($sheet) {
 
-                //headers
+                // Cabecera
                 $sheet->mergeCells('A1:D1');
                 $sheet->row(1,['Informe de Asistencias']);
                 $sheet->cells('A1', function ($cells) {
@@ -370,8 +358,7 @@ class ResumenAlumnosController extends AppBaseController
                     $cells->setBorder('thin','thin','thin','thin');
                 });
 
-                //data
-              //$resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+              // Datos
               if (\Auth::user()->hasRole('admin')) {
                 $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
               } else if (\Auth::user()->hasRole('member')) {
@@ -379,12 +366,19 @@ class ResumenAlumnosController extends AppBaseController
               } else if (\Auth::user()->hasRole('user')) {
                 $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
               }
+
               $rowNumber = 3; // Numero de columnas por el cual empieza
+
                 foreach ($resumenes as $resumen) {
-                    $row=[];
-                    $row[1]=$resumen->Alumno;
-                    $row[2]=$resumen->Evento;
-                    $row[3]=$resumen->Horas;
+                    $row = [];
+                    $row[1] = $resumen->Alumno;
+                    $row[2] = $resumen->Evento;
+
+                    if ($resumen->Horas == null) {
+                      $row[3] = 0;
+                    } else {
+                      $row[3] = $resumen->Horas;
+                    }
 
                     // Calculamos el porcentaje de asistencia
                     $porcentaje = ($row[3]*100)/20;
@@ -392,7 +386,7 @@ class ResumenAlumnosController extends AppBaseController
 
                     $sheet->appendRow($row);
 
-                    // Vemos si la fila es impar o par para cambiar el color de fondo y demás formatos
+                    // Vemos si la fila es impar o par para cambiar el color de fondo y demás formatos (letra, borde, ...)
                     if ($rowNumber%2!=0) {
                       $sheet->row($rowNumber, function ($cells) {
                         $cells->setBackground('#FFFFFF');
@@ -432,8 +426,10 @@ class ResumenAlumnosController extends AppBaseController
                       });
                     }
 
+                    // Aumentamos el numero de la fila
                     $rowNumber = $rowNumber + 1;
                 }
+
                 $sheet->setOrientation('landscape');
 
             });
@@ -444,9 +440,7 @@ class ResumenAlumnosController extends AppBaseController
 
     }
     /**
-     * Generate report
-     *
-     *
+     * Genera un reporte
      *
      * @return Response
      */
@@ -460,15 +454,12 @@ class ResumenAlumnosController extends AppBaseController
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           }
 
-
-          //data
-
-
+          // Datos
           $data=[];
             foreach ($resumenes as $resumen) {
                 $row=[];
                 $row['alumno']=$resumen->Alumno;
-                $row['evento']=$resumen->Evento;               
+                $row['evento']=$resumen->Evento;
                 $row['horas']=$resumen->Horas;
 
                 // Calculamos el porcentaje de asistencia
@@ -477,16 +468,20 @@ class ResumenAlumnosController extends AppBaseController
                 array_push($data,$row);
             }
 
-
          return view('reportes.index')->with('data', $data);
     }
 
     public function obtenerDatosBecarios()
     {
 
-            $vista = DB::select('SELECT reportedatos.*, resumenalumnos.Estado FROM reportedatos INNER JOIN resumenalumnos ON reportedatos.Alumno = resumenalumnos.Alumno
-                 AND reportedatos.Evento = resumenalumnos.Evento AND reporte.Grupo = resumenalumnos.Grupo WHERE (reportedatos.Evento LIKE "Becas%" OR reportedatos.Evento
-                 LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
+        $vista = DB::select('SELECT reportedatos.*, resumenalumnos.Estado
+                                  FROM reportedatos
+                                  INNER JOIN resumenalumnos ON reportedatos.Alumno = resumenalumnos.Alumno
+                                  AND reportedatos.Evento = resumenalumnos.Evento
+                                  AND reporte.Grupo = resumenalumnos.Grupo
+                                  WHERE (reportedatos.Evento LIKE "Becas%" OR reportedatos.Evento LIKE "Intervencion Agil%")
+                                  AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE())
+                                  ORDER BY Evento, Alumno ASC');
         header('Content-Type: application/json');
         return json_encode($vista);
     }

@@ -36,7 +36,6 @@
                           @endphp
                         @endforeach
 
-
                         {!! Form::open(['route' => ['resumenAlumnos.index'], 'method' => 'POST']) !!}
 
                         <div class="form-group">

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SocialEntity extends Model{
 
+    // Clase destinada al funcionamiento del login de Google
+
     protected $table = 'social_logins';
 
     public function user()

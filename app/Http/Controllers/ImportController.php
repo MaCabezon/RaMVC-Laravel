@@ -8,11 +8,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
 {
+
+    /**
+    * Controlador utilizado para la importación de un archivo .CSV con
+    * los datos de las materias.
+    *
+    **/
     public function import()
     {
-    	if (($handle = fopen ( public_path () . '/listadomaterias.csv', 'r' )) !== FALSE) {
-		        while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
-
+    	if (($handle = fopen ( public_path () . '/listadomaterias.csv', 'r' )) !== FALSE)
+      {
+		        while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE )
+            {
 			           $evento = new Eventos ();
 			           $evento->abreviatura = $data [0];
 			           $evento->nombre = $data [1];

@@ -11,7 +11,7 @@ use Session,DB;
 
 class PermissionController extends Controller
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->middleware('permission:permissions-list');
         $this->middleware('permission:permissions-show', ['only' => ['show']]);
@@ -21,7 +21,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Muestra un listado de los registros.
      *
      * @return \Illuminate\Http\Response
      */
@@ -33,7 +33,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para la creación de un nuevo registro.
      *
      * @return \Illuminate\Http\Response
      */
@@ -45,14 +45,14 @@ class PermissionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo registro creado en la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        
+
         $this->validate($request, [
             'name'=>'required|max:40',
         ]);
@@ -62,15 +62,17 @@ class PermissionController extends Controller
         $permission->name = $name;
 
         $roles = $request['roles'];
-        
+
         $permission->save();
 
-        if (!empty($request['roles'])) {
-            foreach ($roles as $role) {
-                $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
-
-                $permission = Permission::where('name', '=', $name)->first();   
-                $r->givePermissionTo($permission);
+        if (!empty($request['roles']))
+        {
+            foreach ($roles as $role)
+            {
+              // Hace coincidir el rol de entrada con el registro de la base de datos
+              $r = Role::where('id', '=', $role)->firstOrFail();
+              $permission = Permission::where('name', '=', $name)->first();
+              $r->givePermissionTo($permission);
             }
         }
 
@@ -80,7 +82,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el registro deseado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -89,12 +91,12 @@ class PermissionController extends Controller
     {
         $permission = Permission::find($id);
         $roles = Role::get();
-        
-        return view('permissions.show')->with('permission',$permission)->with('roles',$roles); 
+
+        return view('permissions.show')->with('permission',$permission)->with('roles',$roles);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para poder editar un registro especifico.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -103,12 +105,12 @@ class PermissionController extends Controller
     {
         $permission = Permission::find($id);
         $roles = Role::get();
-        
+
         return view('permissions.edit', compact('permission','roles'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un registro específico de la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -121,10 +123,10 @@ class PermissionController extends Controller
         $this->validate($request, [
             'name'=>'required|max:40',
         ]);
-        
+
         $input = $request->all();
-        if($request->input('roles')!=""){
-              
+        if($request->input('roles')!="")
+        {
             DB::table('permissions')->where('id', $id)->update(['name' => $input['name']]);
             DB::table('role_has_permissions')->where('permission_id',$id)->delete();
             $permission->assignRole($request->input('roles'));
@@ -136,7 +138,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un registro específico de la base de datos.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -144,13 +146,14 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         $permission = Permission::findOrFail($id);
-        
-        if ($permission->name == "Administer roles & permissions") {
+
+        if ($permission->name == "Administer roles & permissions")
+        {
             return redirect()->route('permissions.index')
             ->with('flash_message',
              'Cannot delete this Permission!');
         }
-        
+
         $permission->delete();
 
         return redirect()->route('permissions.index')
