@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReporteView extends Migration
+class CreateReporteDatosView extends Migration
 {
     /**
      * Run the migrations.
@@ -26,6 +26,6 @@ class CreateReporteView extends Migration
      */
     public function down()
     {
-       DB::statement( 'DROP VIEW reporte' );
+       DB::statement( 'DROP VIEW reportedatos' );
     }
 }

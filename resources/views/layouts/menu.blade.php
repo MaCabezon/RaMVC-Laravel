@@ -16,3 +16,7 @@
 
 
 
+<li class="{{ Request::is('valoracionBecarios*') ? 'active' : '' }}">
+    <a href="{!! route('valoracionBecarios.index') !!}"><i class="fa fa-edit"></i><span>Valoracion Becarios</span></a>
+</li>
+
