@@ -14,7 +14,7 @@ class CreateReporteView extends Migration
     public function up()
     {
        DB::statement("CREATE VIEW  reporte as SELECT  r.Alumno,r.Evento,r.Horas,rd.HorasDia as HorasDia from 
-       reporte r inner join reportediario rd on r.Alumno=rd.Alumno and r.Evento=rd.Evento 
+       reportedatos r inner join reportediario rd on r.Alumno=rd.Alumno and r.Evento=rd.Evento 
        where rd.fechaEvento=curdate()");
     }
 

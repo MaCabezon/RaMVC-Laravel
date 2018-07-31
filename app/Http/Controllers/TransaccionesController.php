@@ -74,6 +74,7 @@ class TransaccionesController extends AppBaseController
       }
       else if (\Auth::user()->hasRole('member'))
       {
+          
         $transaccionesCompleto = DB::table('transaccionesView')
             ->where('nombre','Becas I')
             ->orWhere('nombre', 'Becas II')
@@ -92,7 +93,7 @@ class TransaccionesController extends AppBaseController
       }
 
       // Seleccion de datos con FILTRO
-      if (\Auth::user()->hasRole('admin'))
+      if (\Auth::user()->hasRole('admin') ||\Auth::user()->hasRole('member'))
       {
         $query = DB::table('transaccionesView');
 
