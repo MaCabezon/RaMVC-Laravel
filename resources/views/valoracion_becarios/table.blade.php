@@ -4,7 +4,7 @@
     <tr>
         <th>Trabajo de Colaboración</th>
         <th colspan="5">Observaciones</th>
-        
+
     </tr>
 </thead>
     <!--<thead>
@@ -24,6 +24,7 @@
     </thead>-->
     <tbody>
     @foreach($valoracionBecarios as $valoracionBecarios)
+    {!! $valoracionBecarios->idAlumno !!}
         <tr>
             <td><strong>Parametro a evaluar</strong></td>
             <td><strong>1</strong></td>
@@ -32,64 +33,45 @@
             <td><strong>4</strong></td>
             <td><strong>5</strong></td>
         </tr>
-        <tr>
-            <td>Forma de Trabajo</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-        </tr>
-       
-        <tr>
-            <td>Actitud</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-        </tr>   
-        <tr>
+        @php
+          $cualidades = array ("Forma de Trabajo", "Actitud", "Manejo de la Tecnologia", "Adaptación", "Responsabilidad");
+          $cualidadesId = array ("formaTrabajo", "actitud", "manejoTecnologia", "adaptacion", "responsabilidad");
+        @endphp
 
-            <td>Manejo de la Tecnoliga</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-        </tr> 
-        <tr>
 
-            <td>Adaptación</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-        </tr>  
-        <tr>
+        @for ($i = 0; $i < 5; $i++)
+          <tr>
+            <td>{!! $cualidades[$i] !!}</td>
+          @for ($id = 0; $id < 5; $id++)
+            <td>
+              @php
+                $cualId = $cualidadesId[$i];
+              @endphp
 
-            <td>Responsabilidad</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-            <td>{!! Form::checkbox('validado', '1', null) !!}</td>
-        </tr>
-        <tr>
+              {!! Form::hidden($cualidadesId[$id], $cualidadesId[$id], false) !!}
+            @if ($valoracionBecarios->$cualId == ($id + 1) )
+              {!! Form::checkbox($cualidadesId[$id], '1', true, array('disabled')) !!}
+            @else
+              {!! Form::checkbox($cualidadesId[$id], '1', false, array('disabled')) !!}
+            @endif
 
+            </td>
+          @endfor
+          </tr>
+        @endfor
+        
             <td>Cumplimiento de Horas</td>
             <td colspan="5">{!! $valoracionBecarios->cumplimientoHoras !!}</td>
-            
-        </tr> 
+
+        </tr>
         <tr>
 
             <td>Materias</td>
             <td colspan="5">{!! $valoracionBecarios->cumplimientoHoras !!}</td>
 
-        </tr> 
-        <!--<tr>    
-                   
+        </tr>
+        <!--<tr>
+
             <td>{!! $valoracionBecarios->annio !!}</td>
             <td>
                 {!! Form::open(['route' => ['valoracionBecarios.destroy', $valoracionBecarios->id], 'method' => 'delete']) !!}
