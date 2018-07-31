@@ -29,7 +29,7 @@ class EventosController extends AppBaseController
     }
 
     /**
-     * Display a listing of the Eventos.
+     * Muestra un listado de los objetos Eventos.
      *
      * @param Request $request
      * @return Response
@@ -38,19 +38,13 @@ class EventosController extends AppBaseController
     {
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
 
-        ///ECHAR UN VISTAZO AL ERROR DE AQUI
-
-
          $eventos = $this->eventosRepository->all();
          return view('eventos.index')
             ->with('eventos', $eventos);
-
-
-
     }
 
     /**
-     * Show the form for creating a new Eventos.
+     * Muestra el formulario para la creación de un nuevo objeto Eventos.
      *
      * @return Response
      */
@@ -60,7 +54,7 @@ class EventosController extends AppBaseController
     }
 
     /**
-     * Store a newly created Eventos in storage.
+     * Almacena un nuevo objeto Eventos creado en la base de datos.
      *
      * @param CreateEventosRequest $request
      *
@@ -78,7 +72,7 @@ class EventosController extends AppBaseController
     }
 
     /**
-     * Display the specified Eventos.
+     * Muestra el objeto Eventos deseado.
      *
      * @param  int $id
      *
@@ -98,7 +92,7 @@ class EventosController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified Eventos.
+     * Muestra el formulario para poder editar un objeto Eventos especifico.
      *
      * @param  int $id
      *
@@ -118,7 +112,7 @@ class EventosController extends AppBaseController
     }
 
     /**
-     * Update the specified Eventos in storage.
+     * Actualiza un objeto Eventos específico de la base de datos.
      *
      * @param  int              $id
      * @param UpdateEventosRequest $request
@@ -143,7 +137,7 @@ class EventosController extends AppBaseController
     }
 
     /**
-     * Remove the specified Eventos from storage.
+     * Elimina un objeto Eventos específico de la base de datos.
      *
      * @param  int $id
      *

@@ -26,8 +26,8 @@ class SocialController extends Controller
         return Socialite::driver( $provider )->redirect();
     }
 
-//Recibe el login exitoso del proveedor, crea el usuario si no existe y si existe actualiza valores,
-//también guarda el id de usuario del proveedor.
+    // Recibe el login exitoso del proveedor, crea el usuario si no existe y si existe actualiza valores,
+    // también guarda el id de usuario del proveedor.
     public function getSocialHandle($provider)
     {
         if (Input::get('denied') != '')
@@ -35,29 +35,25 @@ class SocialController extends Controller
         //Datos de usuario retornados por el proveedor de servicio
         $socialUser = Socialite::driver($provider)->user();
 
-        //Filtrado de usuarios
-        /*if ($socialUser->email != 'rap@uneatlantico.es' && stristr($socialUser->email, 'abraham.fernandez') === FALSE && stristr($socialUser->email, 'sara.berbil') === FALSE && stristr($socialUser->email, 'loyda.alas') === FALSE && stristr($socialUser->email, 'larisa.hernandez') === FALSE) {
-          return redirect('/');
-        }*/
-
-        if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez'){
-
+        // Filtrado de usuarios
+        if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez') {
              return redirect('/');
         }
 
 
 
-        //Verifica si el email ya lo tiene un usuario
+        // Verifica si el email ya lo tiene un usuario
         $userInDB = User::where('email', '=', $socialUser->email)->get()->first();
-        if(empty($userInDB)) {//Si no lo tiene crea el usuatrio
+
+         // Si no lo tiene crea el usuario
+        if(empty($userInDB)) {
             $userInDB = new User;
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
             $userInDB->email = $socialUser->email;
-            $userInDB->name = $socialUser->name; //Actualiza el name
+            $userInDB->name = $socialUser->name; // Actualiza el name
             $userInDB->save();
 
-            //Se puede meter en un for
             if ($socialUser->email == "rap@uneatlantico.es") {
                 $userInDB->assignRole('admin');
             } else if (str_before($socialUser->email,'@')== 'abraham.fernandez' || str_before($socialUser->email,'@')== 'sara.berbil'|| str_before($socialUser->email,'@')== 'loyda.alas'  || str_before($socialUser->email,'@')== 'larisa.hernandez') {
@@ -67,10 +63,10 @@ class SocialController extends Controller
             }
 
         }
-       
-      
-        //Guarda el id oauth del proveedor de Oauth
-        //$sameSocialId = new SocialEntity;
+
+
+        // Guarda el id oauth del proveedor de Oauth
+        // $sameSocialId = new SocialEntity;
         DB::table('social_logins')->where('social_id', '=', $socialUser->id)
             ->where('provider', '=', $provider )
             ->get()
@@ -84,7 +80,7 @@ class SocialController extends Controller
         } else {
           $userInDB = null;
         }
-        auth()->login($userInDB, true);//Autentica al usuario
+        auth()->login($userInDB, true); // Autentica al usuario
 
         if ($userInDB!=null) {
           Session::flash('user',$userInDB);
@@ -92,9 +88,6 @@ class SocialController extends Controller
         }
 
         return redirect('/home');
-        //return \Auth::user();
-
-
     }
 }
 ?>

@@ -31,7 +31,7 @@ class ResumenEventosController extends AppBaseController
     }
 
     /**
-     * Display a listing of the ResumenEventos.
+     * Muestra un listado de los objetos ResumenEventos.
      *
      * @param Request $request
      * @return Response
@@ -42,26 +42,23 @@ class ResumenEventosController extends AppBaseController
        $resumenEventos = null;
        $evento = Input::get('eventos');
 
-       // eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
+       // Eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
        $f1 = $f2 = null;//date('Y-m-d');
 
        if(! is_null($request->fechaInicial) || ! empty($request->fechaInicial) && ! is_null($request->fechaFinal) || ! empty($request->fechaFinal))
        {
-           $f1 = $request->fechaInicial;
-           $f2 = $request->fechaFinal;
-           $hasFilter = true;
-
+          $f1 = $request->fechaInicial;
+          $f2 = $request->fechaFinal;
+          $hasFilter = true;
        }
        elseif (is_null($request->fechaFinal) || empty($request->fechaFinal))
        {
          $f2 = date('Y-m-d');
        }
-
        if (!is_null($request->fechaInicial) || !is_null($request->fechaFinal) || !is_null($request->alumnos) || !is_null($request->eventos))
        {
          $hasFilter = true;
        }
-
 
        // Seleccion de datos SIN FILTRO (Para el SELECT)
        if (\Auth::user()->hasRole('admin'))
@@ -175,7 +172,7 @@ class ResumenEventosController extends AppBaseController
      }
 
     /**
-     * Show the form for creating a new ResumenEventos.
+     * Muestra el formulario para la creación de un nuevo objeto ResumenEventos.
      *
      * @return Response
      */
@@ -186,7 +183,7 @@ class ResumenEventosController extends AppBaseController
     }
 
     /**
-     * Store a newly created ResumenEventos in storage.
+     * Almacena un nuevo objeto ResumenAlumnos creado en la base de datos.
      *
      * @param CreateResumenEventosRequest $request
      *
@@ -204,7 +201,7 @@ class ResumenEventosController extends AppBaseController
     }
 
     /**
-     * Display the specified ResumenEventos.
+     * Muestra el objeto ResumenEventos deseado.
      *
      * @param  int $id
      *
@@ -212,7 +209,6 @@ class ResumenEventosController extends AppBaseController
      */
     public function show($id)
     {
-        //$resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
         $resumenEventos=DB::table('resumeneventos')->find($id);
 
         if (empty($resumenEventos)) {
@@ -225,7 +221,7 @@ class ResumenEventosController extends AppBaseController
     }
 
     /**
-     * Show the form for editing the specified ResumenEventos.
+     * Muestra el formulario para poder editar un objeto ResumenEventos especifico.
      *
      * @param  int $id
      *
@@ -246,7 +242,7 @@ class ResumenEventosController extends AppBaseController
     }
 
     /**
-     * Update the specified ResumenEventos in storage.
+     * Actualiza un objeto ResumenEventos específico de la base de datos.
      *
      * @param  int              $id
      * @param UpdateResumenEventosRequest $request
@@ -271,7 +267,7 @@ class ResumenEventosController extends AppBaseController
     }
 
     /**
-     * Remove the specified ResumenEventos from storage.
+     * Elimina un objeto ResumenEventos específico de la base de datos.
      *
      * @param  int $id
      *
@@ -279,7 +275,6 @@ class ResumenEventosController extends AppBaseController
      */
     public function destroy($id)
     {
-        //$resumenEventos = $this->resumenEventosRepository->findWithoutFail($id);
         $resumenEventos=DB::table('resumen_eventos')->find($id);
 
         if (empty($resumenEventos)) {
@@ -288,7 +283,6 @@ class ResumenEventosController extends AppBaseController
             return redirect(route('resumenEventos.index'));
         }
 
-        //$this->resumenEventosRepository->delete($id);
         $resumenEventos=DB::table('resumen_eventos')->delete($id);
 
         Flash::success('Resumen Eventos borrado exitosamente.');
