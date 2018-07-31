@@ -486,7 +486,7 @@ class ResumenAlumnosController extends AppBaseController
         return json_encode($vista);
     }
 
-    public function obtenerHoras(Request $resultado){
+     public function obtenerHoras(Request $resultado){
      
       $resultado['idPersona']=$resultado['usuario'];
 
