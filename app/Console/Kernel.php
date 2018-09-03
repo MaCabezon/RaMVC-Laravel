@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-
+        $schedule->command('backup:run')->everyMinute();
       // Programos el envio de reporte
         $schedule->call(function () {
           // Lista de emails donde enviar el reporte

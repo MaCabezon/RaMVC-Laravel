@@ -51,7 +51,7 @@ return [
         /*
          * The database dump can be gzipped to decrease diskspace usage.
          */
-        'gzip_database_dump' => true,
+        'gzip_database_dump' => false,
         /*
         * La base de datos debería ser parte del backup.
         */
@@ -82,41 +82,41 @@ return [
      * You can also use your own notification classes, just make sure the class is named after one of
      * the `Spatie\Backup\Events` classes.
      */
-    // 'notifications' => [
-    //
-    //     'notifications' => [
-    //         \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class         => ['mail'],
-    //         \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
-    //         \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class        => ['mail'],
-    //         \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class     => ['mail'],
-    //         \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class   => ['mail'],
-    //         \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
-    //     ],
-    //
-    //     /*
-    //      * Here you can specify the notifiable to which the notifications should be sent. The default
-    //      * notifiable will use the variables specified in this config file.
-    //      */
-    //     'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
-    //
-    //     'mail' => [
-    //         'to' => 'miguel.cabezon@alumnos.uneatlantico.es',
-    //     ],
-    //
-    //     // 'slack' => [
-    //     //     'webhook_url' => '',
-    //     //
-    //     //     /*
-    //     //      * If this is set to null the default channel of the webhook will be used.
-    //     //      */
-    //     //     'channel' => null,
-    //     //
-    //     //     'username' => null,
-    //     //
-    //     //     'icon' => null,
-    //     //
-    //     // ],
-    // ],
+    'notifications' => [
+    
+        'notifications' => [
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class         => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailed::class        => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessful::class     => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFound::class   => ['mail'],
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessful::class    => ['mail'],
+        ],
+    
+        /*
+         * Here you can specify the notifiable to which the notifications should be sent. The default
+         * notifiable will use the variables specified in this config file.
+         */
+        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+    
+        'mail' => [
+            'to' => 'rap@uneatlantico.es',
+        ],
+    
+        // 'slack' => [
+        //     'webhook_url' => '',
+        //
+        //     /*
+        //      * If this is set to null the default channel of the webhook will be used.
+        //      */
+        //     'channel' => null,
+        //
+        //     'username' => null,
+        //
+        //     'icon' => null,
+        //
+        // ],
+    ],
 
     /*
      * Here you can specify which backups should be monitored.

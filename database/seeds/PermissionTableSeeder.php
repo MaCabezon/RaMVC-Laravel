@@ -49,7 +49,12 @@ class PermissionTableSeeder extends Seeder
            'resumenEventos-create',
            'resumenEventos-edit',
            'resumenEventos-delete',
-           'resumenEventos-show'          
+           'resumenEventos-show',
+           'valoracionesBecarios-list',
+           'valoracionesBecarios-create',
+           'valoracionesBecarios-edit',
+           'valoracionesBecarios-delete',    
+           'valoracionesBecarios-show'      
 
         ];
 
@@ -65,7 +70,9 @@ class PermissionTableSeeder extends Seeder
 
         $role = Role::create(['name' => 'member']);
         $role->givePermissionTo(['resumenAlumnos-list', 'resumenAlumnos-create','resumenAlumnos-edit','resumenAlumnos-delete',
-                                'resumenEventos-list','resumenEventos-create','resumenEventos-edit','resumenEventos-delete']);
+                                'resumenEventos-list','resumenEventos-create','resumenEventos-edit','resumenEventos-delete',
+                                'valoracionesBecarios-list','valoracionesBecarios-create','valoracionesBecarios-edit',
+                                'valoracionesBecarios-delete']);
 
         $role = Role::create(['name' => 'user']);
         $role->givePermissionTo(['resumenAlumnos-list', 'resumenAlumnos-create','resumenEventos-list']);

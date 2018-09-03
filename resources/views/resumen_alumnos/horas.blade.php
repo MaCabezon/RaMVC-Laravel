@@ -14,7 +14,7 @@
     	<p>Horas Diarias   :  {{$horasDiarias }}  </p>
     	<p>Horas Semanales :  {{$horasSemanales }}  </p>
     	<p>Horas Mensuales :  {{$horasMensuales }}  </p>
-    	<p>Horas Totales   :  {{$horasTotales }}  <spam> / 750 </spam></p>
+    	<p>Horas Totales   :  {{$horasTotales }}  <spam> / 720 </spam></p>
     </div>
  
   </div>

@@ -18,6 +18,11 @@ class ValoracionBecariosController extends AppBaseController
 
     public function __construct(ValoracionBecariosRepository $valoracionBecariosRepo)
     {
+        $this->middleware('permission:valoracionesBecarios-list', ['only' => ['index']]);
+        $this->middleware('permission:valoracionesBecarios-show', ['only' => ['show']]);
+        $this->middleware('permission:valoracionesBecarios-create', ['only' => ['create','store']]);
+        $this->middleware('permission:valoracionesBecarios-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:valoracionesBecarios-delete', ['only' => ['destroy']]);
         $this->valoracionBecariosRepository = $valoracionBecariosRepo;
     }
 
@@ -30,7 +35,7 @@ class ValoracionBecariosController extends AppBaseController
     public function index(Request $request)
     {
         $this->valoracionBecariosRepository->pushCriteria(new RequestCriteria($request));
-        $valoracionBecarios = $this->valoracionBecariosRepository->all();
+        $valoracionBecarios = $this->valoracionBecariosRepository->Paginate(1);
 
         return view('valoracion_becarios.index')
             ->with('valoracionBecarios', $valoracionBecarios);
@@ -43,7 +48,9 @@ class ValoracionBecariosController extends AppBaseController
      */
     public function create()
     {
-        return view('valoracion_becarios.create');
+        $select=["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5"];        
+              
+        return view('valoracion_becarios.create')->with('valores',$select);
     }
 
     /**
@@ -94,6 +101,7 @@ class ValoracionBecariosController extends AppBaseController
     public function edit($id)
     {
         $valoracionBecarios = $this->valoracionBecariosRepository->findWithoutFail($id);
+        $select=["1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5"]; 
 
         if (empty($valoracionBecarios)) {
             Flash::error('Valoracion Becarios not found');
@@ -101,7 +109,7 @@ class ValoracionBecariosController extends AppBaseController
             return redirect(route('valoracionBecarios.index'));
         }
 
-        return view('valoracion_becarios.edit')->with('valoracionBecarios', $valoracionBecarios);
+        return view('valoracion_becarios.edit')->with('valoracionBecarios', $valoracionBecarios)->with('valores',$select);
     }
 
     /**

@@ -170,8 +170,8 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         \InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
-        //Backups
-        //Spatie\Backup\BackupServiceProvider::class,
+        //Backups        
+        Spatie\Backup\BackupServiceProvider::class,
         //Login Google
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
