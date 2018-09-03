@@ -35,18 +35,19 @@ class SocialController extends Controller
         //Datos de usuario retornados por el proveedor de servicio
         $socialUser = Socialite::driver($provider)->user();
 
-        // Filtrado de usuarios
-        if(str_after($socialUser->email,'@')!='uneatlantico.es' && str_before($socialUser->email,'@')!='abraham.fernandez' &&  str_before($socialUser->email,'@')!='sara.berbil' &&  str_before($socialUser->email,'@')!='loyda.alas' &&  str_before($socialUser->email,'@')!='larisa.hernandez') {
-             return redirect('/');
-        }
-
-
-
         // Verifica si el email ya lo tiene un usuario
         $userInDB = User::where('email', '=', $socialUser->email)->get()->first();
 
+        if($userInDB==null){
+            // Filtrado de usuarios
+           // if(str_after($socialUser->email,'@')!='uneatlantico.es' && !$userInDB->hasRole('admin') && !$userInDB->hasRole('member') && !$userInDB->hasRole('user') ) {
+                return redirect('/');
+           // }  
+        }
+
+        
          // Si no lo tiene crea el usuario
-        if(empty($userInDB)) {
+        /*if(empty($userInDB)) {
             $userInDB = new User;
             $userInDB->password = bcrypt(str_random(16));
             $userInDB->token = str_random(64);
@@ -62,7 +63,8 @@ class SocialController extends Controller
                 $userInDB->assignRole('user');
             }
 
-        }
+        }*/
+        
 
 
         // Guarda el id oauth del proveedor de Oauth

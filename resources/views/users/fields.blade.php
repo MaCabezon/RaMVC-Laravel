@@ -13,6 +13,11 @@
             {!! Form::label('email', 'Email:') !!}
             {!! Form::email('email', null, ['class' => 'form-control']) !!}
         </div>
+        <!-- Nombre Field -->
+        <div class="eventoVistas form-group col-sm-12">
+            {!! Form::label('password', 'Contraseña:') !!}
+            {!! Form::password('password', null, ['class' => 'form-control']) !!}
+        </div>
      
         
         <div class="eventoVistas form-group col-sm-12">

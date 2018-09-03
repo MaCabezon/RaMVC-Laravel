@@ -26,12 +26,13 @@ class ResumenAlumnosController extends AppBaseController
 
     public function __construct(ResumenAlumnosRepository $resumenAlumnosRepo)
     {
-        $this->resumenAlumnosRepository = $resumenAlumnosRepo;
+       
         $this->middleware('permission:resumenAlumnos-list', ['only' => ['index']]);
         $this->middleware('permission:resumenAlumnos-show', ['only' => ['show']]);
         $this->middleware('permission:resumenAlumnos-create', ['only' => ['create','store']]);
         $this->middleware('permission:resumenAlumnos-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:resumenAlumnos-delete', ['only' => ['destroy']]);
+        $this->resumenAlumnosRepository = $resumenAlumnosRepo;
     }
 
     /**
@@ -490,14 +491,15 @@ class ResumenAlumnosController extends AppBaseController
      
       $resultado['idPersona']=$resultado['usuario'];
 
-      $conectado=DB::table('resumen_alumnos')->where('idAlumno',$resultado->idPersona)
-      ->where('fechaEvento','curdate()')->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->orderBy('id', 'desc')->first();
-      
-      if($conectado->horas=="-1.00"){
+      $conectado=DB::select(DB::raw("SELECT * FROM resumen_alumnos where idAlumno=:id and horas <>'-1.00' and 
+      fechaEvento=curdate() and (idEvento=220 or idEvento=221 or idEvento=207 or idEvento=208) order by fechaEvento Desc limit 1 "),['id'=>$resultado->idPersona]);;
+    
+      if($conectado!=null && $conectado[0]->horas=="-1.00"){
         
       //HORAS DIARIAS
       $horasNow=  DB::select("SELECT cast( TIMESTAMPDIFF(minute, max(fechaEvento), now()) /60 as  decimal(5,2)) as Horas from transacciones where  idPersona=:id and (idEvento=221 or idEvento=220 or idEvento=207 or IdEvento=208)",['id'=>$resultado->idPersona]);
       }else{
+        
         $horasNow=null;
       }
       
@@ -523,42 +525,62 @@ class ResumenAlumnosController extends AppBaseController
      
       
       if($horasNow==null){
-        $horasSemanales=$horasSemanales[0]->HorasSemanales;
-        $horasMensuales=$horasMensuales[0]->HorasMensuales;
-        $horasTotales=$horasTotales[0]->HorasTotales;
-
-        if($horasAcumuladas[0]->HorasTotales!=null){
-          
-          $horasDiarias= $horasAcumuladas[0]->HorasTotales;
-          
         
-       }else{
+        if($horasSemanales[0]->HorasSemanales!=null){
+          $horasSemanales=$horasSemanales[0]->HorasSemanales;
+        }else{
+          $horasSemanales=0;
+        }
+
+        if($horasMensuales[0]->HorasMensuales!=null){
+          $horasMensuales=$horasMensuales[0]->HorasMensuales ;
+        }else{
+          
+          $horasMensuales=0;
+        }
+
+        if($horasTotales[0]->HorasTotales!=null){
+          $horasTotales=$horasTotales[0]->HorasTotales ;
+        } else{
+          $horasTotales=0;
+        }  
+
+        if($horasAcumuladas[0]->HorasTotales!=null){   
+               
+          $horasDiarias= $horasAcumuladas[0]->HorasTotales;        
+        
+        }else{
          $horasDiarias=0;
-       }
-      }else{
+        }
+      }else{      
+
        
         if($horasSemanales[0]->HorasSemanales!=null){
           $horasSemanales=$horasSemanales[0]->HorasSemanales +$horasNow[0]->Horas;
         }else{
           $horasSemanales=0;
         }
+
         if($horasMensuales[0]->HorasMensuales!=null){
           $horasMensuales=$horasMensuales[0]->HorasMensuales +$horasNow[0]->Horas;
         }else{
+          
           $horasMensuales=0;
         }
+
         if($horasTotales[0]->HorasTotales!=null){
           $horasTotales=$horasTotales[0]->HorasTotales +$horasNow[0]->Horas;
         } else{
           $horasTotales=0;
-        }       
+        }  
+
         if($horasAcumuladas!=null){         
           $horasDiarias= $horasNow[0]->Horas+$horasAcumuladas[0]->HorasTotales;        
         
         }else{
          $horasDiarias= $horasNow[0]->Horas;
         }
-      }         
+      }
      
      return view('resumen_Alumnos.horas')->with('horasDiarias', $horasDiarias)
                               ->with('horasSemanales',$horasSemanales )

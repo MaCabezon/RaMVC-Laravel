@@ -12,59 +12,46 @@
 
 <!-- Formatrabajo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('formaTrabajo', 'Formatrabajo:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('formaTrabajo', false) !!}
-        {!! Form::checkbox('formaTrabajo', '1', null) !!} 1
-    </label>
+    {!! Form::label('formaTrabajo', 'Formatrabajo:') !!}  
+    {!! Form::select('formaTrabajo', $valores, null, array('class' => 'form-control')) !!}
+    
 </div>
 
 <!-- Actitud Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('actitud', 'Actitud:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('actitud', false) !!}
-        {!! Form::checkbox('actitud', '1', null) !!} 1
-    </label>
+    {!! Form::label('actitud', 'Actitud:') !!}    
+    {!! Form::select('actitud', $valores, null, array('class' => 'form-control')) !!}
+    
 </div>
 
 <!-- Manejotecnologia Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('manejoTecnologia', 'Manejotecnologia:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('manejoTecnologia', false) !!}
-        {!! Form::checkbox('manejoTecnologia', '1', null) !!} 1
-    </label>
+    {!! Form::select('manejoTecnologia', $valores, null, array('class' => 'form-control')) !!}
 </div>
 
 <!-- Adaptacion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('adaptacion', 'Adaptacion:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('adaptacion', false) !!}
-        {!! Form::checkbox('adaptacion', '1', null) !!} 1
-    </label>
+    {!! Form::select('adaptacion', $valores, null, array('class' => 'form-control')) !!}
 </div>
 
 <!-- Responsabilidad Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('responsabilidad', 'Responsabilidad:') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('responsabilidad', false) !!}
-        {!! Form::checkbox('responsabilidad', '1', null) !!} 1
-    </label>
+    {!! Form::select('responsabilidad', $valores, null, array('class' => 'form-control')) !!}
 </div>
 
 <!-- Cumplimientohoras Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('cumplimientoHoras', 'Cumplimientohoras:') !!}
-    {!! Form::text('cumplimientoHoras', null, ['class' => 'form-control']) !!}
+    {!! Form::label('cumplimientoHoras', 'Cumplimientohoras:') !!}    
+    {!! Form::textarea('cumplimientoHoras',null,['class'=>'form-control', 'rows' => 2, 'cols' => 40]) !!}
 </div>
 
 <!-- Materias Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('materias', 'Materias:') !!}
-    {!! Form::text('materias', null, ['class' => 'form-control']) !!}
+    {!! Form::textarea('materias',null,['class'=>'form-control', 'rows' => 2, 'cols' => 40]) !!}
 </div>
 
 <!-- Annio Field -->

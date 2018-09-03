@@ -36,9 +36,10 @@ div#navdos.navbar-collapse.col-lg-4.collapse.in.show{
 	float: right !important;
 }
 
-.dropdown-menu{
-	background-color: #048cd4;
+.dropdown-menu,#menuResponsive{
+	background-color: #048cd4 !important;
 }
+
 
 .dropdown-menu>li>a {
 	color: white;
@@ -442,7 +443,7 @@ a.buttonText {
   white-space: nowrap;	
 }
 #tarjeta{
-	background-image: url(images/miniyo.jpeg);
+	background-image: url(images/perfil.jpg);
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-position: center;
