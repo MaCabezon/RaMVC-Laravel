@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/users','UserController');
   Route::resource('/roles','RoleController');
   Route::resource('/permissions', 'PermissionController');
+  Route::resource('valoracionBecarios', 'ValoracionBecariosController');
 });
 
 
@@ -60,3 +61,5 @@ Route::resource('/dashboardTv', 'DashboardTvController');
 Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedirect')->name('redirectSocialLite');
 Route::get('/social/handle/{provider}', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
 Route::get('/login/{provider}/callback', 'Auth\SocialController@getSocialHandle')->name('home');
+Route::post('/mishoras', 'ResumenAlumnosController@obtenerHoras')->name('resumenAlumnos.obtenerHoras');
+

@@ -9,7 +9,7 @@ use DB, Session;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Crea una nueva instancia del controlador.
      *
      * @return void
      */
@@ -19,23 +19,19 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Muestra el dashboard de la aplicación.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $message=DB::table('resumen_alumnos')->where('validado', '0')->first();
-        
+
         if ($message!="") {
-            Session::flash('message', 'Hay alumnos pendientes.'); 
+            Session::flash('message', 'Hay alumnos pendientes.');
         }
-              
-       
-       
-              
+
         return view('home');
             // ->with('numeroAlumnos',json_encode($alumnosActivosBecasI,JSON_NUMERIC_CHECK));
-
     }
 }

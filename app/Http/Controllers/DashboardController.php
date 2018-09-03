@@ -9,12 +9,13 @@ use DB;
 class DashboardController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra un listado de los registros.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+      // Seleccionamos la vista del Dashboard Web dependiendo del rol del usuario logueado
       if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('member')) {
         $vista = DB::select('SELECT reportedatos.*, resumenalumnos.Estado FROM reportedatos INNER JOIN resumenalumnos ON reportedatos.Alumno = resumenalumnos.Alumno AND reportedatos.Evento = resumenalumnos.Evento AND reportedatos.Grupo = resumenalumnos.Grupo WHERE (reportedatos.Evento LIKE "Becas%" OR reportedatos.Evento LIKE "Intervencion Agil%") AND WEEK(resumenalumnos.fechaEvento) = WEEK(CURDATE()) ORDER BY Evento, Alumno ASC');
         return view('dashboard.index')->with('vista',$vista);
@@ -22,7 +23,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario para la creación de un nuevo registro.
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +33,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo registro creado en la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -43,7 +44,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el registro deseado.
      *
      * @param  \App\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
@@ -54,7 +55,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario para poder editar un registro especifico.
      *
      * @param  \App\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
@@ -65,7 +66,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un registro específico de la base de datos.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Dashboard  $dashboard
@@ -77,7 +78,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un registro específico de la base de datos.
      *
      * @param  \App\Dashboard  $dashboard
      * @return \Illuminate\Http\Response

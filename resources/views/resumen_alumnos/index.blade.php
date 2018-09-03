@@ -12,13 +12,13 @@
      <h3>Resumen de Alumnos</h3>
      <hr/>
    </div>
-  <div>
+  </div>
 
    <div class="container">
     <div>
      <div class="col-md-12" style="padding-left: 10%;margin-bottom: 2%">
        <form class="form-inline form-filtro">
-        <div class="col-md-3" style="float: left;"">
+        <div class="col-md-3" style="float: left;">
           <div class="form-group col-md-12" style="float: left;">
            <h6>Fecha inicial</h6>
            <input type="date" class="form-control col-md-2" id="fechaInicial" name="fechaInicial" max="<?php $hoy=date('Y-m-d'); echo $hoy; ?>">
