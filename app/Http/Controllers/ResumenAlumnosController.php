@@ -520,12 +520,12 @@ class ResumenAlumnosController extends AppBaseController
       ['id'=>$resultado->idPersona]);
 
      //HORAS TOTALES DEL AÑO
-     $horasTotales=DB::select(DB::raw("SELECT SUM(Horas) as HorasTotales from resumen_alumnos where idAlumno=:id and horas <> '-1.00'and
+     $horasTotales=DB::select(DB::raw("SELECT SUM(Horas) as HorasTotales from resumen_alumnos where (fechaEvento BETWEEN '2018-09-01' and '2019-07-31') and idAlumno=:id and horas <> '-1.00'and
       (idEvento=220 or idEvento=221 or idEvento=207 or idEvento=208) "),['id'=>$resultado->idPersona]);
      
       
       if($horasNow==null){
-        
+       
         if($horasSemanales[0]->HorasSemanales!=null){
           $horasSemanales=$horasSemanales[0]->HorasSemanales;
         }else{
