@@ -491,11 +491,11 @@ class ResumenAlumnosController extends AppBaseController
      
       $resultado['idPersona']=$resultado['usuario'];
 
-      $conectado=DB::select(DB::raw("SELECT * FROM resumen_alumnos where idAlumno=:id and horas <>'-1.00' and 
+      $conectado=DB::select(DB::raw("SELECT * FROM resumen_alumnos where idAlumno=:id and horas ='-1.00' and 
       fechaEvento=curdate() and (idEvento=220 or idEvento=221 or idEvento=207 or idEvento=208) order by fechaEvento Desc limit 1 "),['id'=>$resultado->idPersona]);;
     
       if($conectado!=null && $conectado[0]->horas=="-1.00"){
-        
+      ;
       //HORAS DIARIAS
       $horasNow=  DB::select("SELECT cast( TIMESTAMPDIFF(minute, max(fechaEvento), now()) /60 as  decimal(5,2)) as Horas from transacciones where  idPersona=:id and (idEvento=221 or idEvento=220 or idEvento=207 or IdEvento=208)",['id'=>$resultado->idPersona]);
       }else{
@@ -554,24 +554,24 @@ class ResumenAlumnosController extends AppBaseController
         }
       }else{      
 
-       
+      
         if($horasSemanales[0]->HorasSemanales!=null){
           $horasSemanales=$horasSemanales[0]->HorasSemanales +$horasNow[0]->Horas;
         }else{
-          $horasSemanales=0;
+          $horasSemanales=$horasNow[0]->Horas;
         }
 
         if($horasMensuales[0]->HorasMensuales!=null){
           $horasMensuales=$horasMensuales[0]->HorasMensuales +$horasNow[0]->Horas;
         }else{
           
-          $horasMensuales=0;
+          $horasMensuales=$horasNow[0]->Horas;
         }
 
         if($horasTotales[0]->HorasTotales!=null){
           $horasTotales=$horasTotales[0]->HorasTotales +$horasNow[0]->Horas;
         } else{
-          $horasTotales=0;
+          $horasTotales=$horasNow[0]->Horas;
         }  
 
         if($horasAcumuladas!=null){         
