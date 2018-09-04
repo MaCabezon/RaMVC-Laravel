@@ -39,6 +39,7 @@ class Kernel extends ConsoleKernel
             Mail::to('sara.berbil@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('loyda.alas@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('larisa.hernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
+            Mail::to('atenea.ruigomez@alumnos.uneatlantico.es')->send(new ReporteEmail);
 
         })->everyMinute()
         ->before(function()
