@@ -20,7 +20,7 @@ class NotificacionController extends Controller
     {        
     
         if (auth()->id() != $request->recipient_id) {
-            $user =User::find(auth()->id());
+            $user =User::find( $request->recipient_id);
             $user->notify(new NotificacionToUser($request->body));
         }
         
