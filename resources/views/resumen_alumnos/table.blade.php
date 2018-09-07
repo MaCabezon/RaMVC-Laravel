@@ -29,7 +29,12 @@
                         <td>{!! $resumenAlumnos->fechaEvento !!}</td>
                         <td>{!! $resumenAlumnos->horas !!}</td>
                         <td>{!! $resumenAlumnos->validado !!}</td>
-                        <td>{!! $resumenAlumnos->justificante !!}</td>
+                        @if ($resumenAlumnos->justificante=="")
+                          <td>{!! $resumenAlumnos->justificante !!}</td>
+                        @else 
+                          <td> vacio</td>
+                        @endif
+                        
                         <td>
                             {!! Form::open(['route' => ['resumenAlumnos.destroy', $resumenAlumnos->id], 'method' => 'delete']) !!}
                             <div class='btn-group'>
