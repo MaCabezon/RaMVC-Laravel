@@ -128,6 +128,25 @@
              <li> <a href="{{ action('ResumenAlumnosController@excel') }}">Descargar reporte</a></li>
            </ul>
           </li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                  Notifications <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
+              </a>
+          
+              <ul class="dropdown-menu" role="menu">
+                  <li>
+                      @foreach (Auth::user()->unreadNotifications as $notification)                         
+                      <div>
+                         <p id="notificacion"><i><b>{{ $notification->data['user'] }}</i></b> te dice que {{$notification->data['comment']}}</p>
+                         
+                      </div>    
+                      @endforeach
+                     
+                  </li>
+                  <li><a href="{{ action('NotificacionController@index') }}">Crear Notificacion</a></li>
+                  <li><a href="{{ action('NotificacionController@marcarLeidas') }}">Marcar Noitificaciones como leidas</a></li>
+              </ul>
+          </li>
          @endauth
          @guest
          <li><a class="nav-link" href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log in
