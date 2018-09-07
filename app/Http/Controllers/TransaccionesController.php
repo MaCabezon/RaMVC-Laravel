@@ -83,7 +83,7 @@ class TransaccionesController extends AppBaseController
             ->orWhere('nombre','Intervencion Agil II')
             ->orderBy('fechaEvento', 'DESC')
             ->get();
-            echo $transaccionesCompleto;
+           // echo $transaccionesCompleto;
       }
       else if (\Auth::user()->hasRole('user'))
       {
