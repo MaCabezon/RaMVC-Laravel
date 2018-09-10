@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-
+        $schedule->command('backup:run')->everyMinute();
       // Programos el envio de reporte
         $schedule->call(function () {
           // Lista de emails donde enviar el reporte
@@ -39,6 +39,7 @@ class Kernel extends ConsoleKernel
             Mail::to('sara.berbil@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('loyda.alas@alumnos.uneatlantico.es')->send(new ReporteEmail);
             Mail::to('larisa.hernandez@alumnos.uneatlantico.es')->send(new ReporteEmail);
+            Mail::to('atenea.ruigomez@alumnos.uneatlantico.es')->send(new ReporteEmail);
 
         })->everyMinute()
         ->before(function()

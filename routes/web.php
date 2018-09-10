@@ -35,6 +35,9 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/roles','RoleController');
   Route::resource('/permissions', 'PermissionController');
   Route::resource('valoracionBecarios', 'ValoracionBecariosController');
+  Route::resource('/notificaciones', 'NotificacionController');
+  Route::get('/notificaciones', 'NotificacionController@index');
+  Route::get('/marcarLeidas', 'NotificacionController@marcarLeidas');
 });
 
 

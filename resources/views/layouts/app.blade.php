@@ -60,11 +60,11 @@
          <a id="logo" class="navbar-brand col-lg-1" href="{{ action('HomeController@index') }}" style="margin-bottom: 10px; margin-top: 10px;margin-left: 1%"></a>
       </div>
       
-      <div class="col-lg-6" style="padding-left: 0%;padding-right: 0%;margin-left: 0%; margin-right: 0%;margin-top: 20px;float:left;"> 
+      <div class="col-lg-3" style="padding-left: 0%;padding-right: 0%;margin-left: 0%; margin-right: 0%;margin-top: 20px;float:left;"> 
        @auth
           <form class="navbar-form navbar-right" style="border:none;">
             <input id="filtrar"  type="text" class="form-control" placeholder="Introduzca dato a buscar...">
-          </form>
+          </form> 
         @endauth  
       </div>
 
@@ -79,18 +79,26 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse col-lg-1" id="navdos" style="padding-left: 0px;margin-top: 20px; float=right">
         
-        <ul class="nav navbar-nav navbar-right">
+        <ul id="menuResponsive" class="nav navbar-nav navbar-right">
           <li>
           <a href="{{ action('ResumenAlumnosController@obtenerHoras') }}" data-toggle="modal" data-target=".bs-example-modal-sm">
-            <span class="glyphicon glyphicon-time"></span>Mis horas</a>
+            <span class="glyphicon glyphicon-time"></span> Mis horas</a>
           </li>
 
           <li>
             <a href="{{ action('HighchartController@highchart') }}"><span class="glyphicon glyphicon-stats"></span> Estadísticas</a>
           </li>
 
-          <li>
-            <a href="{{ action('DashboardController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a>
+          <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-dashboard"></span> Dashboards<span class="caret"></span></a>
+            <ul class="dropdown-menu" >
+              <li>
+                 <a href="{{ action('DashboardController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard Becarios</a>
+              </li>
+              <li>
+                 <a href="{{ action('DashboardTvController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard TV</a>
+              </li>   
+           </ul>
           </li>
           @auth
           <li class="dropdown">
@@ -108,14 +116,36 @@
               @can('transacciones-list')
               <li><a href="{{ action('TransaccionesController@index') }}">Transacciones</a></li>
               @endcan
+              @can('valoracionesBecarios-list')
+              <li><a href="{{ action('ValoracionBecariosController@index') }}">Valoracion Becarios</a></li>
+              @endcan
             </ul>
           </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generar Reporte <span class="caret"></span></a>
-            <ul class="dropdown-menu" >
+           <ul class="dropdown-menu" >
              <li> <a href="reporteTable">Visualizar reporte</a></li>
              <li> <a href="{{ action('ResumenAlumnosController@excel') }}">Descargar reporte</a></li>
            </ul>
+          </li>
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                  Notifications <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
+              </a>
+          
+              <ul class="dropdown-menu" role="menu">
+                  <li>
+                      @foreach (Auth::user()->unreadNotifications as $notification)                         
+                      <div>
+                         <p id="notificacion"><i><b>{{ $notification->data['user'] }}</i></b> te dice que {{$notification->data['comment']}}</p>
+                         
+                      </div>    
+                      @endforeach
+                     
+                  </li>
+                  <li><a href="{{ action('NotificacionController@index') }}">Crear Notificacion</a></li>
+                  <li><a href="{{ action('NotificacionController@marcarLeidas') }}">Marcar Noitificaciones como leidas</a></li>
+              </ul>
           </li>
          @endauth
          @guest
@@ -131,7 +161,7 @@
           </a>
           <ul class="dropdown-menu" >
             @can('user-list')
-            <li><a href="{{ action('UserController@index') }}">Usuario</a></li>
+            <li><a href="{{ action('UserController@index') }}">Usuarios</a></li>
             @endcan
             @can('role-list')
             <li><a href="{{ action('RoleController@index') }}">Roles</a></li>

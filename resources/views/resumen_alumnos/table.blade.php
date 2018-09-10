@@ -12,6 +12,7 @@
                     <th>Fecha evento</th>
                     <th>Horas</th>
                     <th>Validado</th>
+                    <th>Justificante</th>
                     <th colspan="3">Acciones
                             @can('resumenAlumnos-create')
                                 <a  class="glyphicon  plus btn-sm glyphicon-plus"  href="{!! route('resumenAlumnos.create') !!}"></a>
@@ -28,6 +29,12 @@
                         <td>{!! $resumenAlumnos->fechaEvento !!}</td>
                         <td>{!! $resumenAlumnos->horas !!}</td>
                         <td>{!! $resumenAlumnos->validado !!}</td>
+                        @if ($resumenAlumnos->justificante=="")
+                          <td>{!! $resumenAlumnos->justificante !!}</td>
+                        @else 
+                          <td> vacio</td>
+                        @endif
+                        
                         <td>
                             {!! Form::open(['route' => ['resumenAlumnos.destroy', $resumenAlumnos->id], 'method' => 'delete']) !!}
                             <div class='btn-group'>

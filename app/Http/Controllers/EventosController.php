@@ -20,12 +20,13 @@ class EventosController extends AppBaseController
 
     public function __construct(EventosRepository $eventosRepo)
     {
-        $this->eventosRepository = $eventosRepo;
+        
          $this->middleware('permission:eventos-list');
          $this->middleware('permission:eventos-show', ['only' => ['show']]);
          $this->middleware('permission:eventos-create', ['only' => ['create','store']]);
          $this->middleware('permission:eventos-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:eventos-delete', ['only' => ['destroy']]);
+         $this->eventosRepository = $eventosRepo;
     }
 
     /**
@@ -38,7 +39,8 @@ class EventosController extends AppBaseController
     {
         $this->eventosRepository->pushCriteria(new RequestCriteria($request));
 
-         $eventos = $this->eventosRepository->all();
+         $eventos = $this->eventosRepository->Paginate(5);
+         
          return view('eventos.index')
             ->with('eventos', $eventos);
     }

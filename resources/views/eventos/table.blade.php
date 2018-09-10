@@ -19,20 +19,21 @@
             </tr>
         </thead>
         <tbody class='buscar'>
-        @foreach($eventos as $eventos)
+        
+        @foreach($eventos as $evento)
             <tr>
-                <td>{!! $eventos->abreviatura !!}</td>
-                <td>{!! $eventos->nombre !!}</td>
-                <td>{!! $eventos->grupo !!}</td>
-                <td>{!! $eventos->nombreProfesor !!}</td>
+                <td>{!! $evento->abreviatura !!}</td>
+                <td>{!! $evento->nombre !!}</td>
+                <td>{!! $evento->grupo !!}</td>
+                <td>{!! $evento->nombreProfesor !!}</td>
                 <td>
-                    {!! Form::open(['route' => ['eventos.destroy', $eventos->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['eventos.destroy', $evento->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                     @can('eventos-show')
-                        <a href="{!! route('eventos.show', [$eventos->id]) !!}" class='btn btn-success btn-sm'><i class="glyphicon glyphicon-eye-open"></i></a>
+                        <a href="{!! route('eventos.show', [$evento->id]) !!}" class='btn btn-success btn-sm'><i class="glyphicon glyphicon-eye-open"></i></a>
                     @endcan
                     @can('eventos-edit')
-                        <a href="{!! route('eventos.edit', [$eventos->id]) !!}" class='btn btn-info btn-sm'><i class="glyphicon glyphicon-edit"></i></a>
+                        <a href="{!! route('eventos.edit', [$evento->id]) !!}" class='btn btn-info btn-sm'><i class="glyphicon glyphicon-edit"></i></a>
                     @endcan
                     @can('eventos-delete')
                         {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
@@ -44,6 +45,7 @@
         @endforeach
         </tbody>
     </table>
-
-
-     </div>
+    <div class='text-center'>
+        {!!  $eventos->render() !!}
+           <p>Página {{$eventos->currentPage()}} de {{$eventos->lastPage()}}</p>
+ </div>

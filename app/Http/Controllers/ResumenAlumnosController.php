@@ -26,12 +26,13 @@ class ResumenAlumnosController extends AppBaseController
 
     public function __construct(ResumenAlumnosRepository $resumenAlumnosRepo)
     {
-        $this->resumenAlumnosRepository = $resumenAlumnosRepo;
+       
         $this->middleware('permission:resumenAlumnos-list', ['only' => ['index']]);
         $this->middleware('permission:resumenAlumnos-show', ['only' => ['show']]);
         $this->middleware('permission:resumenAlumnos-create', ['only' => ['create','store']]);
         $this->middleware('permission:resumenAlumnos-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:resumenAlumnos-delete', ['only' => ['destroy']]);
+        $this->resumenAlumnosRepository = $resumenAlumnosRepo;
     }
 
     /**
@@ -486,18 +487,19 @@ class ResumenAlumnosController extends AppBaseController
         return json_encode($vista);
     }
 
-    public function obtenerHoras(Request $resultado){
+     public function obtenerHoras(Request $resultado){
      
       $resultado['idPersona']=$resultado['usuario'];
 
-      $conectado=DB::table('resumen_alumnos')->where('idAlumno',$resultado->idPersona)
-      ->where('fechaEvento','curdate()')->orWhere('idEvento',220)->orWhere('idEvento',221)->orWhere('idEvento',207)->orWhere('idEvento',208)->orderBy('id', 'desc')->first();
+      $conectado=DB::select(DB::raw("SELECT * FROM resumen_alumnos where idAlumno=:id and horas ='-1.00' and 
+      fechaEvento=curdate() and (idEvento=220 or idEvento=221 or idEvento=207 or idEvento=208) order by fechaEvento Desc limit 1 "),['id'=>$resultado->idPersona]);;
+    
+      if($conectado[0]->horas=="-1.00"){
       
-      if($conectado->horas=="-1.00"){
-        
       //HORAS DIARIAS
       $horasNow=  DB::select("SELECT cast( TIMESTAMPDIFF(minute, max(fechaEvento), now()) /60 as  decimal(5,2)) as Horas from transacciones where  idPersona=:id and (idEvento=221 or idEvento=220 or idEvento=207 or IdEvento=208)",['id'=>$resultado->idPersona]);
       }else{
+        
         $horasNow=null;
       }
       
@@ -518,47 +520,67 @@ class ResumenAlumnosController extends AppBaseController
       ['id'=>$resultado->idPersona]);
 
      //HORAS TOTALES DEL AÑO
-     $horasTotales=DB::select(DB::raw("SELECT SUM(Horas) as HorasTotales from resumen_alumnos where idAlumno=:id and horas <> '-1.00'and
+     $horasTotales=DB::select(DB::raw("SELECT SUM(Horas) as HorasTotales from resumen_alumnos where (fechaEvento BETWEEN '2018-09-01' and '2019-07-31') and idAlumno=:id and horas <> '-1.00'and
       (idEvento=220 or idEvento=221 or idEvento=207 or idEvento=208) "),['id'=>$resultado->idPersona]);
      
       
       if($horasNow==null){
-        $horasSemanales=$horasSemanales[0]->HorasSemanales;
-        $horasMensuales=$horasMensuales[0]->HorasMensuales;
-        $horasTotales=$horasTotales[0]->HorasTotales;
-
-        if($horasAcumuladas[0]->HorasTotales!=null){
-          
-          $horasDiarias= $horasAcumuladas[0]->HorasTotales;
-          
-        
-       }else{
-         $horasDiarias=0;
-       }
-      }else{
        
         if($horasSemanales[0]->HorasSemanales!=null){
-          $horasSemanales=$horasSemanales[0]->HorasSemanales +$horasNow[0]->Horas;
+          $horasSemanales=$horasSemanales[0]->HorasSemanales;
         }else{
           $horasSemanales=0;
         }
+
+        if($horasMensuales[0]->HorasMensuales!=null){
+          $horasMensuales=$horasMensuales[0]->HorasMensuales ;
+        }else{
+          
+          $horasMensuales=0;
+        }
+
+        if($horasTotales[0]->HorasTotales!=null){
+          $horasTotales=$horasTotales[0]->HorasTotales ;
+        } else{
+          $horasTotales=0;
+        }  
+
+        if($horasAcumuladas[0]->HorasTotales!=null){   
+               
+          $horasDiarias= $horasAcumuladas[0]->HorasTotales;        
+        
+        }else{
+         $horasDiarias=$horasNow[0]->Horas;
+        }
+      }else{      
+
+      
+        if($horasSemanales[0]->HorasSemanales!=null){
+          $horasSemanales=$horasSemanales[0]->HorasSemanales +$horasNow[0]->Horas;
+        }else{
+          $horasSemanales=$horasNow[0]->Horas;
+        }
+
         if($horasMensuales[0]->HorasMensuales!=null){
           $horasMensuales=$horasMensuales[0]->HorasMensuales +$horasNow[0]->Horas;
         }else{
-          $horasMensuales=0;
+          
+          $horasMensuales=$horasNow[0]->Horas;
         }
+
         if($horasTotales[0]->HorasTotales!=null){
           $horasTotales=$horasTotales[0]->HorasTotales +$horasNow[0]->Horas;
         } else{
-          $horasTotales=0;
-        }       
+          $horasTotales=$horasNow[0]->Horas;
+        }  
+
         if($horasAcumuladas!=null){         
           $horasDiarias= $horasNow[0]->Horas+$horasAcumuladas[0]->HorasTotales;        
         
         }else{
          $horasDiarias= $horasNow[0]->Horas;
         }
-      }         
+      }
      
      return view('resumen_Alumnos.horas')->with('horasDiarias', $horasDiarias)
                               ->with('horasSemanales',$horasSemanales )

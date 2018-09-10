@@ -22,12 +22,13 @@ class TransaccionesController extends AppBaseController
 
     public function __construct(TransaccionesRepository $transaccionesRepo)
     {
-        $this->transaccionesRepository = $transaccionesRepo;
         $this->middleware('permission:transacciones-list', ['only' => ['index']]);
         $this->middleware('permission:transacciones-show', ['only' => ['show']]);
         $this->middleware('permission:transacciones-create', ['only' => ['create','store']]);
         $this->middleware('permission:transacciones-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:transacciones-delete', ['only' => ['destroy']]);
+        $this->transaccionesRepository = $transaccionesRepo;
+        
     }
 
     /**
@@ -82,7 +83,7 @@ class TransaccionesController extends AppBaseController
             ->orWhere('nombre','Intervencion Agil II')
             ->orderBy('fechaEvento', 'DESC')
             ->get();
-            echo $transaccionesCompleto;
+            //echo $transaccionesCompleto;
       }
       else if (\Auth::user()->hasRole('user'))
       {

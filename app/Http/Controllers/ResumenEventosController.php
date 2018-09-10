@@ -22,12 +22,13 @@ class ResumenEventosController extends AppBaseController
 
     public function __construct(ResumenEventosRepository $resumenEventosRepo)
     {
-        $this->resumenEventosRepository = $resumenEventosRepo;
+       
         $this->middleware('permission:resumenEventos-list');
         $this->middleware('permission:resumenEventos-show', ['only' => ['show']]);
         $this->middleware('permission:resumenEventos-create', ['only' => ['create','store']]);
         $this->middleware('permission:resumenEventos-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:resumenEventos-delete', ['only' => ['destroy']]);
+        $this->resumenEventosRepository = $resumenEventosRepo;
     }
 
     /**
