@@ -53,7 +53,7 @@ class Reporte extends Mailable
               });
 
               //data
-              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas','HorasDia')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();              
+              $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas','HorasDia')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
 
 
             $rowNumber = 3; // Numero de columnas por el cual empieza
@@ -122,5 +122,152 @@ class Reporte extends Mailable
                     ->from('rap@uneatlantico.es','Soporte')
                     ->subject('Reporte Diario')
                     ->attach($file->store("xls",false,true)['full']);
+    }
+
+
+////////////////////////////// METODO INDEX //////////////////////////
+    public function index (Request $request)
+    {
+      $hasFilter = false;
+      $reportes = null;
+      $alumno = Input::get('Alumno');
+      $evento = Input::get('Evento');
+
+      // Eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
+      $fecha = null;
+
+      if(! is_null($request->fecha) || ! empty($request->fecha))
+      {
+        $fecha = $request->fecha;
+        $hasFilter = true;
+      }
+      elseif (is_null($request->fecha) || empty($request->fecha))
+      {
+        $fecha = date('Y-m-d');
+      }
+
+      if (!is_null($request->fecha) || !is_null($request->alumnos) || !is_null($request->eventos))
+      {
+        $hasFilter = true;
+      }
+
+      // Seleccion de datos SIN FILTRO (Para el SELECT)
+      if (\Auth::user()->hasRole('admin'))
+      {
+        $reportesCompleto = DB::table('reporte')
+            ->orderBy('FechaEvento', 'DESC')
+            ->take(50)
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('member'))
+      {
+        $reportesCompleto = DB::table('reporte')
+            ->where('Evento','Becas I')
+            ->orWhere('Evento', 'Becas II')
+            ->orWhere('Evento', 'Intervencion Agil I')
+            ->orWhere('Evento','Intervencion Agil II')
+            ->orderBy('FechaEvento', 'DESC')
+            ->get();
+      }
+      else if (\Auth::user()->hasRole('user'))
+      {
+        $reportesCompleto = DB::table('reporte')
+            ->where('nombreProfesor',str_before(\Auth::user()->email,'@'))
+            ->orderBy('FechaEvento', 'DESC')
+            ->get();
+      }
+
+      // Seleccion de datos con FILTRO
+      if (\Auth::user()->hasRole('admin'))
+      {
+        $query = DB::table('reporte');
+
+        // Filtro de fecha
+        if (is_null($fecha)) {
+          $fecha = date('Y-m-d');
+          $query->where('FechaEvento', $fecha);
+        }
+        if (!is_null($fecha)) {
+          $query->where('FechaEvento', '<=', $fecha);
+        }
+
+
+        // Filtro de eventos
+        if ($evento != null) {
+          $query->where('Evento',$evento);
+        }
+
+        // Filtro de alumnos
+        if ($alumno != null) {
+          $query->where('Alumno',$alumno);
+        }
+
+        $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
+      }
+      else if (\Auth::user()->hasRole('member'))
+      {
+        $query = DB::table('reporte');
+
+            // Filtro de fecha
+            if (is_null($fecha)) {
+              $fecha = date('Y-m-d');
+              $query->where('FechaEvento', $fecha);
+            }
+            if (!is_null($fecha)) {
+              $query->where('FechaEvento', '<=', $fecha);
+            }
+
+            // Filtro de eventos
+            if ($evento != null) {
+              $query->where('Evento',$evento);
+            }
+
+            // Filtro de alumnos
+            if ($alumno != null) {
+              $query->where('Alumno',$alumno);
+            }
+
+            $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
+      }
+      else if (\Auth::user()->hasRole('user'))
+      {
+        $query = DB::table('reporte')
+            ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
+
+            // Filtro de fecha
+            if (is_null($fecha)) {
+              $fecha = date('Y-m-d');
+              $query->where('FechaEvento', $fecha);
+            }
+            if (!is_null($fecha)) {
+              $query->where('FechaEvento', '<=', $fecha);
+            }
+
+            /*if (!is_null($f1) && !is_null($f2)) {
+              $query->whereBetween('fechaEvento', [$f1, $f2]);
+            }*/
+
+            // Filtro de eventos
+            if ($evento != null) {
+              $query->where('Evento',$evento);
+            }
+
+            // Filtro de alumnos
+            if ($alumno != null) {
+              $query->where('Alumno',$alumno);
+            }
+
+            $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
+      }
+
+      if (is_null($reportes))
+      {
+        return view('reportes.index', ["hasFilter" => $hasFilter]);
+      }
+      else
+      {
+        return view('reportes.index', ["hasFilter" => $hasFilter, "reportes" => $reportes, "fecha" => $fecha, "reportesCompleto" => $reportesCompleto]);
+      }
+
     }
 }
