@@ -42,10 +42,10 @@ class SocialController extends Controller
             // Filtrado de usuarios
            // if(str_after($socialUser->email,'@')!='uneatlantico.es' && !$userInDB->hasRole('admin') && !$userInDB->hasRole('member') && !$userInDB->hasRole('user') ) {
                 return redirect('/');
-           // }  
+           // }
         }
 
-        
+
          // Si no lo tiene crea el usuario
         /*if(empty($userInDB)) {
             $userInDB = new User;
@@ -64,7 +64,7 @@ class SocialController extends Controller
             }
 
         }*/
-        
+
 
 
         // Guarda el id oauth del proveedor de Oauth

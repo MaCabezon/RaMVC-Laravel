@@ -447,7 +447,8 @@ class ResumenAlumnosController extends AppBaseController
      */
     public function reporteTable()
     {
-
+        $resumenes = null;
+        // NO ENTRA A NINGUNO -- FALLO --
         if (\Auth::user()->hasRole('admin')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           } else if (\Auth::user()->hasRole('member')) {
@@ -455,7 +456,6 @@ class ResumenAlumnosController extends AppBaseController
           } else if (\Auth::user()->hasRole('user')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           }
-
           // Datos
           $data=[];
             foreach ($resumenes as $resumen) {
