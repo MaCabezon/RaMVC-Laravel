@@ -550,6 +550,7 @@ class ResumenAlumnosController extends AppBaseController
           $horasDiarias= $horasAcumuladas[0]->HorasTotales;        
         
         }else{
+         
          $horasDiarias=$horasNow[0]->Horas;
         }
       }else{      
@@ -574,10 +575,12 @@ class ResumenAlumnosController extends AppBaseController
           $horasTotales=$horasNow[0]->Horas;
         }  
 
-        if($horasAcumuladas!=null){         
-          $horasDiarias= $horasNow[0]->Horas+$horasAcumuladas[0]->HorasTotales;        
+        if($horasAcumuladas[0]->HorasTotales!=null){         
+          $horasDiarias= $horasNow[0]->Horas+$horasAcumuladas[0]->HorasTotales;     
+         
         
         }else{
+          
          $horasDiarias= $horasNow[0]->Horas;
         }
       }
