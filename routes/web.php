@@ -22,7 +22,6 @@ Route::get('/', function () {
 
 
 Route::group(['middleware' => 'auth', 'admin'], function () {
-
   Route::resource('/eventos', 'EventosController');
   Route::resource('/resumenAlumnos', 'ResumenAlumnosController');
   Route::resource('/resumenEventos', 'ResumenEventosController');
@@ -47,7 +46,6 @@ Route::post('/registrar', 'TransaccionesController@registrarTransaccion');
 Route::get('/datosBitPoints','ResumenAlumnosController@obtenerDatosBecarios');
 Route::post('/justificar', 'ResumenAlumnosController@justificarHoras');
 Route::post('/feedback',  function () {
-
 	 Mail::to('rap@uneatlantico.es')->send(new FeedbackEmail);
  });
 
@@ -65,4 +63,3 @@ Route::get('/social/redirect/{provider}', 'Auth\SocialController@getSocialRedire
 Route::get('/social/handle/{provider}', 'Auth\SocialController@getSocialHandle')->name('handleSocialLite');
 Route::get('/login/{provider}/callback', 'Auth\SocialController@getSocialHandle')->name('home');
 Route::post('/mishoras', 'ResumenAlumnosController@obtenerHoras')->name('resumenAlumnos.obtenerHoras');
-
