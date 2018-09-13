@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/transacciones', 'TransaccionesController');
   Route::resource('/dashboard', 'DashboardController');
   Route::get('/reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
+  //Route::get('/reportes', 'ResumenAlumnosController@reporteTable')->name('reportes.index');
   Route::get('/reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::get('/import', 'ImportController@import');
   Route::resource('/users','UserController');
