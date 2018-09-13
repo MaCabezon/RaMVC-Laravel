@@ -448,7 +448,36 @@ class ResumenAlumnosController extends AppBaseController
     public function reporteTable()
     {
         $resumenes = null;
-        // NO ENTRA A NINGUNO -- FALLO --
+
+                ////////////NUEVO PABAJO/////////////////////
+        $hasFilter = false;
+        $reportes = null;
+        $alumno = Input::get('Alumno');
+        $evento = Input::get('Evento');
+
+        // Eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
+        $fecha = null;
+
+        if(! is_null($reportes['FechaEvento']) || ! empty($reportes['FechaEvento']))
+        {
+          $fecha = $reportes['FechaEvento'];
+          $hasFilter = true;
+        }
+        elseif (is_null($reportes['FechaEvento']) || empty($reportes['FechaEvento']))
+        {
+          $fecha = date('Y-m-d');
+        }
+
+        if (!is_null($reportes['FechaEvento']) || !is_null($reportes['Alumno']) || !is_null($reportes['Evento']))
+        {
+          $hasFilter = true;
+        }
+
+
+
+
+        ////////////NUEVO PARRIBA/////////////////////
+
         if (\Auth::user()->hasRole('admin')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           } else if (\Auth::user()->hasRole('member')) {
@@ -456,6 +485,122 @@ class ResumenAlumnosController extends AppBaseController
           } else if (\Auth::user()->hasRole('user')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           }
+
+
+
+          // Seleccion de datos SIN FILTRO (Para el SELECT)
+          if (\Auth::user()->hasRole('admin'))
+          {
+            $reportesCompleto = DB::table('reporte')
+                ->orderBy('FechaEvento', 'DESC')
+                ->take(50)
+                ->get();
+          }
+          else if (\Auth::user()->hasRole('member'))
+          {
+            $reportesCompleto = DB::table('reporte')
+                ->where('Evento','Becas I')
+                ->orWhere('Evento', 'Becas II')
+                ->orWhere('Evento', 'Intervencion Agil I')
+                ->orWhere('Evento','Intervencion Agil II')
+                ->orderBy('FechaEvento', 'DESC')
+                ->get();
+          }
+          else if (\Auth::user()->hasRole('user'))
+          {
+            $reportesCompleto = DB::table('reporte')
+                ->where('nombreProfesor',str_before(\Auth::user()->email,'@'))
+                ->orderBy('FechaEvento', 'DESC')
+                ->get();
+          }
+
+
+          // Seleccion de datos con FILTRO
+          if (\Auth::user()->hasRole('admin'))
+          {
+            $query = DB::table('reporte');
+
+            // Filtro de fecha
+            if (is_null($fecha)) {
+              $fecha = date('Y-m-d');
+              $query->where('FechaEvento', $fecha);
+            }
+            if (!is_null($fecha)) {
+              $query->where('FechaEvento', '<=', $fecha);
+            }
+
+
+            // Filtro de eventos
+            if ($evento != null) {
+              $query->where('Evento',$evento);
+            }
+
+            // Filtro de alumnos
+            if ($alumno != null) {
+              $query->where('Alumno',$alumno);
+            }
+
+            $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
+          }
+          else if (\Auth::user()->hasRole('member'))
+          {
+            $query = DB::table('reporte');
+
+                // Filtro de fecha
+                if (is_null($fecha)) {
+                  $fecha = date('Y-m-d');
+                  $query->where('FechaEvento', $fecha);
+                }
+                if (!is_null($fecha)) {
+                  $query->where('FechaEvento', '<=', $fecha);
+                }
+
+                // Filtro de eventos
+                if ($evento != null) {
+                  $query->where('Evento',$evento);
+                }
+
+                // Filtro de alumnos
+                if ($alumno != null) {
+                  $query->where('Alumno',$alumno);
+                }
+
+                $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
+          }
+          else if (\Auth::user()->hasRole('user'))
+          {
+            $query = DB::table('reporte')
+                ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
+
+                // Filtro de fecha
+                if (is_null($fecha)) {
+                  $fecha = date('Y-m-d');
+                  $query->where('FechaEvento', $fecha);
+                }
+                if (!is_null($fecha)) {
+                  $query->where('FechaEvento', '<=', $fecha);
+                }
+
+                /*if (!is_null($f1) && !is_null($f2)) {
+                  $query->whereBetween('fechaEvento', [$f1, $f2]);
+                }*/
+
+                // Filtro de eventos
+                if ($evento != null) {
+                  $query->where('Evento',$evento);
+                }
+
+                // Filtro de alumnos
+                if ($alumno != null) {
+                  $query->where('Alumno',$alumno);
+                }
+
+                $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
+          }
+
+
+
+
           // Datos
           $data=[];
             foreach ($resumenes as $resumen) {
@@ -470,7 +615,19 @@ class ResumenAlumnosController extends AppBaseController
                 array_push($data,$row);
             }
 
-         return view('reportes.index')->with('data', $data);
+            if (is_null($reportes))
+            {
+              return view('reportes.index')->with('data', $data)
+                                          ->with('hasFilter', $hasFilter);
+            }
+            else
+            {
+              return view('reportes.index')->with('data', $data)
+                                          ->with('hasFilter', $hasFilter)
+                                          ->with('reportes', $reportes)
+                                          ->with('fecha', $fecha)
+                                          ->with('reportesCompleto', $reportesCompleto);
+            }
     }
 
     public function obtenerDatosBecarios()

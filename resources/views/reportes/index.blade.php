@@ -25,8 +25,6 @@
                 </div>
               </div>
 
-              {!! $reportesCompleto !!}
-
               @php
                 $arrayAlumnos = [];
                 $arrayEventos = [];
@@ -66,7 +64,6 @@
 
              <div class="form-group 7 col-md-4" style="margin-top: 5%;margin-left: 0%;margin-right: 0%">
              </br>
-             <!-- 'btn btn-primary btn-sm' -->
 
                {!! Form::button('Filtrar',['type' => 'submit', 'class' => 'btn btn-primary', 'method' => 'delete']) !!}
 
