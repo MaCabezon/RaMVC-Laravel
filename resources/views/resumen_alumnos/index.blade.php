@@ -1,4 +1,4 @@
-@extends('layouts.app')
+  @extends('layouts.app')
 
 @section('content')
 
@@ -32,6 +32,7 @@
        @php
        $arrayAlumnos = [];
        $arrayEventos = [];
+       $arrayValidado = ['No validado', 'validado'];
        @endphp
 
        @foreach ($resumenAlumnosCompleto as $resumenAlumno)
@@ -65,14 +66,22 @@
           </select>
         </div>
       </div>
+      <div class="col-md-5" >
+       <div style="display: none;" class="form-group col-md-12" >
+         <h6>Validado</h6>
+         <select name="validado" class="form-control col-md-12">
+           <option value="" disabled selected>-- ¿Está validado? --</option>
+           @foreach (array_unique($arrayValidado) as $key => $value)
+           <option value="{{ $value }}">{{ $value }}</option>
+           @endforeach
+         </select>
+       </div>
 
       <div class="form-group 7 col-md-4" style="margin-top: 5%;margin-left: 0%;margin-right: 0%">
       </br>
       <!-- 'btn btn-primary btn-sm' -->
 
         {!! Form::button('Filtrar',['type' => 'submit', 'class' => 'btn btn-primary', 'method' => 'delete']) !!}
-
-
         {!! Form::button('Limpiar',['type' => 'reset', 'class' => 'btn btn-default']) !!}
       </div>
     </div>

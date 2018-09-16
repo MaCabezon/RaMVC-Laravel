@@ -64,10 +64,7 @@
 
              <div class="form-group 7 col-md-4" style="margin-top: 5%;margin-left: 0%;margin-right: 0%">
              </br>
-
                {!! Form::button('Filtrar',['type' => 'submit', 'class' => 'btn btn-primary', 'method' => 'delete']) !!}
-
-
                {!! Form::button('Limpiar',['type' => 'reset', 'class' => 'btn btn-default']) !!}
              </div>
            </div>

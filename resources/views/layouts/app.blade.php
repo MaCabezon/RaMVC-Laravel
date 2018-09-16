@@ -59,13 +59,13 @@
       <div class="col-lg-1" >
          <a id="logo" class="navbar-brand col-lg-1" href="{{ action('HomeController@index') }}" style="margin-bottom: 10px; margin-top: 10px;margin-left: 1%"></a>
       </div>
-      
-      <div class="col-lg-3" style="padding-left: 0%;padding-right: 0%;margin-left: 0%; margin-right: 0%;margin-top: 20px;float:left;"> 
+
+      <div class="col-lg-3" style="padding-left: 0%;padding-right: 0%;margin-left: 0%; margin-right: 0%;margin-top: 20px;float:left;">
        @auth
           <form class="navbar-form navbar-right" style="border:none;">
             <input id="filtrar"  type="text" class="form-control" placeholder="Introduzca dato a buscar...">
-          </form> 
-        @endauth  
+          </form>
+        @endauth
       </div>
 
       <div>
@@ -78,7 +78,7 @@
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse col-lg-1" id="navdos" style="padding-left: 0px;margin-top: 20px; float=right">
-        
+
         <ul id="menuResponsive" class="nav navbar-nav navbar-right">
           <li>
           <a href="{{ action('ResumenAlumnosController@obtenerHoras') }}" data-toggle="modal" data-target=".bs-example-modal-sm">
@@ -97,7 +97,7 @@
               </li>
               <li>
                  <a href="{{ action('DashboardTvController@index') }}"><span class="glyphicon glyphicon-dashboard"></span> Dashboard TV</a>
-              </li>   
+              </li>
            </ul>
           </li>
           @auth
@@ -132,16 +132,16 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                   Notifications <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
               </a>
-          
+
               <ul class="dropdown-menu" role="menu">
                   <li>
-                      @foreach (Auth::user()->unreadNotifications as $notification)                         
+                      @foreach (Auth::user()->unreadNotifications as $notification)
                       <div>
                          <p id="notificacion"><i><b>{{ $notification->data['user'] }}</i></b> te dice que {{$notification->data['comment']}}</p>
-                         
-                      </div>    
+
+                      </div>
                       @endforeach
-                     
+
                   </li>
                   <li><a href="{{ action('NotificacionController@index') }}">Crear Notificacion</a></li>
                   <li><a href="{{ action('NotificacionController@marcarLeidas') }}">Marcar Noitificaciones como leidas</a></li>
@@ -193,7 +193,7 @@
         {!! Form::open(['route' => 'resumenAlumnos.obtenerHoras']) !!}
              <label>Introduzca su usuario<label><input type="text" name='usuario' placeholder="Introduzca su nombre de usuario">
              {!! Form::submit('Enviar', ['class' => 'btn btn-primary']) !!}
-        {!! Form::close() !!}    
+        {!! Form::close() !!}
     </div>
   </div>
 </div>

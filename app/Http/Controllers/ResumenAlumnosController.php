@@ -19,14 +19,16 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 
 
+
 class ResumenAlumnosController extends AppBaseController
 {
+
+    private static $datos = [];
     /** @var  ResumenAlumnosRepository */
     private $resumenAlumnosRepository;
 
     public function __construct(ResumenAlumnosRepository $resumenAlumnosRepo)
     {
-
         $this->middleware('permission:resumenAlumnos-list', ['only' => ['index']]);
         $this->middleware('permission:resumenAlumnos-show', ['only' => ['show']]);
         $this->middleware('permission:resumenAlumnos-create', ['only' => ['create','store']]);
@@ -47,6 +49,8 @@ class ResumenAlumnosController extends AppBaseController
       $resumenAlumnos = null;
       $alumno = Input::get('alumnos');
       $evento = Input::get('eventos');
+      $validado = Input::get('validado');
+
 
       // Eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
       $f1 = $f2 = null;
@@ -62,7 +66,7 @@ class ResumenAlumnosController extends AppBaseController
         $f2 = date('Y-m-d');
       }
 
-      if (!is_null($request->fechaInicial) || !is_null($request->fechaFinal) || !is_null($request->alumnos) || !is_null($request->eventos))
+      if (!is_null($request->fechaInicial) || !is_null($request->fechaFinal) || !is_null($request->alumnos) || !is_null($request->eventos) || !is_null($validado))
       {
         $hasFilter = true;
       }
@@ -114,6 +118,9 @@ class ResumenAlumnosController extends AppBaseController
         if ($alumno != null) {
           $query->where('idAlumno',$alumno);
         }
+        if ($validado != null) {
+          $query->where('validado',"'".$validado."'");
+        }
 
         $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
       }
@@ -137,6 +144,9 @@ class ResumenAlumnosController extends AppBaseController
             }
             if ($alumno != null) {
               $query->where('idAlumno',$alumno);
+            }
+            if ($validado != null) {
+              $query->where('validado',"'".$validado."'");
             }
 
             $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
@@ -162,6 +172,9 @@ class ResumenAlumnosController extends AppBaseController
             }
             if ($alumno != null) {
               $query->where('idAlumno',$alumno);
+            }
+            if ($validado != null) {
+              $query->where('validado', "'".$validado."'");
             }
 
             $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
@@ -336,9 +349,10 @@ class ResumenAlumnosController extends AppBaseController
      * @return Response
      */
     public function excel () {
+      global $datos;
         // Creamos un excel y le damos formato
-        Excel::create('Reporte Alumnos', function($excel) {
-
+        if (is_null($datos)) {
+          Excel::create('Reporte Alumnos', function($excel) {
             $excel->sheet('Datos', function($sheet) {
 
                 // Cabecera
@@ -359,14 +373,16 @@ class ResumenAlumnosController extends AppBaseController
                     $cells->setBorder('thin','thin','thin','thin');
                 });
 
-              // Datos
-              if (\Auth::user()->hasRole('admin')) {
-                $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
-              } else if (\Auth::user()->hasRole('member')) {
-                $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
-              } else if (\Auth::user()->hasRole('user')) {
-                $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
-              }
+                ///COMIENZO RECOGIDA Y DISPOSICION DE DATOS//////////////////
+
+                // Datos
+                if (\Auth::user()->hasRole('admin')) {
+                  $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+                } else if (\Auth::user()->hasRole('member')) {
+                  $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
+                } else if (\Auth::user()->hasRole('user')) {
+                  $resumenes=DB::table('reporte')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
+                }
 
               $rowNumber = 3; // Numero de columnas por el cual empieza
 
@@ -386,6 +402,10 @@ class ResumenAlumnosController extends AppBaseController
                     $row[4] = $porcentaje."%";
 
                     $sheet->appendRow($row);
+
+
+
+                    ///FIN RECOGIDA Y DISPOSICION DE DATOS//////////////////
 
                     // Vemos si la fila es impar o par para cambiar el color de fondo y demás formatos (letra, borde, ...)
                     if ($rowNumber%2!=0) {
@@ -436,6 +456,103 @@ class ResumenAlumnosController extends AppBaseController
             });
 
         })->export('xls');
+      } else {
+        Excel::create('Reporte Alumnos', function($excel) {
+            $excel->sheet('Datos', function($sheet) {
+
+                // Cabecera
+                $sheet->mergeCells('A1:D1');
+                $sheet->row(1,['Informe de Asistencias']);
+                $sheet->cells('A1', function ($cells) {
+                    $cells->setBackground('#1EAAFF');
+                    $cells->setAlignment('center');
+                    $cells->setFontSize(30);
+                    $cells->setBorder('thin','thin','thin','thin');
+                });
+
+                $sheet->row(2,['Alumno','Evento','Horas','Objetivo Cumplido']);
+                $sheet->row(2, function ($cells) {
+                    $cells->setBackground('#55D6BF');
+                    $cells->setAlignment('center');
+                    $cells->setFontSize(12);
+                    $cells->setBorder('thin','thin','thin','thin');
+                });
+
+                ///COMIENZO RECOGIDA Y DISPOSICION DE DATOS//////////////////
+
+              $rowNumber = 3; // Numero de columnas por el cual empieza
+
+                foreach ($datos as $dato) {
+                    $row = [];
+                    $row[1] = $dato->Alumno;
+                    $row[2] = $dato->Evento;
+
+                    if ($dato->Horas == null) {
+                      $row[3] = 0;
+                    } else {
+                      $row[3] = $dato->Horas;
+                    }
+
+                    // Calculamos el porcentaje de asistencia
+                    $porcentaje = ($row[3]*100)/20;
+                    $row[4] = $porcentaje."%";
+
+                    $sheet->appendRow($row);
+
+
+
+                    ///FIN RECOGIDA Y DISPOSICION DE DATOS//////////////////
+
+                    // Vemos si la fila es impar o par para cambiar el color de fondo y demás formatos (letra, borde, ...)
+                    if ($rowNumber%2!=0) {
+                      $sheet->row($rowNumber, function ($cells) {
+                        $cells->setBackground('#FFFFFF');
+                        $cells->setAlignment('center');
+                        $cells->setFontSize(12);
+                        $cells->setBorder('thin','thin','thin','thin');
+                      });
+                    } else {
+                      $sheet->row($rowNumber, function ($cells) {
+                        $cells->setBackground('#B1CAD9');
+                        $cells->setAlignment('center');
+                        $cells->setFontSize(12);
+                        $cells->setBorder('thin','thin','thin','thin');
+                      });
+                    }
+
+                    // Nombres alineados a la izquierda
+                    $sheet->cells("A".$rowNumber, function($cells) {
+                      $cells->setAlignment('left');
+                    });
+
+                    // Aplicamos color segun el porcentaje de asistencia
+                    if ($porcentaje>=90) {
+                      $sheet->cells("D".$rowNumber, function ($cells) {
+                        $cells->setBackground('#6CF159');
+                        $cells->setBorder('thin','thin','thin','thin');
+                      });
+                    } else if ($porcentaje>=60) {
+                      $sheet->cells("D".$rowNumber, function ($cells) {
+                        $cells->setBackground('#F8E64F');
+                        $cells->setBorder('thin','thin','thin','thin');
+                      });
+                    } else {
+                      $sheet->cells("D".$rowNumber, function ($cells) {
+                        $cells->setBackground('#F15959');
+                        $cells->setBorder('thin','thin','thin','thin');
+                      });
+                    }
+
+                    // Aumentamos el numero de la fila
+                    $rowNumber = $rowNumber + 1;
+                }
+
+                $sheet->setOrientation('landscape');
+
+            });
+
+        })->export('xls');
+      }
 
         return redirect()->route('resumenAlumnos.index');
 
@@ -448,45 +565,35 @@ class ResumenAlumnosController extends AppBaseController
     public function reporteTable()
     {
         $resumenes = null;
-
-                ////////////NUEVO PABAJO/////////////////////
         $hasFilter = false;
         $reportes = null;
-        $alumno = Input::get('Alumno');
-        $evento = Input::get('Evento');
+        $alumno = Input::get('alumnos');
+        $evento = Input::get('eventos');
 
-        // Eliminamos validaciones innecesarias y ponemos la fecha de hoy por defecto en ambas variables
-        $fecha = null;
+        $fecha = Input::get('fecha');
 
-        if(! is_null($reportes['FechaEvento']) || ! empty($reportes['FechaEvento']))
+        if(!is_null($fecha) || !empty($fecha))
         {
           $fecha = $reportes['FechaEvento'];
           $hasFilter = true;
         }
-        elseif (is_null($reportes['FechaEvento']) || empty($reportes['FechaEvento']))
+        elseif (is_null($fecha) || empty($fecha))
         {
           $fecha = date('Y-m-d');
         }
 
-        if (!is_null($reportes['FechaEvento']) || !is_null($reportes['Alumno']) || !is_null($reportes['Evento']))
+        if (!is_null($reportes['FechaEvento']) || !is_null($alumno) || !is_null($evento))
         {
           $hasFilter = true;
         }
 
-
-
-
-        ////////////NUEVO PARRIBA/////////////////////
-
-        if (\Auth::user()->hasRole('admin')) {
+        /*if (\Auth::user()->hasRole('admin')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->orderby('Evento','asc')->orderby('Alumno','asc')->get();
           } else if (\Auth::user()->hasRole('member')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Evento','Becas I')->orWhere('Evento', 'Becas II')->orWhere('Evento', 'Intervencion Agil I')->orWhere('Evento','Intervencion Agil II')->get();
           } else if (\Auth::user()->hasRole('user')) {
             $resumenes=DB::table('reportedatos')->select('Alumno', 'Evento','Horas')->where('Profesor',str_before(\Auth::user()->email,'@'))->orderby('Evento','asc')->orderby('Alumno','asc')->get();
-          }
-
-
+          }*/
 
           // Seleccion de datos SIN FILTRO (Para el SELECT)
           if (\Auth::user()->hasRole('admin'))
@@ -514,7 +621,6 @@ class ResumenAlumnosController extends AppBaseController
                 ->get();
           }
 
-
           // Seleccion de datos con FILTRO
           if (\Auth::user()->hasRole('admin'))
           {
@@ -528,7 +634,6 @@ class ResumenAlumnosController extends AppBaseController
             if (!is_null($fecha)) {
               $query->where('FechaEvento', '<=', $fecha);
             }
-
 
             // Filtro de eventos
             if ($evento != null) {
@@ -581,10 +686,6 @@ class ResumenAlumnosController extends AppBaseController
                   $query->where('FechaEvento', '<=', $fecha);
                 }
 
-                /*if (!is_null($f1) && !is_null($f2)) {
-                  $query->whereBetween('fechaEvento', [$f1, $f2]);
-                }*/
-
                 // Filtro de eventos
                 if ($evento != null) {
                   $query->where('Evento',$evento);
@@ -598,22 +699,37 @@ class ResumenAlumnosController extends AppBaseController
                 $reportes = $query->orderBy('FechaEvento', 'DESC')->get();
           }
 
-
-
-
           // Datos
           $data=[];
-            foreach ($resumenes as $resumen) {
+
+          /*
+          Ejemplo que encontré con dos arrays a la vez [Miguel.Dev]
+
+           foreach (array_combine($resumenes, $reportes) as $resumen => $reporte) {
+              $row=[];
+              $row['alumno']=$reporte->Alumno;
+              $row['evento']=$reporte->Evento;
+              $row['horas']=$resumen->Horas;
+
+              // Calculamos el porcentaje de asistencia
+              $porcentaje = ($row['horas']*100)/20;
+              $row['porcentaje'] = $porcentaje."%";
+              array_push($data,$row);
+            } */
+
+            foreach ($reportes as $reporte) {
                 $row=[];
-                $row['alumno']=$resumen->Alumno;
-                $row['evento']=$resumen->Evento;
-                $row['horas']=$resumen->Horas;
+                $row['alumno']=$reporte->Alumno;
+                $row['evento']=$reporte->Evento;
+                $row['horas']=$reporte->Horas;
 
                 // Calculamos el porcentaje de asistencia
                 $porcentaje = ($row['horas']*100)/20;
                 $row['porcentaje'] = $porcentaje."%";
                 array_push($data,$row);
             }
+
+
 
             if (is_null($reportes))
             {
@@ -622,6 +738,8 @@ class ResumenAlumnosController extends AppBaseController
             }
             else
             {
+              global $datos;
+              $datos = $data;
               return view('reportes.index')->with('data', $data)
                                           ->with('hasFilter', $hasFilter)
                                           ->with('reportes', $reportes)
