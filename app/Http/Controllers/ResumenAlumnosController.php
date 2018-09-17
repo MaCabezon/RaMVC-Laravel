@@ -23,7 +23,7 @@ use Carbon\Carbon;
 class ResumenAlumnosController extends AppBaseController
 {
 
-    private static $datos = [];
+    private $datos = [];
     /** @var  ResumenAlumnosRepository */
     private $resumenAlumnosRepository;
 
@@ -119,10 +119,11 @@ class ResumenAlumnosController extends AppBaseController
           $query->where('idAlumno',$alumno);
         }
         if ($validado != null) {
-          $query->where('validado',"'".$validado."'");
+          $query->where('validado',$validado);
         }
 
-        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->get();
+
+        $resumenAlumnos = $query->orderBy('fechaEvento', 'DESC')->take(50)->get();
       }
       else if (\Auth::user()->hasRole('member'))
       {
@@ -348,7 +349,7 @@ class ResumenAlumnosController extends AppBaseController
      *
      * @return Response
      */
-    public function excel () {
+    public function excel() {
       global $datos;
         // Creamos un excel y le damos formato
         if (is_null($datos)) {
@@ -402,9 +403,6 @@ class ResumenAlumnosController extends AppBaseController
                     $row[4] = $porcentaje."%";
 
                     $sheet->appendRow($row);
-
-
-
                     ///FIN RECOGIDA Y DISPOSICION DE DATOS//////////////////
 
                     // Vemos si la fila es impar o par para cambiar el color de fondo y demás formatos (letra, borde, ...)
@@ -557,6 +555,8 @@ class ResumenAlumnosController extends AppBaseController
         return redirect()->route('resumenAlumnos.index');
 
     }
+
+
     /**
      * Genera un reporte
      *

@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="col-md-5" >
-       <div style="display: none;" class="form-group col-md-12" >
+       <div class="form-group col-md-12" >
          <h6>Validado</h6>
          <select name="validado" class="form-control col-md-12">
            <option value="" disabled selected>-- ¿Está validado? --</option>
