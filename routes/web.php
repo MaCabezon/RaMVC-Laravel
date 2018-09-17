@@ -27,10 +27,12 @@ Route::group(['middleware' => 'auth', 'admin'], function () {
   Route::resource('/resumenEventos', 'ResumenEventosController');
   Route::resource('/transacciones', 'TransaccionesController');
   Route::resource('/dashboard', 'DashboardController');
-  Route::get('/reporte', 'ResumenAlumnosController@excel')->name('ReporteAlumnos.excel');
-  //Route::get('/reportes', 'ResumenAlumnosController@reporteTable')->name('reportes.index');
+  Route::get('/reporte', 'ResumenAlumnosController@reporteIndex');
+  Route::post('/reporte', 'ResumenAlumnosController@excel')->name('resumenAlumnos.excel');
+
   Route::get('/reporteTable', 'ResumenAlumnosController@reporteTable');
   Route::post('/reporteTable', 'ResumenAlumnosController@reporteTable')->name('reportes.index');
+
   Route::get('/import', 'ImportController@import');
   Route::resource('/users','UserController');
   Route::resource('/roles','RoleController');

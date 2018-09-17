@@ -125,7 +125,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generar Reporte <span class="caret"></span></a>
            <ul class="dropdown-menu" >
              <li> <a href="reporteTable">Visualizar reporte</a></li>
-             <li> <a href="{{ action('ResumenAlumnosController@excel') }}">Descargar reporte</a></li>
+             <li> <a href="{{ action('ResumenAlumnosController@reporteIndex') }}">Descargar reporte</a></li>
            </ul>
           </li>
           <li class="dropdown">

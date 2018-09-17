@@ -23,7 +23,6 @@ use Carbon\Carbon;
 class ResumenAlumnosController extends AppBaseController
 {
 
-    private $datos = [];
     /** @var  ResumenAlumnosRepository */
     private $resumenAlumnosRepository;
 
@@ -345,15 +344,89 @@ class ResumenAlumnosController extends AppBaseController
     }
 
     /**
+     * Muestra el formulario de filtrado del reporte.
+     *
+     * @return Response
+     */
+    public function reporteIndex()
+    {
+
+
+      // Seleccion de datos SIN FILTRO (Para el SELECT)
+      if (\Auth::user()->hasRole('admin'))
+      {
+                  $reportesCompleto = DB::table('reporte')
+                      ->orderBy('FechaEvento', 'DESC')
+                      ->take(50)
+                      ->get();
+                }
+      else if (\Auth::user()->hasRole('member'))
+      {
+                  $reportesCompleto = DB::table('reporte')
+                      ->where('Evento','Becas I')
+                      ->orWhere('Evento', 'Becas II')
+                      ->orWhere('Evento', 'Intervencion Agil I')
+                      ->orWhere('Evento','Intervencion Agil II')
+                      ->orderBy('FechaEvento', 'DESC')
+                      ->get();
+                }
+      else if (\Auth::user()->hasRole('user'))
+      {
+                  $reportesCompleto = DB::table('reporte')
+                      ->where('nombreProfesor',str_before(\Auth::user()->email,'@'))
+                      ->orderBy('FechaEvento', 'DESC')
+                      ->get();
+                }
+
+      if (is_null($reportesCompleto))
+      {
+        return view('reportes.reporte');
+      }
+      else
+      {
+        return view('reportes.reporte')->with('reportesCompleto', $reportesCompleto);
+      }
+    }
+
+
+    /**
      * Genera un reporte
      *
      * @return Response
      */
-    public function excel() {
-      global $datos;
+    public function excel(Request $request) {
+      return 'entra';
+      $resumenes = null;
+      $datos = [];
+      $reportes = null;
+      $hasFilter = false;
+      $alumno = Input::get('alumnos');
+      $evento = Input::get('eventos');
+
+
+      $f1 = $f2 = null;
+
+      if(! is_null($request->fechaInicial) || ! empty($request->fechaInicial) && ! is_null($request->fechaFinal) || ! empty($request->fechaFinal))
+      {
+        $f1 = $request->fechaInicial;
+        $f2 = $request->fechaFinal;
+        $hasFilter = true;
+      }
+      elseif (is_null($request->fechaFinal) || empty($request->fechaFinal))
+      {
+        $f2 = date('Y-m-d');
+      }
+
+      if (!is_null($request->fechaInicial) || !is_null($request->fechaFinal) || !is_null($alumno) || !is_null($request->eventos))
+      {
+        $hasFilter = true;
+      }
+
+
         // Creamos un excel y le damos formato
-        if (is_null($datos)) {
-          Excel::create('Reporte Alumnos', function($excel) {
+      if (is_null($datos) || empty($datos)) {
+        // SI NO HAY FILTRO
+        Excel::create('Reporte Alumnos', function($excel) {
             $excel->sheet('Datos', function($sheet) {
 
                 // Cabecera
@@ -452,9 +525,8 @@ class ResumenAlumnosController extends AppBaseController
                 $sheet->setOrientation('landscape');
 
             });
-
         })->export('xls');
-      } else {
+      } else if (!is_null($datos) || !empty($datos)) {
         Excel::create('Reporte Alumnos', function($excel) {
             $excel->sheet('Datos', function($sheet) {
 
@@ -478,7 +550,82 @@ class ResumenAlumnosController extends AppBaseController
 
                 ///COMIENZO RECOGIDA Y DISPOSICION DE DATOS//////////////////
 
+                // Seleccion de datos con FILTRO
+                if (\Auth::user()->hasRole('admin'))
+                {
+                  $query = DB::table('reporte');
+
+                  // Filtro de fecha
+                  if (!is_null($f1) && is_null($f2)) {
+                    $f2 = date('Y-m-d');
+                    $query->whereBetween('fechaEvento', [$f1, $f2]);
+                  }
+                  if (is_null($f1) && !is_null($f2)) {
+                    $query->where('fechaEvento', '<=', $f2);
+                  }
+                  if (!is_null($f1) && !is_null($f2)) {
+                    $query->whereBetween('fechaEvento', [$f1, $f2]);
+                  }
+                  if ($evento != null) {
+                    $query->where('nombre',$evento);
+                  }
+                  if ($alumno != null) {
+                    $query->where('idAlumno',$alumno);
+                  }
+
+                  $datos = $query->orderBy('FechaEvento', 'DESC')->get();
+                }
+                else if (\Auth::user()->hasRole('member'))
+                {
+                  $query = DB::table('reporte');
+
+                  if (!is_null($f1) && is_null($f2)) {
+                    $f2 = date('Y-m-d');
+                    $query->whereBetween('fechaEvento', [$f1, $f2]);
+                  }
+                  if (is_null($f1) && !is_null($f2)) {
+                    $query->where('fechaEvento', '<=', $f2);
+                  }
+                  if (!is_null($f1) && !is_null($f2)) {
+                    $query->whereBetween('fechaEvento', [$f1, $f2]);
+                  }
+                  if ($evento != null) {
+                    $query->where('nombre',$evento);
+                  }
+                  if ($alumno != null) {
+                    $query->where('idAlumno',$alumno);
+                  }
+
+                      $datos = $query->orderBy('FechaEvento', 'DESC')->get();
+                }
+                else if (\Auth::user()->hasRole('user'))
+                {
+                  $query = DB::table('reporte')
+                      ->where('nombreProfesor',str_before(\Auth::user()->email,'@'));
+
+                      if (!is_null($f1) && is_null($f2)) {
+                        $f2 = date('Y-m-d');
+                        $query->whereBetween('fechaEvento', [$f1, $f2]);
+                      }
+                      if (is_null($f1) && !is_null($f2)) {
+                        $query->where('fechaEvento', '<=', $f2);
+                      }
+                      if (!is_null($f1) && !is_null($f2)) {
+                        $query->whereBetween('fechaEvento', [$f1, $f2]);
+                      }
+                      if ($evento != null) {
+                        $query->where('nombre',$evento);
+                      }
+                      if ($alumno != null) {
+                        $query->where('idAlumno',$alumno);
+                      }
+
+                      $datos = $query->orderBy('FechaEvento', 'DESC')->get();
+                }
+
+
               $rowNumber = 3; // Numero de columnas por el cual empieza
+
 
                 foreach ($datos as $dato) {
                     $row = [];
@@ -703,7 +850,7 @@ class ResumenAlumnosController extends AppBaseController
           $data=[];
 
           /*
-          Ejemplo que encontré con dos arrays a la vez [Miguel.Dev]
+          ***Ejemplo que encontré con dos arrays a la vez [Miguel.Dev]***
 
            foreach (array_combine($resumenes, $reportes) as $resumen => $reporte) {
               $row=[];
@@ -738,8 +885,7 @@ class ResumenAlumnosController extends AppBaseController
             }
             else
             {
-              global $datos;
-              $datos = $data;
+              $this->datos = $data;
               return view('reportes.index')->with('data', $data)
                                           ->with('hasFilter', $hasFilter)
                                           ->with('reportes', $reportes)
